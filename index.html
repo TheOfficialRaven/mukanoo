@@ -32,18 +32,18 @@
         <div class="nav__group nav__group--left">
           <a href="#bemutatkozas">Rólam</a>
           <a href="#munkak">Kollekció</a>
-          <a href="#szolgaltatasok">Szolgáltatások</a>
+          <a href="#szemlelet">Szolgáltatások</a>
           <a href="#galeria">Referencia</a>
         </div>
         <div class="nav__group nav__group--right">
           <a href="#velemenyek">Vélemények</a>
-          <a href="#szolgaltatasok">GYIK</a>
-          <a href="#helyszin">Elérhetőség</a>
+          <a href="#gyik">GYIK</a>
+          <a href="#elerhetoseg">Elérhetőség</a>
           <a href="#kapcsolat">Kapcsolat</a>
         </div>
       </nav>
     </details>
-    <a class="logo" href="#hero">Logo</a>
+    <a class="logo" href="#hero">Mukanoo</a>
   </header>
 
   <main id="tartalom">
@@ -291,45 +291,70 @@
           <h2 id="gallery-title">Megvalósult történetek</h2>
           <p class="lead">Minden elkészült darab hordoz magában valamit abból az emberből, akinek készült, abból a pillanatból, amikor megszületett az ötlet, és abból a folyamatból, ahogyan végül formát öltött.</p>
         </div>
-        <div class="gallery__viewport">
-          <div class="gallery__track">
-            <div class="gallery__page" aria-label="1. oldal">
-              <div class="media media--square" aria-label="Galéria, 1. kép"><!-- <img src="images/galeria-01.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 2. kép"><!-- <img src="images/galeria-02.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 3. kép"><!-- <img src="images/galeria-03.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 4. kép"><!-- <img src="images/galeria-04.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 5. kép"><!-- <img src="images/galeria-05.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 6. kép"><!-- <img src="images/galeria-06.jpg" alt=""> --></div>
-            </div>
-            <div class="gallery__page" aria-label="2. oldal">
-              <div class="media media--square" aria-label="Galéria, 7. kép"><!-- <img src="images/galeria-07.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 8. kép"><!-- <img src="images/galeria-08.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 9. kép"><!-- <img src="images/galeria-09.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 10. kép"><!-- <img src="images/galeria-10.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 11. kép"><!-- <img src="images/galeria-11.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 12. kép"><!-- <img src="images/galeria-12.jpg" alt=""> --></div>
-            </div>
-            <div class="gallery__page" aria-label="3. oldal">
-              <div class="media media--square" aria-label="Galéria, 13. kép"><!-- <img src="images/galeria-13.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 14. kép"><!-- <img src="images/galeria-14.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 15. kép"><!-- <img src="images/galeria-15.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 16. kép"><!-- <img src="images/galeria-16.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 17. kép"><!-- <img src="images/galeria-17.jpg" alt=""> --></div>
-              <div class="media media--square" aria-label="Galéria, 18. kép"><!-- <img src="images/galeria-18.jpg" alt=""> --></div>
+        <div class="gallery__frame">
+          <button class="gallery__arrow gallery__arrow--prev" type="button" aria-label="Előző galéria oldal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+          </button>
+          <button class="gallery__arrow gallery__arrow--next" type="button" aria-label="Következő galéria oldal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+          </button>
+          <div class="gallery__viewport">
+            <div class="gallery__track">
+              <div class="gallery__page" aria-label="1. oldal">
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-01.jpg" alt="Mukanoo referencia 1" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-02.jpg" alt="Mukanoo referencia 2" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-03.jpg" alt="Mukanoo referencia 3" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-04.jpg" alt="Mukanoo referencia 4" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-05.jpg" alt="Mukanoo referencia 5" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-06.jpg" alt="Mukanoo referencia 6" loading="lazy"></div>
+              </div>
+              <div class="gallery__page" aria-label="2. oldal">
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-07.jpg" alt="Mukanoo referencia 7" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-08.jpg" alt="Mukanoo referencia 8" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-09.jpg" alt="Mukanoo referencia 9" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-10.jpg" alt="Mukanoo referencia 10" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-11.jpg" alt="Mukanoo referencia 11" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-12.jpg" alt="Mukanoo referencia 12" loading="lazy"></div>
+              </div>
+              <div class="gallery__page" aria-label="3. oldal">
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-13.jpg" alt="Mukanoo referencia 13" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-14.jpg" alt="Mukanoo referencia 14" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-15.jpg" alt="Mukanoo referencia 15" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-16.jpg" alt="Mukanoo referencia 16" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-17.jpg" alt="Mukanoo referencia 17" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-18.jpg" alt="Mukanoo referencia 18" loading="lazy"></div>
+              </div>
+              <div class="gallery__page" aria-label="4. oldal">
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-19.jpg" alt="Mukanoo referencia 19" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-20.jpg" alt="Mukanoo referencia 20" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-21.jpg" alt="Mukanoo referencia 21" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-22.jpg" alt="Mukanoo referencia 22" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-23.jpg" alt="Mukanoo referencia 23" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-24.jpg" alt="Mukanoo referencia 24" loading="lazy"></div>
+              </div>
+              <div class="gallery__page" aria-label="5. oldal">
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-25.jpg" alt="Mukanoo referencia 25" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-26.jpg" alt="Mukanoo referencia 26" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-27.jpg" alt="Mukanoo referencia 27" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-28.jpg" alt="Mukanoo referencia 28" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-29.jpg" alt="Mukanoo referencia 29" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-30.jpg" alt="Mukanoo referencia 30" loading="lazy"></div>
+              </div>
+              <div class="gallery__page" aria-label="6. oldal">
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-31.jpg" alt="Mukanoo referencia 31" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-32.jpg" alt="Mukanoo referencia 32" loading="lazy"></div>
+              </div>
             </div>
           </div>
         </div>
-        <button class="gallery__arrow gallery__arrow--prev" type="button" aria-label="Előző galéria oldal">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
-        </button>
-        <button class="gallery__arrow gallery__arrow--next" type="button" aria-label="Következő galéria oldal">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
-        </button>
         <div class="gallery__nav">
           <ul class="gallery__dots" aria-label="Galéria oldalak">
             <li><button type="button" aria-label="1. oldal" aria-current="true"></button></li>
             <li><button type="button" aria-label="2. oldal"></button></li>
             <li><button type="button" aria-label="3. oldal"></button></li>
+            <li><button type="button" aria-label="4. oldal"></button></li>
+            <li><button type="button" aria-label="5. oldal"></button></li>
+            <li><button type="button" aria-label="6. oldal"></button></li>
           </ul>
         </div>
       </div>
@@ -341,64 +366,66 @@
           <span class="eyebrow">Együtt a kezdetektől a kész darabig</span>
           <h2 id="quotes-title">Meséljenek mások helyettem</h2>
         </div>
-        <div class="quotes__viewport">
-          <div class="quotes__track" aria-label="Vélemények">
-            <div class="quotes__page" aria-label="1. oldal">
-              <figure class="quote">
-                <span class="avatar" aria-hidden="true"></span>
-                <blockquote>
-                  <p>Nagyon kedves, precíz és megbízható szakember. A közös munka elejétől a végéig nyugodt és átgondolt volt, a kész darab pedig pontosan olyan lett, amilyennek elképzeltem.</p>
-                </blockquote>
-                <figcaption><strong>Sára</strong></figcaption>
-              </figure>
-              <figure class="quote">
-                <span class="avatar" aria-hidden="true"></span>
-                <blockquote>
-                  <p>Ajánlás vagy visszajelzés az egyik vásárlódtól. Ide jön a szöveg, amit a vendég írt a közös munkáról, a hangulatról és a kész darabról.</p>
-                </blockquote>
-                <figcaption><strong>Teszt Elek</strong></figcaption>
-              </figure>
-            </div>
-            <div class="quotes__page" aria-label="2. oldal">
-              <figure class="quote">
-                <span class="avatar" aria-hidden="true"></span>
-                <blockquote>
-                  <p>Nyugodt, pontos munka. A végeredmény pontosan olyan csendes lett, amilyennek az első beszélgetésen leírtuk.</p>
-                </blockquote>
-                <figcaption><strong>Anna</strong></figcaption>
-              </figure>
-              <figure class="quote">
-                <span class="avatar" aria-hidden="true"></span>
-                <blockquote>
-                  <p>Kevés döntést kellett meghoznunk, mégis mind a miénk volt. A folyamat végig átlátható maradt.</p>
-                </blockquote>
-                <figcaption><strong>Márton</strong></figcaption>
-              </figure>
-            </div>
-            <div class="quotes__page" aria-label="3. oldal">
-              <figure class="quote">
-                <span class="avatar" aria-hidden="true"></span>
-                <blockquote>
-                  <p>Nem erőltettek rá semmit. A kész darab egyszerű, és pont ezért maradtunk meg mellette.</p>
-                </blockquote>
-                <figcaption><strong>Eszter</strong></figcaption>
-              </figure>
-              <figure class="quote">
-                <span class="avatar" aria-hidden="true"></span>
-                <blockquote>
-                  <p>Egy kapcsolattartó, tiszta válaszok, szép anyagok. Legközelebb is innen indulnánk.</p>
-                </blockquote>
-                <figcaption><strong>Gábor</strong></figcaption>
-              </figure>
+        <div class="quotes__frame">
+          <button class="quotes__arrow quotes__arrow--prev" type="button" aria-label="Előző vélemények">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+          </button>
+          <button class="quotes__arrow quotes__arrow--next" type="button" aria-label="Következő vélemények">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+          </button>
+          <div class="quotes__viewport">
+            <div class="quotes__track" aria-label="Vélemények">
+              <div class="quotes__page" aria-label="1. oldal">
+                <figure class="quote">
+                  <span class="avatar" aria-hidden="true"></span>
+                  <blockquote>
+                    <p>Nagyon kedves, precíz és megbízható szakember. A közös munka elejétől a végéig nyugodt és átgondolt volt, a kész darab pedig pontosan olyan lett, amilyennek elképzeltem.</p>
+                  </blockquote>
+                  <figcaption><strong>Sára</strong></figcaption>
+                </figure>
+                <figure class="quote">
+                  <span class="avatar" aria-hidden="true"></span>
+                  <blockquote>
+                    <p>Ajánlás vagy visszajelzés az egyik vásárlódtól. Ide jön a szöveg, amit a vendég írt a közös munkáról, a hangulatról és a kész darabról.</p>
+                  </blockquote>
+                  <figcaption><strong>Teszt Elek</strong></figcaption>
+                </figure>
+              </div>
+              <div class="quotes__page" aria-label="2. oldal">
+                <figure class="quote">
+                  <span class="avatar" aria-hidden="true"></span>
+                  <blockquote>
+                    <p>Nyugodt, pontos munka. A végeredmény pontosan olyan csendes lett, amilyennek az első beszélgetésen leírtuk.</p>
+                  </blockquote>
+                  <figcaption><strong>Anna</strong></figcaption>
+                </figure>
+                <figure class="quote">
+                  <span class="avatar" aria-hidden="true"></span>
+                  <blockquote>
+                    <p>Kevés döntést kellett meghoznunk, mégis mind a miénk volt. A folyamat végig átlátható maradt.</p>
+                  </blockquote>
+                  <figcaption><strong>Márton</strong></figcaption>
+                </figure>
+              </div>
+              <div class="quotes__page" aria-label="3. oldal">
+                <figure class="quote">
+                  <span class="avatar" aria-hidden="true"></span>
+                  <blockquote>
+                    <p>Nem erőltettek rá semmit. A kész darab egyszerű, és pont ezért maradtunk meg mellette.</p>
+                  </blockquote>
+                  <figcaption><strong>Eszter</strong></figcaption>
+                </figure>
+                <figure class="quote">
+                  <span class="avatar" aria-hidden="true"></span>
+                  <blockquote>
+                    <p>Egy kapcsolattartó, tiszta válaszok, szép anyagok. Legközelebb is innen indulnánk.</p>
+                  </blockquote>
+                  <figcaption><strong>Gábor</strong></figcaption>
+                </figure>
+              </div>
             </div>
           </div>
         </div>
-        <button class="quotes__arrow quotes__arrow--prev" type="button" aria-label="Előző vélemények">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
-        </button>
-        <button class="quotes__arrow quotes__arrow--next" type="button" aria-label="Következő vélemények">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
-        </button>
         <div class="quotes__nav">
           <div class="quotes__dots" aria-label="Vélemények lapozása">
             <button class="quotes__dot" type="button" aria-label="1. oldal" aria-current="true"></button>
@@ -409,129 +436,192 @@
       </div>
     </section>
 
-    <section class="section services" id="szolgaltatasok" aria-labelledby="services-title">
+    <section class="section faq" id="gyik" aria-labelledby="faq-title">
       <div class="wrap">
-        <div class="section-head">
-          <span class="eyebrow">Együttműködés</span>
-          <h2 id="services-title">Szolgáltatások</h2>
+        <div class="section-head faq__head">
+          <h2 id="faq-title">Gyakran ismételt kérdések</h2>
         </div>
-        <div class="services__grid">
-          <ul class="service-list service-list--gold">
-            <li>
-              <h3>Tervezés</h3>
-              <p>Az első vázlattól a végleges rajzig: arány, anyag és használat egy tervben.</p>
-            </li>
-            <li>
-              <h3>Anyagválogatás</h3>
-              <p>Minták, felületek és összeállítások, amelyek együtt is megállják a helyüket.</p>
-            </li>
-            <li>
-              <h3>Kivitelezés kísérése</h3>
-              <p>Ott vagyunk a műhely és a helyszín között, amíg a terv formát nem ölt.</p>
-            </li>
-          </ul>
-          <ul class="service-list service-list--ink">
-            <li>
-              <h3>Egyedi darab</h3>
-              <p>Egyetlen tárgy, egy adott helyre és egy adott használatra méretezve.</p>
-            </li>
-            <li>
-              <h3>Térbeli koncepció</h3>
-              <p>Egy szoba vagy egy kisebb enteriőr rendje, bútorostul és fényestül.</p>
-            </li>
-            <li>
-              <h3>Tanácsadás</h3>
-              <p>Ha a terv már megvan, és csak az anyagban vagy a részletben kell dönteni.</p>
-            </li>
-          </ul>
+        <div class="faq__grid">
+          <div class="faq__col">
+            <details class="faq__item" open>
+              <summary>Milyen módon tudok fizetni?</summary>
+              <p>Fizetni készpénzzel, Revoluttal vagy OTP Quick segítségével tudsz.</p>
+            </details>
+            <details class="faq__item">
+              <summary>Van lehetőség parkolásra?</summary>
+              <p>Igen. Parkolni az utcában lehet parkolási díj ellenében, illetve a belső udvarban található, vendégek számára kijelölt parkolóhelyeken.</p>
+            </details>
+            <details class="faq__item">
+              <summary>Hol található a műhely?</summary>
+              <p>A műhely 1131 Budapesten, a Dolmány utca 5–7. szám alatt található. Az épület első emeletén, a 3-as számú ajtónál találsz meg, balra az első ajtó.</p>
+            </details>
+          </div>
+          <div class="faq__col">
+            <details class="faq__item">
+              <summary>Mi történik, ha le kell mondanom az időpontot?</summary>
+              <p>Ha mégsem tudsz eljönni, kérlek, legalább 24 órával korábban jelezd a lemondást.</p>
+            </details>
+            <details class="faq__item">
+              <summary>Szükséges előre időpontot foglalni?</summary>
+              <p>Igen, minden szolgáltatáshoz előzetes időpontfoglalás szükséges. Időpontot e-mailben, telefonon (nyitvatartási időben) vagy a Facebook-oldalon keresztül tudsz kérni.</p>
+            </details>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="band" aria-label="Széles kép">
-      <div class="media media--wide" aria-label="Széles kép helye">
-        <!-- <img src="images/sav.jpg" alt=""> -->
+      <div class="media media--wide" role="img" aria-label="Mukanoo banner"></div>
+    </section>
+
+    <section class="contact-bar" id="elerhetoseg" aria-labelledby="contact-bar-title">
+      <div class="wrap contact-bar__grid">
+        <h2 id="contact-bar-title" class="contact-bar__title">Kapcsolat</h2>
+
+        <div class="contact-bar__about">
+          <p>Rövid leírás a vállalkozásról, ami leírja, hogy mivel foglalkozik, milyen problémára kínál megoldást.</p>
+          <div class="contact-bar__social">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14 8h2.2V5.2H14c-2.3 0-3.8 1.5-3.8 3.9V11H8v2.8h2.2V21H13.4v-7.2h2.3l.4-2.8h-2.7V9.3c0-.7.3-1.3 1.6-1.3Z" fill="currentColor"/>
+              </svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3.5" y="3.5" width="17" height="17" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                <circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                <circle cx="17.2" cy="6.8" r="1" fill="currentColor"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <ul class="contact-bar__list">
+          <li>
+            <span class="contact-bar__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </span>
+            <span>H–P: 13:00-19:00</span>
+          </li>
+          <li>
+            <span class="contact-bar__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m4 8 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <a href="mailto:gvendolyn@gmail.com">gvendolyn@gmail.com</a>
+          </li>
+        </ul>
+
+        <ul class="contact-bar__list">
+          <li>
+            <span class="contact-bar__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M7.2 4.8c.5-1 1.5-1.3 2.4-.8l1.5.8c.9.5 1.1 1.5.6 2.4l-.7 1.3c-.3.5-.2 1.1.2 1.5l2.8 2.8c.4.4 1 .5 1.5.2l1.3-.7c.9-.5 1.9-.3 2.4.6l.8 1.5c.5.9.2 1.9-.8 2.4l-1.2.6c-1 .5-2.2.4-3.2-.2-2.1-1.2-4-3-5.6-5.6-1.2-2-1.8-3.8-1.6-5.5.1-.9.6-1.7 1.3-2.3Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+            </span>
+            <a href="tel:+36701234567">+36 70 123 4567</a>
+          </li>
+          <li>
+            <span class="contact-bar__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 21s6.5-5.2 6.5-10.2A6.5 6.5 0 0 0 12 4.3a6.5 6.5 0 0 0-6.5 6.5C5.5 15.8 12 21 12 21Z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10.8" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+            </span>
+            <span>1131 Budapest, Dolmány u. 5-7.</span>
+          </li>
+        </ul>
       </div>
     </section>
 
     <section class="section contact" id="kapcsolat" aria-labelledby="contact-title">
       <div class="wrap--wide contact__grid">
-        <div class="media media--fill" aria-label="Kapcsolat kép helye">
-          <!-- <img src="images/kapcsolat.jpg" alt=""> -->
+        <div class="media media--fill contact__media">
+          <img src="assets/imgs/kapcsolat.JPG" alt="Mukanoo — színpadi öltözékek">
         </div>
         <div class="contact__copy">
-          <span class="eyebrow">Kapcsolat</span>
-          <h2 id="contact-title">Írjon nekünk</h2>
-          <p class="lead">Meséljen röviden a tervről, a helyről és arról, mikorra kellene. Néhány napon belül válaszolunk.</p>
+          <span class="eyebrow">Együtt a kezdetektől a kész darabig</span>
+          <h2 id="contact-title">Mesélj az elképzelésedről</h2>
+          <p class="lead">Legyen szó egyedi ruhakészítésről, méretre igazításról, ruhaátalakításról vagy különleges színpadi és mozgásművészeti öltözékről, írd meg röviden, miben segíthetek. Ha van fotód vagy inspirációd, azt is csatolhatod, így már az első egyeztetés előtt jobban megismerhetem az elképzelésedet.</p>
           <form class="form" data-email="hello@mukanoo.hu" novalidate>
             <div class="hp" aria-hidden="true">
               <label>Ne töltse ki <input type="text" name="company" tabindex="-1" autocomplete="off"></label>
             </div>
             <label class="field">
-              <span>Név</span>
-              <input type="text" name="name" autocomplete="name" required>
+              <span class="visually-hidden">Vezetéknév</span>
+              <input type="text" name="lastname" autocomplete="family-name" placeholder="Vezetéknév" required>
             </label>
             <label class="field">
-              <span>E-mail</span>
-              <input type="email" name="email" autocomplete="email" required>
+              <span class="visually-hidden">Keresztnév</span>
+              <input type="text" name="firstname" autocomplete="given-name" placeholder="Keresztnév" required>
             </label>
             <label class="field">
-              <span>Telefon</span>
-              <input type="tel" name="phone" autocomplete="tel">
+              <span class="visually-hidden">E-mail</span>
+              <input type="email" name="email" autocomplete="email" placeholder="e-mail" required>
             </label>
             <label class="field">
-              <span>Város</span>
-              <input type="text" name="city" autocomplete="address-level2">
+              <span class="visually-hidden">Telefonszám</span>
+              <input type="tel" name="phone" autocomplete="tel" placeholder="telefonszám" required>
+            </label>
+            <label class="field field--full field--file">
+              <span class="visually-hidden">Fotók csatolása</span>
+              <input type="file" name="photos" accept="image/*" multiple>
+              <span class="field__file-label" aria-hidden="true">
+                <svg class="field__file-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8.5 15.5 14 10a2.5 2.5 0 0 1 3.5 3.5l-6.2 6.2a4 4 0 0 1-5.7-5.7L13 6.6a5.5 5.5 0 0 1 7.8 7.8l-7 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="field__file-text">Fotók csatolása</span>
+              </span>
             </label>
             <label class="field field--full">
-              <span>Üzenet</span>
-              <textarea name="message" required></textarea>
+              <span class="visually-hidden">Üzenet</span>
+              <textarea name="message" placeholder="Üzenet" required></textarea>
+            </label>
+            <label class="form__consent">
+              <input type="checkbox" name="privacy" value="1" required>
+              <span>Elolvastam és elfogadom az <a href="#">adatkezelési tájékoztatót</a>.</span>
             </label>
             <p class="form__status" id="form-status" role="status"></p>
-            <button class="btn btn--gold btn--block" type="submit">Küldés</button>
+            <button class="btn btn--gold btn--block" type="submit">Üzenet elküldése</button>
           </form>
         </div>
       </div>
     </section>
 
-    <section class="location" id="helyszin" aria-labelledby="map-title">
-      <h2 id="map-title" class="visually-hidden">Megközelítés</h2>
-      <div class="map">
-        <!--
-          Térkép: az iframe vagy a kép lefedi a helyőrzőt.
-          <iframe title="Mukanoo a térképen" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src=""></iframe>
-        -->
-        <div class="map__canvas" role="img" aria-label="Térkép helye"></div>
-        <span class="map__pin" aria-hidden="true"></span>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
-    <div class="footer__row">
-      <a class="logo" href="#hero">Mukanoo</a>
-      <nav class="footer__nav" aria-label="Lábléc">
-        <a href="#bemutatkozas">Bemutatkozás</a>
-        <a href="#galeria">Galéria</a>
-        <a href="#kapcsolat">Kapcsolat</a>
-        <a href="mailto:hello@mukanoo.hu">hello@mukanoo.hu</a>
-      </nav>
-      <div class="social">
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3.5" y="3.5" width="17" height="17" rx="4"/>
-            <circle cx="12" cy="12" r="3.6"/>
-            <circle cx="17.2" cy="6.8" r="0.8" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M14 8h2.2V5.2H14c-2.3 0-3.8 1.5-3.8 3.9V11H8v2.8h2.2V21H13.4v-7.2h2.3l.4-2.8h-2.7V9.3c0-.7.3-1.3 1.6-1.3Z" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
+    <div class="footer__inner">
+      <div class="footer__top">
+        <a class="logo" href="#hero">Mukanoo</a>
+        <nav class="footer__nav" aria-label="Lábléc">
+          <a href="#bemutatkozas">Rólam</a>
+          <a href="#munkak">Kollekció</a>
+          <a href="#szemlelet">Szolgáltatások</a>
+          <a href="#galeria">Referencia</a>
+          <a href="#velemenyek">Vélemények</a>
+          <a href="#gyik">GYIK</a>
+          <a href="#elerhetoseg">Elérhetőség</a>
+          <a href="#kapcsolat">Kapcsolat</a>
+        </nav>
+        <div class="footer__social">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="11" fill="currentColor"/>
+              <path d="M13.2 19v-6.2h2.1l.3-2.4h-2.4V9.1c0-.7.2-1.2 1.2-1.2H15.7V5.7c-.3 0-1.1-.1-2.1-.1-2.1 0-3.5 1.3-3.5 3.6v2.1H8v2.4h2.1V19h3.1Z" fill="#fff"/>
+            </svg>
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+              <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/>
+              <circle cx="17.1" cy="6.9" r="1.05" fill="currentColor"/>
+            </svg>
+          </a>
+        </div>
       </div>
+
+      <div class="footer__legal">
+        <p>© Cégnév Kft. - Minden jog fenntartva!</p>
+        <a href="#">Adatkezelési tájékoztató</a>
+      </div>
+
+      <p class="footer__credit">Weboldalt készítette: SograWebstudio</p>
     </div>
-    <p class="footer__meta">© <span id="year">2026</span> Mukanoo · Minta utca 1., Budapest</p>
   </footer>
 
   <script src="js/main.js" defer></script>

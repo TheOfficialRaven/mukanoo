@@ -57,6 +57,25 @@
     document.documentElement.style.setProperty("--header", headerOffset() + "px");
   }
 
+  var navLeft = document.querySelector(".nav__group--left");
+  var navRight = document.querySelector(".nav__group--right");
+  var desktopNav = window.matchMedia("(min-width: 981px)");
+
+  function syncContentWidth() {
+    if (!navLeft || !navRight || !desktopNav.matches) {
+      document.documentElement.style.removeProperty("--wrap-width");
+      document.documentElement.style.removeProperty("--wrap-inset");
+      return;
+    }
+    var left = navLeft.getBoundingClientRect();
+    var right = navRight.getBoundingClientRect();
+    var width = Math.round(right.right - left.left);
+    var inset = Math.round(left.left);
+    if (width < 320) return;
+    document.documentElement.style.setProperty("--wrap-width", width + "px");
+    document.documentElement.style.setProperty("--wrap-inset", inset + "px");
+  }
+
   function sectionScrollTop(el) {
     if (!el) return 0;
     if (el.id === "hero") return 0;
@@ -89,7 +108,15 @@
   });
 
   syncHeaderVar();
-  window.addEventListener("resize", syncHeaderVar);
+  syncContentWidth();
+  window.addEventListener("resize", function () {
+    syncHeaderVar();
+    syncContentWidth();
+  });
+  if (desktopNav.addEventListener) desktopNav.addEventListener("change", syncContentWidth);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncContentWidth);
+  }
   if (location.hash.length > 1) {
     var initial = document.getElementById(location.hash.slice(1));
     if (initial) {
@@ -100,26 +127,63 @@
   }
 
   if (!reduced) {
-    var sections = document.querySelectorAll("main > section");
+    var sections = document.querySelectorAll("main > section:not(.band):not(.contact-bar)");
     var snapTimer = 0;
     var snapping = false;
+    var snapRaf = 0;
+    var snapGen = 0;
+    var snapLastSet = 0;
+
+    function cancelSnap() {
+      if (snapRaf) {
+        window.cancelAnimationFrame(snapRaf);
+        snapRaf = 0;
+      }
+      if (snapping) {
+        snapping = false;
+        snapGen += 1;
+      }
+    }
+
+    function scheduleSnap() {
+      window.clearTimeout(snapTimer);
+      snapTimer = window.setTimeout(softSnap, 2000);
+    }
+
+    function onUserScrollIntent() {
+      cancelSnap();
+      scheduleSnap();
+    }
 
     function animateScroll(to, duration) {
+      cancelSnap();
       var from = window.scrollY;
       var delta = to - from;
       if (Math.abs(delta) < 1) return;
       snapping = true;
       var start = performance.now();
+      var gen = snapGen;
+      snapLastSet = from;
 
       function frame(now) {
+        if (gen !== snapGen) return;
+        if (Math.abs(window.scrollY - snapLastSet) > 6) {
+          cancelSnap();
+          scheduleSnap();
+          return;
+        }
         var t = Math.min(1, (now - start) / duration);
         var eased = 1 - Math.pow(1 - t, 3);
-        window.scrollTo(0, from + delta * eased);
-        if (t < 1) window.requestAnimationFrame(frame);
-        else snapping = false;
+        snapLastSet = from + delta * eased;
+        window.scrollTo(0, snapLastSet);
+        if (t < 1) snapRaf = window.requestAnimationFrame(frame);
+        else {
+          snapping = false;
+          snapRaf = 0;
+        }
       }
 
-      window.requestAnimationFrame(frame);
+      snapRaf = window.requestAnimationFrame(frame);
     }
 
     function softSnap() {
@@ -155,10 +219,25 @@
       animateScroll(bestTop, 900);
     }
 
+    window.addEventListener("wheel", onUserScrollIntent, { passive: true });
+    window.addEventListener("touchstart", onUserScrollIntent, { passive: true });
+    window.addEventListener("touchmove", onUserScrollIntent, { passive: true });
+    window.addEventListener("keydown", function (event) {
+      var keys = {
+        ArrowUp: 1,
+        ArrowDown: 1,
+        PageUp: 1,
+        PageDown: 1,
+        Home: 1,
+        End: 1,
+        " ": 1
+      };
+      if (keys[event.key]) onUserScrollIntent();
+    });
+
     window.addEventListener("scroll", function () {
       if (snapping) return;
-      window.clearTimeout(snapTimer);
-      snapTimer = window.setTimeout(softSnap, 2000);
+      scheduleSnap();
     }, { passive: true });
   }
 
@@ -181,6 +260,7 @@
   var quotes = document.querySelector(".quotes");
   if (quotes) {
     var quotesTrack = quotes.querySelector(".quotes__track");
+    var quotesViewport = quotes.querySelector(".quotes__viewport");
     var quotesPages = quotesTrack ? quotesTrack.children : [];
     var quotesDots = quotes.querySelectorAll(".quotes__dots .quotes__dot");
     var prevQuote = quotes.querySelector(".quotes__arrow--prev");
@@ -198,9 +278,14 @@
         });
       }
 
+      function paintQuotes() {
+        var pageWidth = quotesViewport ? quotesViewport.clientWidth : quotesTrack.clientWidth;
+        quotesTrack.style.transform = "translate3d(" + (-quotesIndex * pageWidth) + "px,0,0)";
+      }
+
       function goQuotes(nextIndex) {
         quotesIndex = (nextIndex + quotesPages.length) % quotesPages.length;
-        quotesTrack.style.transform = "translate3d(" + (-quotesIndex * 100) + "%,0,0)";
+        paintQuotes();
         syncQuoteDots();
       }
 
@@ -220,7 +305,36 @@
         });
       });
 
+      window.addEventListener("resize", paintQuotes);
+      paintQuotes();
       syncQuoteDots();
+    }
+  }
+
+  var faq = document.querySelector(".faq");
+  if (faq) {
+    var faqGrid = faq.querySelector(".faq__grid");
+    var faqItems = faq.querySelectorAll(".faq__item");
+
+    function lockFaqHeight() {
+      if (!faqGrid || !faqItems.length) return;
+      var states = [];
+      Array.prototype.forEach.call(faqItems, function (item, index) {
+        states[index] = item.open;
+        item.open = true;
+      });
+      faqGrid.style.minHeight = "";
+      var height = Math.ceil(faqGrid.getBoundingClientRect().height);
+      faqGrid.style.minHeight = height + "px";
+      Array.prototype.forEach.call(faqItems, function (item, index) {
+        item.open = states[index];
+      });
+    }
+
+    lockFaqHeight();
+    window.addEventListener("resize", lockFaqHeight);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(lockFaqHeight);
     }
   }
 
@@ -235,11 +349,21 @@
 
       var invalid = false;
       Array.prototype.forEach.call(form.querySelectorAll("[required]"), function (field) {
-        var empty = !field.value.trim();
-        field.setCustomValidity(empty ? "Kötelező mező." : "");
-        var ok = !empty && field.checkValidity();
+        var ok;
+        if (field.type === "checkbox") {
+          ok = field.checked;
+          field.setCustomValidity(ok ? "" : "Kötelező mező.");
+        } else if (field.type === "file") {
+          ok = true;
+          field.setCustomValidity("");
+        } else {
+          var empty = !field.value.trim();
+          field.setCustomValidity(empty ? "Kötelező mező." : "");
+          ok = !empty && field.checkValidity();
+        }
         field.setAttribute("aria-invalid", ok ? "false" : "true");
-        field.closest(".field").classList.toggle("is-invalid", !ok);
+        var wrap = field.closest(".field, .form__consent");
+        if (wrap) wrap.classList.toggle("is-invalid", !ok);
         if (!ok) invalid = true;
       });
 
@@ -254,7 +378,8 @@
       var email = form.getAttribute("data-email") || "hello@mukanoo.hu";
       var lines = [];
       new FormData(form).forEach(function (value, key) {
-        if (key === "company" || !String(value).trim()) return;
+        if (key === "company" || key === "photos" || key === "privacy") return;
+        if (!String(value).trim()) return;
         lines.push(key + ": " + value);
       });
 
@@ -268,14 +393,26 @@
     });
 
     form.addEventListener("input", function (event) {
-      var field = event.target.closest(".field");
-      if (!field || !event.target.required) return;
-      var empty = !event.target.value.trim();
-      event.target.setCustomValidity(empty ? "Kötelező mező." : "");
-      var ok = !empty && event.target.checkValidity();
-      event.target.setAttribute("aria-invalid", ok ? "false" : "true");
-      field.classList.toggle("is-invalid", !ok);
+      var target = event.target;
+      if (!target.required) return;
+      var wrap = target.closest(".field, .form__consent");
+      if (!wrap) return;
+      var ok = target.type === "checkbox" ? target.checked : (!!target.value.trim() && target.checkValidity());
+      target.setCustomValidity(ok ? "" : "Kötelező mező.");
+      target.setAttribute("aria-invalid", ok ? "false" : "true");
+      wrap.classList.toggle("is-invalid", !ok);
     });
+
+    var fileInput = form.querySelector("input[type='file']");
+    var fileText = form.querySelector(".field__file-text");
+    if (fileInput && fileText) {
+      fileInput.addEventListener("change", function () {
+        var names = Array.prototype.map.call(fileInput.files || [], function (file) {
+          return file.name;
+        });
+        fileText.textContent = names.length ? names.join(", ") : "Fotók csatolása";
+      });
+    }
   }
 
   var palette = document.querySelector(".palette");
@@ -313,7 +450,7 @@
       }
     }
 
-    var pace = 2.25;
+    var pace = 1.45;
     var frame = 0;
 
     function horizontalDistance() {
