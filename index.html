@@ -9,7 +9,8 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/backgrounds/hero_bg.webp" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="css/styles.css">
   <!--
     Képek: a szürke .media keretbe tedd az <img>-et, és töltsd ki az alt-ot.
@@ -63,7 +64,7 @@
         <div class="section-head">
           <span class="eyebrow">• Egyediség kompromisszumok nélkül •</span>
           <h2 id="elvek-title">Mi a MUKANOO?</h2>
-          <p class="lead">Hiszek abban, hogy egy jól elkészített ruha nemcsak jól néz ki, hanem kényelmes, tartós és valóban annak az embernek készül, aki viseli. A MUKANOO darabjainál nem a konfekcióméretből indulok ki, hanem belőled: a testalkatodból, az igényeidből, a személyiségedből és abból, hogyan szeretnéd érezni magad a ruhában.</p>
+          <p class="lead">Hiszek abban, hogy egy jól elkészített ruha nemcsak látványos, hanem kényelmes, tartós és valóban annak az embernek készül, aki viseli. A MUKANOO darabjainál nem a konfekcióméretből indulok ki, hanem belőled: a testalkatodból, az igényeidből, a személyiségedből és abból, hogyan szeretnéd érezni magad a ruhában.</p>
         </div>
         <div class="pillars__grid">
           <article class="pillars__item">
@@ -84,7 +85,7 @@
               </svg>
             </div>
             <h3>Gondosan választott<br>anyagok</h3>
-            <p>Olyan minőségi anyagokkal dolgozom, amelyek nemcsak szépek, hanem kellemes viseletet és hosszú élettartamot is biztosítanak.</p>
+            <p>Minőségi anyagokkal dolgozom, amelyek nemcsak szépek, hanem kellemes viseletet és hosszú élettartamot is biztosítanak.</p>
           </article>
           <article class="pillars__item">
             <div class="icon" aria-hidden="true">
@@ -121,7 +122,7 @@
               </svg>
             </div>
             <h3>Tartós minőség</h3>
-            <p>Nem gyorsan elhasználódó darabokat készítek. Fontos számomra a precíz kivitelezés és az, hogy a ruha hosszú időn át örömet adjon.</p>
+            <p>Fontos számomra a precíz kivitelezés és az, hogy a ruha hosszú időn át örömet adjon. Ezért tartós és időtálló darabokat készítek.</p>
           </article>
         </div>
       </div>
@@ -129,125 +130,243 @@
 
     <section class="about" id="bemutatkozas" aria-labelledby="about-title">
       <div class="media media--fill">
-        <img src="assets/imgs/rolam.png" alt="Muladi Klára, a MUKANOO megálmodója">
+        <img src="assets/imgs/rolam.webp" alt="Muladi Klára, a MUKANOO megálmodója" width="1086" height="1448" loading="lazy" decoding="async">
       </div>
       <div class="about__copy">
         <p class="about__quote">„Van, aki ruhát választ, és van, aki a ruhájával mesél magáról.”</p>
-        <h2 id="about-title">A nevem Muladi Klára, a<br>MUKANOO megálmodója</h2>
+        <h2 id="about-title">A nevem Muladi Klára, a MUKANOO megálmodója</h2>
         <div class="about__text">
-          <p>Közel 30 évet töltöttem a színház, a film, a tánc és a cirkusz különleges világában. Ezalatt megtanultam, hogy egy öltözék sokkal több lehet egy egyszerű ruhadarabnál: karaktert teremt, személyiséget hangsúlyoz és történetet mesél.</p>
+          <p>Közel 30 évet töltöttem a színház, a tánc és a cirkusz különleges világában. Ezalatt megtanultam, hogy egy öltözék sokkal több lehet egy egyszerű ruhadarabnál: karaktert teremt, személyiséget hangsúlyoz és történetet mesél.</p>
           <p>Ezt a szakmai tudást és alkotói szabadságot hozom most el a hétköznapi öltözködés világába.</p>
           <p>A MUKANOO azoknak szól, akik nem szeretnének beleolvadni a tömegbe. Akiknek fontos a jó szabás, az átgondolt részletek, a minőség és az önazonos megjelenés.</p>
-          <p>Választhatsz a saját kollekcióm modelljeiből személyre szabottan, kérhetsz teljesen egyedi tervezésű öltözéket, de abban is segítek, hogy a meglévő ruhatáradból hozd ki a legtöbbet.</p>
+          <p>Választhatsz a saját kollekcióm modelljeiből személyre szabottan vagy kérhetsz teljesen egyedi tervezésű öltözéket, de abban is segítek, hogy a meglévő ruhatáradból hozd ki a legtöbbet.</p>
           <p>Nem divatot akarok diktálni, hanem lehetőséget teremteni arra, hogy megtaláld a saját hangodat.</p>
         </div>
       </div>
     </section>
 
     <section class="section works" id="munkak" aria-labelledby="works-title">
-      <div class="wrap--wide">
+      <div class="wrap--wide works__wrap">
         <h2 id="works-title"><span>MUKANOO</span> kollekció</h2>
-        <div class="works__grid">
-          <figure class="work">
-            <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.1 képei">
-              <div class="work__track">
-                <div class="work__slide"><!-- <img src="images/munka-01-1.jpg" alt=""> --></div>
-                <div class="work__slide"><!-- <img src="images/munka-01-2.jpg" alt=""> --></div>
-                <div class="work__slide"><!-- <img src="images/munka-01-3.jpg" alt=""> --></div>
+        <div class="works__frame">
+          <button class="works__arrow works__arrow--prev" type="button" aria-label="Előző kollekció oldal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+          </button>
+          <button class="works__arrow works__arrow--next" type="button" aria-label="Következő kollekció oldal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+          </button>
+          <div class="works__viewport">
+            <div class="works__track">
+              <div class="works__page" aria-label="1. kollekció oldal">
+                <div class="works__grid">
+                  <figure class="work">
+                    <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.1 képei">
+                      <div class="work__track">
+                        <div class="work__slide"><!-- <img src="images/munka-01-1.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-01-2.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-01-3.jpg" alt=""> --></div>
+                      </div>
+                      <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+                      </button>
+                      <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+                      </button>
+                    </div>
+                    <figcaption>
+                      <ul class="work__chips" aria-label="Képek">
+                        <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
+                        <li><button type="button" aria-label="2. kép"></button></li>
+                        <li><button type="button" aria-label="3. kép"></button></li>
+                      </ul>
+                      <h3>Nr.1</h3>
+                      <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
+                      <p class="work__price">54.000 Ft.-</p>
+                    </figcaption>
+                  </figure>
+                  <figure class="work">
+                    <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.3 képei">
+                      <div class="work__track">
+                        <div class="work__slide"><!-- <img src="images/munka-02-1.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-02-2.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-02-3.jpg" alt=""> --></div>
+                      </div>
+                      <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+                      </button>
+                      <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+                      </button>
+                    </div>
+                    <figcaption>
+                      <ul class="work__chips" aria-label="Képek">
+                        <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
+                        <li><button type="button" aria-label="2. kép"></button></li>
+                        <li><button type="button" aria-label="3. kép"></button></li>
+                      </ul>
+                      <h3>Nr.3</h3>
+                      <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
+                      <p class="work__price">54.000 Ft.-</p>
+                    </figcaption>
+                  </figure>
+                  <figure class="work">
+                    <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.2 képei">
+                      <div class="work__track">
+                        <div class="work__slide"><!-- <img src="images/munka-03-1.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-03-2.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-03-3.jpg" alt=""> --></div>
+                      </div>
+                      <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+                      </button>
+                      <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+                      </button>
+                    </div>
+                    <figcaption>
+                      <ul class="work__chips" aria-label="Képek">
+                        <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
+                        <li><button type="button" aria-label="2. kép"></button></li>
+                        <li><button type="button" aria-label="3. kép"></button></li>
+                      </ul>
+                      <h3>Nr.2</h3>
+                      <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
+                      <p class="work__price">54.000 Ft.-</p>
+                    </figcaption>
+                  </figure>
+                  <figure class="work">
+                    <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.4 képei">
+                      <div class="work__track">
+                        <div class="work__slide"><!-- <img src="images/munka-04-1.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-04-2.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-04-3.jpg" alt=""> --></div>
+                      </div>
+                      <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+                      </button>
+                      <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+                      </button>
+                    </div>
+                    <figcaption>
+                      <ul class="work__chips" aria-label="Képek">
+                        <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
+                        <li><button type="button" aria-label="2. kép"></button></li>
+                        <li><button type="button" aria-label="3. kép"></button></li>
+                      </ul>
+                      <h3>Nr.4</h3>
+                      <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
+                      <p class="work__price">54.000 Ft.-</p>
+                    </figcaption>
+                  </figure>
+                </div>
               </div>
-              <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
-              </button>
-              <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
-              </button>
-            </div>
-            <figcaption>
-              <ul class="work__chips" aria-label="Képek">
-                <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
-                <li><button type="button" aria-label="2. kép"></button></li>
-                <li><button type="button" aria-label="3. kép"></button></li>
-              </ul>
-              <h3>Nr.1</h3>
-              <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
-              <p class="work__price">54.000 Ft.-</p>
-            </figcaption>
-          </figure>
-          <figure class="work">
-            <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.3 képei">
-              <div class="work__track">
-                <div class="work__slide"><!-- <img src="images/munka-02-1.jpg" alt=""> --></div>
-                <div class="work__slide"><!-- <img src="images/munka-02-2.jpg" alt=""> --></div>
-                <div class="work__slide"><!-- <img src="images/munka-02-3.jpg" alt=""> --></div>
+              <div class="works__page" aria-label="2. kollekció oldal">
+                <div class="works__grid">
+                  <figure class="work">
+                    <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.5 képei">
+                      <div class="work__track">
+                        <div class="work__slide"><!-- <img src="images/munka-05-1.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-05-2.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-05-3.jpg" alt=""> --></div>
+                      </div>
+                      <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+                      </button>
+                      <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+                      </button>
+                    </div>
+                    <figcaption>
+                      <ul class="work__chips" aria-label="Képek">
+                        <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
+                        <li><button type="button" aria-label="2. kép"></button></li>
+                        <li><button type="button" aria-label="3. kép"></button></li>
+                      </ul>
+                      <h3>Nr.5</h3>
+                      <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
+                      <p class="work__price">54.000 Ft.-</p>
+                    </figcaption>
+                  </figure>
+                  <figure class="work">
+                    <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.6 képei">
+                      <div class="work__track">
+                        <div class="work__slide"><!-- <img src="images/munka-06-1.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-06-2.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-06-3.jpg" alt=""> --></div>
+                      </div>
+                      <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+                      </button>
+                      <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+                      </button>
+                    </div>
+                    <figcaption>
+                      <ul class="work__chips" aria-label="Képek">
+                        <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
+                        <li><button type="button" aria-label="2. kép"></button></li>
+                        <li><button type="button" aria-label="3. kép"></button></li>
+                      </ul>
+                      <h3>Nr.6</h3>
+                      <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
+                      <p class="work__price">54.000 Ft.-</p>
+                    </figcaption>
+                  </figure>
+                  <figure class="work">
+                    <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.7 képei">
+                      <div class="work__track">
+                        <div class="work__slide"><!-- <img src="images/munka-07-1.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-07-2.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-07-3.jpg" alt=""> --></div>
+                      </div>
+                      <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+                      </button>
+                      <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+                      </button>
+                    </div>
+                    <figcaption>
+                      <ul class="work__chips" aria-label="Képek">
+                        <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
+                        <li><button type="button" aria-label="2. kép"></button></li>
+                        <li><button type="button" aria-label="3. kép"></button></li>
+                      </ul>
+                      <h3>Nr.7</h3>
+                      <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
+                      <p class="work__price">54.000 Ft.-</p>
+                    </figcaption>
+                  </figure>
+                  <figure class="work">
+                    <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.8 képei">
+                      <div class="work__track">
+                        <div class="work__slide"><!-- <img src="images/munka-08-1.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-08-2.jpg" alt=""> --></div>
+                        <div class="work__slide"><!-- <img src="images/munka-08-3.jpg" alt=""> --></div>
+                      </div>
+                      <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+                      </button>
+                      <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+                      </button>
+                    </div>
+                    <figcaption>
+                      <ul class="work__chips" aria-label="Képek">
+                        <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
+                        <li><button type="button" aria-label="2. kép"></button></li>
+                        <li><button type="button" aria-label="3. kép"></button></li>
+                      </ul>
+                      <h3>Nr.8</h3>
+                      <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
+                      <p class="work__price">54.000 Ft.-</p>
+                    </figcaption>
+                  </figure>
+                </div>
               </div>
-              <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
-              </button>
-              <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
-              </button>
             </div>
-            <figcaption>
-              <ul class="work__chips" aria-label="Képek">
-                <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
-                <li><button type="button" aria-label="2. kép"></button></li>
-                <li><button type="button" aria-label="3. kép"></button></li>
-              </ul>
-              <h3>Nr.3</h3>
-              <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
-              <p class="work__price">54.000 Ft.-</p>
-            </figcaption>
-          </figure>
-          <figure class="work">
-            <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.2 képei">
-              <div class="work__track">
-                <div class="work__slide"><!-- <img src="images/munka-03-1.jpg" alt=""> --></div>
-                <div class="work__slide"><!-- <img src="images/munka-03-2.jpg" alt=""> --></div>
-                <div class="work__slide"><!-- <img src="images/munka-03-3.jpg" alt=""> --></div>
-              </div>
-              <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
-              </button>
-              <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
-              </button>
-            </div>
-            <figcaption>
-              <ul class="work__chips" aria-label="Képek">
-                <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
-                <li><button type="button" aria-label="2. kép"></button></li>
-                <li><button type="button" aria-label="3. kép"></button></li>
-              </ul>
-              <h3>Nr.2</h3>
-              <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
-              <p class="work__price">54.000 Ft.-</p>
-            </figcaption>
-          </figure>
-          <figure class="work">
-            <div class="media media--portrait" aria-roledescription="lapozó" aria-label="Nr.4 képei">
-              <div class="work__track">
-                <div class="work__slide"><!-- <img src="images/munka-04-1.jpg" alt=""> --></div>
-                <div class="work__slide"><!-- <img src="images/munka-04-2.jpg" alt=""> --></div>
-                <div class="work__slide"><!-- <img src="images/munka-04-3.jpg" alt=""> --></div>
-              </div>
-              <button class="work__arrow work__arrow--prev" type="button" aria-label="Előző kép">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
-              </button>
-              <button class="work__arrow work__arrow--next" type="button" aria-label="Következő kép">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
-              </button>
-            </div>
-            <figcaption>
-              <ul class="work__chips" aria-label="Képek">
-                <li><button type="button" aria-label="1. kép" aria-current="true"></button></li>
-                <li><button type="button" aria-label="2. kép"></button></li>
-                <li><button type="button" aria-label="3. kép"></button></li>
-              </ul>
-              <h3>Nr.4</h3>
-              <p>Ide írhatjuk az aktuális ruha nevét vagy rövid leírását max. ennyi szöveg.</p>
-              <p class="work__price">54.000 Ft.-</p>
-            </figcaption>
-          </figure>
+          </div>
         </div>
       </div>
     </section>
@@ -268,18 +387,18 @@
           </article>
           <article class="swatch swatch--ivory">
             <h3>Méretre igazítva</h3>
-            <span class="eyebrow">A fény, ami teret ad</span>
+            <span class="eyebrow">Hogy újra örömmel viseld</span>
             <p>Legyen szó új vagy már meglévő ruhadarabról, méretre igazítom és szükség esetén átalakítom úgy, hogy az a testalkatodhoz megfelelően illeszkedjen. Sok jó minőségű ruha azért marad kihasználatlanul, mert nem megfelelő a mérete, a hossza vagy a szabása. Ilyenkor nem feltétlenül új darabra van szükség – sokszor elég egy jól átgondolt átalakítás ahhoz, hogy újra örömmel viseld.</p>
           </article>
           <article class="swatch swatch--ink">
             <h3>Mozgásra tervezve</h3>
             <span class="eyebrow">Artista és mozgásművész ruhák</span>
-            <p>Több évtizedes színházi, filmes, táncos és cirkuszi tapasztalattal tervezek és készítek artista- és mozgásművészeti ruhákat. Ezeknél az öltözékeknél nemcsak az esztétikai megjelenés fontos, hanem a szabadság, a kényelem és a biztonságos mozgás is. A szabást és az anyagválasztást mindig az előadás, a karakter és a mozgás igényeihez igazítom.</p>
+            <p>Több évtizedes színházi, táncos és cirkuszi tapasztalattal készítek artista- és mozgásművészeti ruhákat. Ezeknél az öltözékeknél nemcsak az esztétikai megjelenés fontos, hanem a mozgás szabadsága, a kényelem és a biztonságos használat. A szabást és az anyagválasztást mindig a karakter és a mozgás igényeihez igazítom.</p>
           </article>
           <article class="swatch swatch--sand">
-            <h3>A meleg, ami összeköt</h3>
-            <span class="eyebrow">cím</span>
-            <p>A lágy, meleg tónusok kötik össze az anyagokat és a formákat. Ez a közös hőfok, ami otthonossá teszi a megjelenést.</p>
+            <h3>MUKANOO darabok</h3>
+            <span class="eyebrow">Ahol az egyediség természetessé válik</span>
+            <p>A MUKANOO saját alapkollekciójának modelljei személyre szabottan készülnek, emellett lehetőség van egyedi tervezésű öltözékek megrendelésére is, ahol a szakmai tapasztalat, a kreatív látásmód és a viselő egyénisége találkozik.</p>
           </article>
         </div>
       </div>
@@ -301,48 +420,48 @@
           <div class="gallery__viewport">
             <div class="gallery__track">
               <div class="gallery__page" aria-label="1. oldal">
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-01.jpg" alt="Mukanoo referencia 1" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-02.jpg" alt="Mukanoo referencia 2" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-03.jpg" alt="Mukanoo referencia 3" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-04.jpg" alt="Mukanoo referencia 4" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-05.jpg" alt="Mukanoo referencia 5" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-06.jpg" alt="Mukanoo referencia 6" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-01.webp" alt="Mukanoo referencia 1" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-02.webp" alt="Mukanoo referencia 2" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-03.webp" alt="Mukanoo referencia 3" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-04.webp" alt="Mukanoo referencia 4" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-05.webp" alt="Mukanoo referencia 5" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-06.webp" alt="Mukanoo referencia 6" loading="lazy" decoding="async"></div>
               </div>
               <div class="gallery__page" aria-label="2. oldal">
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-07.jpg" alt="Mukanoo referencia 7" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-08.jpg" alt="Mukanoo referencia 8" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-09.jpg" alt="Mukanoo referencia 9" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-10.jpg" alt="Mukanoo referencia 10" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-11.jpg" alt="Mukanoo referencia 11" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-12.jpg" alt="Mukanoo referencia 12" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-07.webp" alt="Mukanoo referencia 7" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-08.webp" alt="Mukanoo referencia 8" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-09.webp" alt="Mukanoo referencia 9" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-10.webp" alt="Mukanoo referencia 10" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-11.webp" alt="Mukanoo referencia 11" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-12.webp" alt="Mukanoo referencia 12" loading="lazy" decoding="async"></div>
               </div>
               <div class="gallery__page" aria-label="3. oldal">
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-13.jpg" alt="Mukanoo referencia 13" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-14.jpg" alt="Mukanoo referencia 14" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-15.jpg" alt="Mukanoo referencia 15" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-16.jpg" alt="Mukanoo referencia 16" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-17.jpg" alt="Mukanoo referencia 17" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-18.jpg" alt="Mukanoo referencia 18" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-13.webp" alt="Mukanoo referencia 13" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-14.webp" alt="Mukanoo referencia 14" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-15.webp" alt="Mukanoo referencia 15" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-16.webp" alt="Mukanoo referencia 16" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-17.webp" alt="Mukanoo referencia 17" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-18.webp" alt="Mukanoo referencia 18" loading="lazy" decoding="async"></div>
               </div>
               <div class="gallery__page" aria-label="4. oldal">
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-19.jpg" alt="Mukanoo referencia 19" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-20.jpg" alt="Mukanoo referencia 20" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-21.jpg" alt="Mukanoo referencia 21" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-22.jpg" alt="Mukanoo referencia 22" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-23.jpg" alt="Mukanoo referencia 23" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-24.jpg" alt="Mukanoo referencia 24" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-19.webp" alt="Mukanoo referencia 19" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-20.webp" alt="Mukanoo referencia 20" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-21.webp" alt="Mukanoo referencia 21" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-22.webp" alt="Mukanoo referencia 22" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-23.webp" alt="Mukanoo referencia 23" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-24.webp" alt="Mukanoo referencia 24" loading="lazy" decoding="async"></div>
               </div>
               <div class="gallery__page" aria-label="5. oldal">
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-25.jpg" alt="Mukanoo referencia 25" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-26.jpg" alt="Mukanoo referencia 26" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-27.jpg" alt="Mukanoo referencia 27" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-28.jpg" alt="Mukanoo referencia 28" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-29.jpg" alt="Mukanoo referencia 29" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-30.jpg" alt="Mukanoo referencia 30" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-25.webp" alt="Mukanoo referencia 25" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-26.webp" alt="Mukanoo referencia 26" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-27.webp" alt="Mukanoo referencia 27" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-28.webp" alt="Mukanoo referencia 28" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-29.webp" alt="Mukanoo referencia 29" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-30.webp" alt="Mukanoo referencia 30" loading="lazy" decoding="async"></div>
               </div>
               <div class="gallery__page" aria-label="6. oldal">
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-31.jpg" alt="Mukanoo referencia 31" loading="lazy"></div>
-                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-32.jpg" alt="Mukanoo referencia 32" loading="lazy"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-31.webp" alt="Mukanoo referencia 31" loading="lazy" decoding="async"></div>
+                <div class="media media--square"><img src="assets/imgs/referenciak/referencia-32.webp" alt="Mukanoo referencia 32" loading="lazy" decoding="async"></div>
               </div>
             </div>
           </div>
@@ -437,7 +556,7 @@
     </section>
 
     <section class="section faq" id="gyik" aria-labelledby="faq-title">
-      <div class="wrap">
+      <div class="wrap--wide faq__wrap">
         <div class="section-head faq__head">
           <h2 id="faq-title">Gyakran ismételt kérdések</h2>
         </div>
@@ -445,25 +564,45 @@
           <div class="faq__col">
             <details class="faq__item" open>
               <summary>Milyen módon tudok fizetni?</summary>
-              <p>Fizetni készpénzzel, Revoluttal vagy OTP Quick segítségével tudsz.</p>
+              <div class="faq__answer">
+                <div class="faq__answer-inner">
+                  <p>Fizetni készpénzzel, Revoluttal vagy OTP Quick segítségével tudsz.</p>
+                </div>
+              </div>
             </details>
             <details class="faq__item">
               <summary>Van lehetőség parkolásra?</summary>
-              <p>Igen. Parkolni az utcában lehet parkolási díj ellenében, illetve a belső udvarban található, vendégek számára kijelölt parkolóhelyeken.</p>
+              <div class="faq__answer">
+                <div class="faq__answer-inner">
+                  <p>Igen. Parkolni az utcában lehet parkolási díj ellenében, illetve a belső udvarban található, vendégek számára kijelölt parkolóhelyeken.</p>
+                </div>
+              </div>
             </details>
             <details class="faq__item">
               <summary>Hol található a műhely?</summary>
-              <p>A műhely 1131 Budapesten, a Dolmány utca 5–7. szám alatt található. Az épület első emeletén, a 3-as számú ajtónál találsz meg, balra az első ajtó.</p>
+              <div class="faq__answer">
+                <div class="faq__answer-inner">
+                  <p>A műhely 1131 Budapesten, a Dolmány utca 5–7. szám alatt található. Az épület első emeletén, a 3-as számú ajtónál találsz meg, balra az első ajtó.</p>
+                </div>
+              </div>
             </details>
           </div>
           <div class="faq__col">
             <details class="faq__item">
               <summary>Mi történik, ha le kell mondanom az időpontot?</summary>
-              <p>Ha mégsem tudsz eljönni, kérlek, legalább 24 órával korábban jelezd a lemondást.</p>
+              <div class="faq__answer">
+                <div class="faq__answer-inner">
+                  <p>Ha mégsem tudsz eljönni, kérlek, legalább 24 órával korábban jelezd a lemondást.</p>
+                </div>
+              </div>
             </details>
             <details class="faq__item">
               <summary>Szükséges előre időpontot foglalni?</summary>
-              <p>Igen, minden szolgáltatáshoz előzetes időpontfoglalás szükséges. Időpontot e-mailben, telefonon (nyitvatartási időben) vagy a Facebook-oldalon keresztül tudsz kérni.</p>
+              <div class="faq__answer">
+                <div class="faq__answer-inner">
+                  <p>Igen, minden szolgáltatáshoz előzetes időpontfoglalás szükséges. Időpontot e-mailben, telefonon (nyitvatartási időben) vagy a Facebook-oldalon keresztül tudsz kérni.</p>
+                </div>
+              </div>
             </details>
           </div>
         </div>
@@ -531,7 +670,7 @@
     <section class="section contact" id="kapcsolat" aria-labelledby="contact-title">
       <div class="wrap--wide contact__grid">
         <div class="media media--fill contact__media">
-          <img src="assets/imgs/kapcsolat.JPG" alt="Mukanoo — színpadi öltözékek">
+          <img src="assets/imgs/kapcsolat.webp" alt="Mukanoo — színpadi öltözékek" width="1284" height="963" loading="lazy" decoding="async">
         </div>
         <div class="contact__copy">
           <span class="eyebrow">Együtt a kezdetektől a kész darabig</span>
@@ -623,6 +762,22 @@
       <p class="footer__credit">Weboldalt készítette: SograWebstudio</p>
     </div>
   </footer>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <div class="lightbox__overlay" data-lightbox-close tabindex="-1"></div>
+    <div class="lightbox__dialog" role="dialog" aria-modal="true" aria-label="Nagyított galéria kép">
+      <button class="lightbox__close" type="button" aria-label="Bezárás" data-lightbox-close>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Előző kép">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+      </button>
+      <img class="lightbox__img" alt="">
+      <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Következő kép">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+      </button>
+    </div>
+  </div>
 
   <script src="js/main.js" defer></script>
 </body>
