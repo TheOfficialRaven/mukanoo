@@ -23,10 +23,10 @@
   --blush: #f1e0e2;
   --serif: "Cormorant Garamond", "Palatino Linotype", Palatino, Georgia, serif;
   --sans: "Manrope", "Segoe UI", sans-serif;
-  --gutter: clamp(1.5rem, 4vw, 3.5rem);
+  --gutter: clamp(1.25rem, 3.5vw, 3.5rem);
   --pad: var(--gutter);
-  --section: clamp(4.5rem, 9vw, 7.5rem);
-  --section-y: clamp(1.75rem, 4vh, 2.75rem);
+  --section: clamp(3.75rem, 8vh, 7.5rem);
+  --section-y: clamp(1.4rem, 3.5vh, 2.75rem);
   --wrap: 1120px;
   --wrap-width: min(var(--wrap), calc(100vw - var(--gutter) * 2));
   --wrap-inset: max(var(--gutter), calc((100vw - var(--wrap)) / 2));
@@ -37,6 +37,7 @@
   --screen-h: calc(100svh - var(--header));
   --screen-h: calc(100dvh - var(--header));
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dense-pad-y: clamp(1.1rem, 2.8vh, 2.4rem);
 }
 
 *,
@@ -503,7 +504,7 @@ section[id] {
   height: var(--screen-h);
   max-height: var(--screen-h);
   min-height: var(--screen-h);
-  padding-block: clamp(1.4rem, 3vh, 2.4rem);
+  padding-block: var(--dense-pad-y);
   overflow: auto;
   background: var(--paper-warm);
 }
@@ -544,7 +545,8 @@ section[id] {
   flex-direction: column;
   align-items: center;
   height: 100%;
-  padding: 0.2rem 1.15rem 0.4rem;
+  min-width: 0;
+  padding: 0.2rem clamp(0.55rem, 1.1vw, 1.15rem) 0.4rem;
   text-align: center;
 }
 
@@ -575,7 +577,7 @@ section[id] {
   min-height: calc(1.02em * 1.3 * 2);
   margin-bottom: 0.85rem;
   font-family: var(--sans);
-  font-size: 1.02rem;
+  font-size: clamp(0.88rem, 0.95vw, 1.02rem);
   font-weight: 700;
   letter-spacing: 0.04em;
   line-height: 1.3;
@@ -587,7 +589,7 @@ section[id] {
   width: 100%;
   margin: 0;
   color: var(--muted);
-  font-size: 0.92rem;
+  font-size: clamp(0.84rem, 0.9vw, 0.92rem);
   line-height: 1.6;
 }
 
@@ -629,9 +631,9 @@ section[id] {
 .about__quote {
   width: 100%;
   max-width: none;
-  margin-bottom: 1.35rem;
+  margin-bottom: clamp(1rem, 2vh, 1.35rem);
   color: var(--burgundy);
-  font-size: clamp(0.95rem, 1.25vw, 1.15rem);
+  font-size: clamp(0.88rem, 1.15vw, 1.15rem);
   font-weight: 600;
   letter-spacing: 0.04em;
   line-height: 1.35;
@@ -642,7 +644,7 @@ section[id] {
 .about__copy h2 {
   width: 100%;
   max-width: none;
-  font-size: clamp(2rem, 3.1vw, 2.65rem);
+  font-size: clamp(1.75rem, 2.8vw, 2.65rem);
   line-height: 1.18;
 }
 
@@ -654,12 +656,12 @@ section[id] {
 
 .about__text p {
   color: var(--muted);
-  font-size: 0.96rem;
+  font-size: clamp(0.88rem, 1.05vw, 0.96rem);
   line-height: 1.65;
 }
 
 .about__text p + p {
-  margin-top: 0.95rem;
+  margin-top: clamp(0.7rem, 1.4vh, 0.95rem);
 }
 
 /* Munkák ----------------------------------------------------------------- */
@@ -1823,7 +1825,7 @@ body.lightbox-open {
   height: var(--screen-h);
   max-height: var(--screen-h);
   min-height: var(--screen-h);
-  padding-block: clamp(1.35rem, 3vh, 2.25rem);
+  padding-block: var(--dense-pad-y);
   overflow: hidden;
   background: #fff;
 }
@@ -2169,6 +2171,209 @@ body.lightbox-open {
   color: #8a8a8a;
   font-size: 0.78rem;
   text-align: center;
+}
+
+/* Laptop / nagyított nézet – design megőrzése, helyhez igazítás ------------ */
+
+@media (max-width: 1440px) {
+  .about__quote {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 1366px) and (min-width: 981px) {
+  .pillars .section-head {
+    margin-bottom: clamp(1.6rem, 3.5vh, 2.8rem);
+  }
+
+  .pillars .section-head .lead {
+    font-size: 0.92rem;
+  }
+
+  .icon {
+    width: clamp(2.6rem, 3.2vw, 3.15rem);
+    height: clamp(2.6rem, 3.2vw, 3.15rem);
+    margin-bottom: clamp(0.9rem, 1.8vh, 1.35rem);
+  }
+
+  .about {
+    grid-template-columns: minmax(14rem, 38%) minmax(0, 1fr);
+  }
+
+  .about__copy {
+    padding-left: clamp(1.5rem, 2.8vw, 3rem);
+  }
+
+  .contact__grid {
+    gap: clamp(1.6rem, 3.5vw, 3.5rem);
+  }
+
+  .faq__grid {
+    gap: clamp(2.2rem, 5vw, 5rem);
+    min-height: clamp(16rem, 32vh, 24rem);
+  }
+
+  .works__wrap {
+    width: calc(100vw - var(--gutter) * 2 - clamp(4.5rem, 6vw, 5.5rem));
+  }
+
+  .works__viewport {
+    width: calc(100vw - var(--gutter) * 2 - clamp(4.5rem, 6vw, 5.5rem));
+  }
+}
+
+@media (max-width: 1200px) and (min-width: 981px) {
+  .pillars__item {
+    padding-inline: clamp(0.4rem, 0.8vw, 0.75rem);
+  }
+
+  .swatch {
+    padding-inline: clamp(1.2rem, 2.2vw, 2.2rem);
+  }
+
+  .swatch h3 {
+    font-size: clamp(1.45rem, 2.1vw, 1.9rem);
+  }
+
+  .swatch p {
+    font-size: clamp(0.84rem, 1.05vw, 0.95rem);
+  }
+
+  .contact__copy .lead {
+    font-size: clamp(0.82rem, 1.1vh, 0.9rem);
+  }
+
+  .form {
+    gap: clamp(0.55rem, 1.1vh, 0.8rem) 0.75rem;
+  }
+
+  .field textarea {
+    min-height: clamp(4.5rem, 10vh, 6rem);
+  }
+}
+
+@media (max-width: 1100px) and (min-width: 981px) {
+  .site-header {
+    --nav-logo-clearance: calc(2.2rem + clamp(3.6rem, 8vw, 8.5rem));
+  }
+
+  .nav__group {
+    gap: clamp(0.55rem, 1.2vw, 1.4rem);
+  }
+
+  .site-nav a {
+    font-size: clamp(0.84rem, 1vw, 0.98rem);
+  }
+
+  .about__text p {
+    font-size: 0.88rem;
+  }
+
+  .faq__item summary {
+    font-size: 1.02rem;
+  }
+}
+
+/* Rövid CSS-viewport (pl. 125–150% böngészőnagyítás) ---------------------- */
+
+@media (max-height: 820px) {
+  /* Unlock text-heavy sections only. Works/gallery keep a definite
+     height so percentage-based media grids don't collapse at zoom. */
+  .pillars,
+  .about,
+  .contact {
+    height: auto;
+    max-height: none;
+    min-height: var(--screen-h);
+    overflow: visible;
+  }
+
+  .pillars {
+    padding-block: clamp(1rem, 2.4vh, 1.6rem);
+    justify-content: flex-start;
+  }
+
+  .pillars .section-head {
+    margin-bottom: clamp(1.2rem, 2.8vh, 2rem);
+  }
+
+  .about__quote {
+    white-space: normal;
+  }
+
+  .about .media--fill {
+    min-height: 0;
+  }
+
+  .about__copy {
+    height: auto;
+    overflow: visible;
+    padding-block: clamp(1.6rem, 3.5vh, 2.6rem);
+  }
+
+  .contact {
+    padding-block: clamp(1rem, 2.2vh, 1.6rem);
+    overflow: visible;
+  }
+
+  .contact__copy {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .contact__media {
+    min-height: min(28rem, 70vh);
+  }
+
+  .faq__grid {
+    min-height: 0;
+  }
+
+  .works,
+  .gallery {
+    height: var(--screen-h);
+    max-height: var(--screen-h);
+    min-height: var(--screen-h);
+    overflow: hidden;
+    padding-top: clamp(0.85rem, 2vh, 1.4rem);
+    padding-bottom: clamp(0.85rem, 2vh, 1.4rem);
+  }
+
+  .works__frame,
+  .gallery__frame {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .works__viewport,
+  .gallery__viewport {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .quotes {
+    padding-block: clamp(1.4rem, 3vh, 2.2rem);
+  }
+}
+
+@media (max-height: 680px) {
+  .hero {
+    min-height: auto;
+    padding-bottom: 4vh;
+  }
+
+  .media--fill {
+    min-height: 16rem;
+  }
+
+  .pillars__item h3 {
+    min-height: 0;
+  }
+
+  .icon {
+    margin-bottom: 0.75rem;
+  }
 }
 
 /* Keskenyebb képernyők --------------------------------------------------- */
