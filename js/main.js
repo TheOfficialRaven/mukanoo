@@ -8,7 +8,7 @@
    * Resize strategy (common pattern):
    * - while dragging/zooming: freeze transitions, skip heavy JS
    * - after settle (~150ms): run layout painters once
-   * - ignore mobile browser chrome show/hide (height-only jitter)
+   * - ignore mobile browser-chrome height jitter (URL bar show/hide)
    */
   var resizeEndListeners = [];
   var resizeEndTimer = 0;
@@ -31,7 +31,6 @@
   function isBrowserChromeResize(nextW, nextH) {
     var widthChanged = Math.abs(nextW - lastLayoutWidth) > 1;
     var heightDelta = Math.abs(nextH - lastLayoutHeight);
-    // URL/toolbars usually change height ~40–150px without width change.
     return !widthChanged && heightDelta > 0 && heightDelta < 180;
   }
 
@@ -53,55 +52,6 @@
   }
 
   window.addEventListener("resize", scheduleResizeEnd, { passive: true });
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", scheduleResizeEnd, { passive: true });
-  }
-
-  /*
-   * Mobile browser chrome (URL/toolbars):
-   * keep page layout size stable (svh / locked --screen-h) and only let the
-   * fixed site header track the visual viewport — avoids content jump/scroll.
-   */
-  var mobileChromeMq = window.matchMedia("(max-width: 860px)");
-  var prevVvHeight = window.visualViewport ? window.visualViewport.height : 0;
-  var prevVvOffsetTop = window.visualViewport ? (window.visualViewport.offsetTop || 0) : 0;
-
-  function pinHeaderToVisualViewport() {
-    if (!header) return;
-    if (!mobileChromeMq.matches || !window.visualViewport) {
-      header.style.transform = "";
-      return;
-    }
-    var y = Math.round(window.visualViewport.offsetTop || 0);
-    header.style.transform = "translate3d(0," + y + "px,0)";
-  }
-
-  function onVisualViewportChrome() {
-    if (!window.visualViewport) return;
-    var nextH = window.visualViewport.height;
-    var nextTop = window.visualViewport.offsetTop || 0;
-    var dH = nextH - prevVvHeight;
-    var dTop = nextTop - prevVvOffsetTop;
-    prevVvHeight = nextH;
-    prevVvOffsetTop = nextTop;
-
-    pinHeaderToVisualViewport();
-
-    if (!mobileChromeMq.matches) return;
-    if (Math.abs(dH) < 1 || Math.abs(dH) >= 180) return;
-    // Counter the browser's scroll jump when chrome collapses/expands.
-    var compensate = dH - dTop;
-    if (Math.abs(compensate) > 0.5) window.scrollBy(0, compensate);
-  }
-
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", onVisualViewportChrome, { passive: true });
-    window.visualViewport.addEventListener("scroll", pinHeaderToVisualViewport, { passive: true });
-  }
-  if (mobileChromeMq.addEventListener) {
-    mobileChromeMq.addEventListener("change", pinHeaderToVisualViewport);
-  }
-  pinHeaderToVisualViewport();
 
   function bindSwipe(el, onPrev, onNext) {
     if (!el) return;
@@ -142,12 +92,6 @@
   var COMPACT_ON = 88;
   var COMPACT_OFF = 20;
 
-  function viewportHeight() {
-    // Prefer layout viewport over visualViewport so mobile chrome
-    // show/hide does not rewrite --screen-h and jump full-height sections.
-    return document.documentElement.clientHeight || window.innerHeight || 0;
-  }
-
   function remTokenToPx(token) {
     var raw = getComputedStyle(document.documentElement).getPropertyValue(token).trim();
     var value = parseFloat(raw);
@@ -165,21 +109,16 @@
   }
 
   var lastHeaderPx = "";
-  var lastScreenPx = "";
 
   function syncHeaderVar() {
     if (!header) return;
-    var h = headerOffset();
-    var screen = Math.max(0, Math.round(viewportHeight() - h));
-    var headerPx = h + "px";
-    var screenPx = screen + "px";
+    // Only sync sticky offset. --screen-h stays on CSS svh so mobile
+    // browser chrome show/hide does not resize or jump the page.
+    document.documentElement.style.removeProperty("--screen-h");
+    var headerPx = headerOffset() + "px";
     if (headerPx !== lastHeaderPx) {
       lastHeaderPx = headerPx;
       document.documentElement.style.setProperty("--header", headerPx);
-    }
-    if (screenPx !== lastScreenPx) {
-      lastScreenPx = screenPx;
-      document.documentElement.style.setProperty("--screen-h", screenPx);
     }
   }
 
