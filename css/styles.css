@@ -34,9 +34,9 @@
   --header-tall: 4.75rem;
   --header-short: 3.15rem;
   --header: var(--header-tall);
+  /* svh = smallest viewport: stable when mobile browser chrome shows/hides */
   --screen-h: calc(100vh - var(--header));
   --screen-h: calc(100svh - var(--header));
-  --screen-h: calc(100dvh - var(--header));
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --carousel-ease: cubic-bezier(0.45, 0.02, 0.12, 1);
   --carousel-dur: 1.15s;
@@ -566,8 +566,8 @@ section[id] {
   align-items: flex-end;
   justify-content: center;
   box-sizing: border-box;
+  min-height: 100vh;
   min-height: 100svh;
-  min-height: 100dvh;
   margin-top: 0;
   padding: var(--header-tall) var(--pad) 6.5vh;
   background-color: var(--hero);
@@ -3874,7 +3874,7 @@ html.is-faq-pinning body {
 
   .hero {
     min-height: 100vh;
-    min-height: 100dvh;
+    min-height: 100svh;
     padding-bottom: 8vh;
   }
 

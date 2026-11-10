@@ -8,11 +8,14 @@
    * Resize strategy (common pattern):
    * - while dragging/zooming: freeze transitions, skip heavy JS
    * - after settle (~150ms): run layout painters once
+   * - ignore mobile browser chrome show/hide (height-only jitter)
    */
   var resizeEndListeners = [];
   var resizeEndTimer = 0;
   var resizeSettling = false;
   var RESIZE_SETTLE_MS = 150;
+  var lastLayoutWidth = window.innerWidth || 0;
+  var lastLayoutHeight = window.innerHeight || 0;
 
   function onResizeEnd(fn) {
     if (typeof fn === "function") resizeEndListeners.push(fn);
@@ -25,7 +28,22 @@
     for (var i = 0; i < resizeEndListeners.length; i++) resizeEndListeners[i]();
   }
 
+  function isBrowserChromeResize(nextW, nextH) {
+    var widthChanged = Math.abs(nextW - lastLayoutWidth) > 1;
+    var heightDelta = Math.abs(nextH - lastLayoutHeight);
+    // URL/toolbars usually change height ~40–150px without width change.
+    return !widthChanged && heightDelta > 0 && heightDelta < 180;
+  }
+
   function scheduleResizeEnd() {
+    var nextW = window.innerWidth || 0;
+    var nextH = window.innerHeight || 0;
+    if (isBrowserChromeResize(nextW, nextH)) {
+      lastLayoutHeight = nextH;
+      return;
+    }
+    lastLayoutWidth = nextW;
+    lastLayoutHeight = nextH;
     if (!resizeSettling) {
       resizeSettling = true;
       document.documentElement.classList.add("is-resizing");
@@ -79,10 +97,9 @@
   var COMPACT_OFF = 20;
 
   function viewportHeight() {
-    if (window.visualViewport && window.visualViewport.height) {
-      return window.visualViewport.height;
-    }
-    return window.innerHeight || document.documentElement.clientHeight;
+    // Prefer layout viewport over visualViewport so mobile chrome
+    // show/hide does not rewrite --screen-h and jump full-height sections.
+    return document.documentElement.clientHeight || window.innerHeight || 0;
   }
 
   function remTokenToPx(token) {
