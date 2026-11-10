@@ -47,11 +47,12 @@
   --fluid: clamp(0, (100vw - 22.5rem) / 67.5rem, 1);
   --type-display: calc(2.85rem + 3.1rem * var(--fluid));
   --type-display-sub: calc(0.95rem + 0.28rem * var(--fluid));
-  --type-h2: calc(2.05rem + 1.5rem * var(--fluid));
-  --type-title: calc(2rem + 1.05rem * var(--fluid));
-  --type-title-md: calc(1.85rem + 0.75rem * var(--fluid));
-  --type-title-sm: calc(1.75rem + 1.05rem * var(--fluid));
-  --type-title-xs: calc(1.55rem + 0.55rem * var(--fluid));
+  --type-h2: calc(1.7rem + 0.85rem * var(--fluid));
+  --type-h3: calc(0.82rem + 0.12rem * var(--fluid));
+  --type-title: var(--type-h2);
+  --type-title-md: var(--type-h2);
+  --type-title-sm: var(--type-h2);
+  --type-title-xs: var(--type-h2);
   --type-eyebrow: calc(0.98rem + 0.08rem * var(--fluid));
   --type-lead: calc(0.98rem + 0.1rem * var(--fluid));
   --type-lead-sm: calc(0.9rem + 0.08rem * var(--fluid));
@@ -59,7 +60,7 @@
   --type-body-sm: calc(0.88rem + 0.1rem * var(--fluid));
   --type-label: calc(0.84rem + 0.16rem * var(--fluid));
   --type-quote: calc(0.9rem + 0.32rem * var(--fluid));
-  --type-card-title: calc(1.58rem + 0.75rem * var(--fluid));
+  --type-card-title: calc(1.35rem + 0.55rem * var(--fluid));
   --type-card-meta: calc(0.74rem + 0.14rem * var(--fluid));
   --type-card-body: calc(0.86rem + 0.06rem * var(--fluid));
   --type-faq-q: calc(1.08rem + 0.1rem * var(--fluid));
@@ -75,9 +76,9 @@
   --type-footer-logo: calc(1.18rem + 0.1rem * var(--fluid));
   --type-footer-nav: calc(0.92rem + 0.06rem * var(--fluid));
   --type-footer: calc(0.86rem + 0.05rem * var(--fluid));
-  --type-contact-bar-title: calc(1.8rem + 0.7rem * var(--fluid));
+  --type-contact-bar-title: var(--type-h2);
   --type-contact-bar-body: calc(0.88rem + 0.06rem * var(--fluid));
-  --type-contact-title: calc(1.55rem + 0.75rem * var(--fluid));
+  --type-contact-title: var(--type-h2);
   --type-contact-lead: calc(0.9rem + 0.1rem * var(--fluid));
 }
 
@@ -147,6 +148,10 @@ h1, h2, .serif {
 
 h2 {
   font-size: var(--type-h2);
+}
+
+h3 {
+  font-size: var(--type-h3);
 }
 
 ::selection {
@@ -660,9 +665,9 @@ section[id] {
 .pillars {
   /* Maps to site type tokens — title >> eyebrow > label ≈ body */
   --p-eyebrow: var(--type-eyebrow);
-  --p-title: var(--type-title);
+  --p-title: var(--type-h2);
   --p-body: var(--type-body-sm);
-  --p-label: var(--type-label);
+  --p-label: var(--type-h3);
   --p-icon: clamp(52px, 4.2vw, 60px);
   --p-head-gap: clamp(2.9rem, 5.5vw, 4.2rem);
   --p-eyebrow-gap: 0.85rem;
@@ -848,24 +853,29 @@ section[id] {
 /* Munkák ----------------------------------------------------------------- */
 
 .works {
+  --section-extra: clamp(2.5rem, 5.5vh, 4.25rem);
+  --section-pad-y: clamp(2.75rem, 6.5vh, 4.5rem);
   display: flex;
   flex-direction: column;
+  justify-content: center;
   box-sizing: border-box;
-  height: var(--screen-h);
-  max-height: var(--screen-h);
-  min-height: var(--screen-h);
-  padding-top: clamp(3.15rem, 8vh, 5.35rem);
-  padding-bottom: clamp(3.15rem, 8vh, 5.35rem);
-  overflow: hidden;
+  height: auto;
+  max-height: none;
+  min-height: calc(var(--screen-h) + var(--section-extra));
+  padding-top: var(--section-pad-y);
+  padding-bottom: var(--section-pad-y);
+  overflow: visible;
   background: var(--white);
 }
 
 .works__wrap {
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   flex-direction: column;
   width: calc(100vw - var(--gutter) * 2 - 5.5rem);
   max-width: none;
+  height: calc(var(--screen-h) - (var(--section-pad-y) * 2));
+  max-height: calc(var(--screen-h) - (var(--section-pad-y) * 2));
   min-height: 0;
   margin-inline: auto;
 }
@@ -1387,23 +1397,28 @@ section[id] {
 .gallery {
   --gallery-arrow-space: 5.5rem;
   --gallery-gap: clamp(0.75rem, 1.4vw, 1rem);
+  --section-extra: clamp(2.5rem, 5.5vh, 4.25rem);
+  --section-pad-y: clamp(2.75rem, 6.5vh, 4.5rem);
   display: flex;
   flex-direction: column;
+  justify-content: center;
   box-sizing: border-box;
-  height: var(--screen-h);
-  max-height: var(--screen-h);
-  min-height: var(--screen-h);
-  padding-top: clamp(3.15rem, 8vh, 5.35rem);
-  padding-bottom: clamp(3.15rem, 8vh, 5.35rem);
-  overflow: hidden;
+  height: auto;
+  max-height: none;
+  min-height: calc(var(--screen-h) + var(--section-extra));
+  padding-top: var(--section-pad-y);
+  padding-bottom: var(--section-pad-y);
+  overflow: visible;
   background: var(--white);
 }
 
 .gallery .wrap--wide {
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   flex-direction: column;
   width: var(--wrap-width);
+  height: calc(var(--screen-h) - (var(--section-pad-y) * 2));
+  max-height: calc(var(--screen-h) - (var(--section-pad-y) * 2));
   min-height: 0;
   margin-inline: auto;
 }
@@ -1423,9 +1438,9 @@ section[id] {
 }
 
 .gallery .section-head .lead {
-  margin-top: 0.5rem;
+  margin-top: clamp(0.85rem, 1.6vh, 1.25rem);
   color: var(--muted);
-  font-size: var(--type-body-sm);
+  font-size: calc(0.82rem + 0.08rem * var(--fluid));
   line-height: 1.4;
 }
 
@@ -2922,8 +2937,7 @@ html.is-faq-pinning body {
 
   .works,
   .gallery {
-    padding-top: clamp(2.75rem, 6.5vh, 4.1rem);
-    padding-bottom: clamp(2.75rem, 6.5vh, 4.1rem);
+    --section-pad-y: clamp(2.75rem, 6.5vh, 4.1rem);
   }
 
   .works h2 {
@@ -3117,14 +3131,12 @@ html.is-faq-pinning body {
     min-height: clamp(16rem, 32vh, 24rem);
   }
 
-  /* Keep works/gallery viewport-locked on zoomed desktop; taller mobile
-     sections are handled only in the max-width: 860px block. */
   .works,
   .gallery {
-    height: var(--screen-h);
-    max-height: var(--screen-h);
-    min-height: var(--screen-h);
-    overflow: hidden;
+    height: auto;
+    max-height: none;
+    min-height: calc(var(--screen-h) + var(--section-extra));
+    overflow: visible;
   }
 
   .works__frame,
