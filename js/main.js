@@ -204,10 +204,27 @@
     }
   }
 
+  var mobileLayout = window.matchMedia("(max-width: 860px)");
+
   function sectionScrollTop(el) {
     if (!el) return 0;
     if (el.id === "hero") return 0;
-    return Math.max(0, el.getBoundingClientRect().top + window.scrollY - headerOffset());
+
+    // On mobile, works/gallery content sits centered in a taller section —
+    // scroll to the content wrap so titles and media are fully in view.
+    var target = el;
+    var air = 0;
+    if (mobileLayout.matches) {
+      if (el.id === "munkak") {
+        target = el.querySelector(".works__wrap") || el;
+        air = Math.round(Math.min(28, window.innerHeight * 0.028));
+      } else if (el.id === "galeria") {
+        target = el.querySelector(".wrap--wide") || el;
+        air = Math.round(Math.min(28, window.innerHeight * 0.028));
+      }
+    }
+
+    return Math.max(0, target.getBoundingClientRect().top + window.scrollY - headerOffset() - air);
   }
 
   var snapLockUntil = 0;
