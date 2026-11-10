@@ -141,8 +141,10 @@
     }
   }
 
+  var faqPinActive = false;
+
   function onScrollNav() {
-    if (navTick) return;
+    if (faqPinActive || navTick) return;
     navTick = true;
     window.requestAnimationFrame(function () {
       updateNav(false);
@@ -250,6 +252,7 @@
 
   if (!reduced) {
     var sections = document.querySelectorAll("main > section:not(.band):not(.contact-bar):not(#hero):not(.faq)");
+    var mobileSnapOff = window.matchMedia("(max-width: 860px)");
     var snapTimer = 0;
     var snapping = false;
     var snapRaf = 0;
@@ -265,9 +268,15 @@
         snapping = false;
         snapGen += 1;
       }
+      window.clearTimeout(snapTimer);
+      snapTimer = 0;
     }
 
     function scheduleSnap() {
+      if (mobileSnapOff.matches) {
+        cancelSnap();
+        return;
+      }
       window.clearTimeout(snapTimer);
       var y = window.scrollY || 0;
       var heroEl = document.getElementById("hero");
@@ -313,7 +322,7 @@
     }
 
     function softSnap() {
-      if (snapping || Date.now() < snapLockUntil) return;
+      if (mobileSnapOff.matches || snapping || Date.now() < snapLockUntil) return;
       var offset = headerOffset();
       var viewH = window.innerHeight;
       var threshold = Math.min(80, viewH * 0.08);
@@ -371,6 +380,12 @@
       if (snapping) return;
       scheduleSnap();
     }, { passive: true });
+
+    if (mobileSnapOff.addEventListener) {
+      mobileSnapOff.addEventListener("change", function () {
+        if (mobileSnapOff.matches) cancelSnap();
+      });
+    }
   }
 
   if (menu) {
@@ -418,8 +433,9 @@
       }
 
       function paintQuotes() {
-        var pageWidth = quotesViewport ? quotesViewport.clientWidth : quotesTrack.clientWidth;
-        quotesTrack.style.transform = "translate3d(" + (-quotesIndex * pageWidth) + "px,0,0)";
+        var page = quotesPages[quotesIndex];
+        var offset = page ? page.offsetLeft : 0;
+        quotesTrack.style.transform = "translate3d(" + (-offset) + "px,0,0)";
       }
 
       function stopQuotesAuto() {
@@ -488,12 +504,80 @@
     var faqItems = faq.querySelectorAll(".faq__item");
     var faqMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var faqMs = 420;
+    var faqPinTimers = [];
+    var faqPinSummary = null;
+    var faqPinAnchor = 0;
+    var faqPinRaf = 0;
 
     function faqSetOpen(item, open) {
       item.open = open;
       item.classList.toggle("is-open", open);
       item.classList.remove("is-closing", "is-animating");
     }
+
+    function clearFaqPinTimers() {
+      faqPinTimers.forEach(function (id) { window.clearTimeout(id); });
+      faqPinTimers = [];
+      if (faqPinRaf) {
+        window.cancelAnimationFrame(faqPinRaf);
+        faqPinRaf = 0;
+      }
+      faqPinSummary = null;
+      faqPinActive = false;
+      document.documentElement.classList.remove("is-faq-pinning");
+    }
+
+    function releaseFaqPin() {
+      if (!faqPinActive && !faqPinSummary) return;
+      clearFaqPinTimers();
+    }
+
+    // Keep the question fixed only while the browser would jump it;
+    // release immediately on intentional user scroll/touch.
+    function pinFaqQuestion(summary, anchorTop, duration) {
+      if (!summary) return;
+      clearFaqPinTimers();
+      faqPinSummary = summary;
+      faqPinAnchor = anchorTop;
+      faqPinActive = true;
+      document.documentElement.classList.add("is-faq-pinning");
+
+      function correct() {
+        if (!faqPinActive || !faqPinSummary) return;
+        var delta = faqPinSummary.getBoundingClientRect().top - faqPinAnchor;
+        if (Math.abs(delta) > 1) window.scrollBy(0, delta);
+      }
+
+      function tick() {
+        if (!faqPinActive) {
+          faqPinRaf = 0;
+          return;
+        }
+        correct();
+        faqPinRaf = window.requestAnimationFrame(tick);
+      }
+
+      faqPinRaf = window.requestAnimationFrame(tick);
+      faqPinTimers.push(window.setTimeout(function () {
+        correct();
+        clearFaqPinTimers();
+      }, duration + 24));
+    }
+
+    window.addEventListener("wheel", releaseFaqPin, { passive: true });
+    window.addEventListener("touchmove", releaseFaqPin, { passive: true });
+    window.addEventListener("keydown", function (event) {
+      var keys = {
+        ArrowUp: 1,
+        ArrowDown: 1,
+        PageUp: 1,
+        PageDown: 1,
+        Home: 1,
+        End: 1,
+        " ": 1
+      };
+      if (keys[event.key]) releaseFaqPin();
+    });
 
     Array.prototype.forEach.call(faqItems, function (item) {
       var summary = item.querySelector("summary");
@@ -507,10 +591,12 @@
         if (item.classList.contains("is-animating")) return;
 
         var nextOpen = !item.classList.contains("is-open");
+        var anchorTop = summary.getBoundingClientRect().top;
         snapLockUntil = Date.now() + faqMs + 200;
 
         if (faqMotion) {
           faqSetOpen(item, nextOpen);
+          pinFaqQuestion(summary, anchorTop, 48);
           return;
         }
 
@@ -525,9 +611,11 @@
           void answer.offsetHeight;
           window.requestAnimationFrame(function () {
             item.classList.add("is-open");
+            pinFaqQuestion(summary, anchorTop, faqMs);
           });
         } else {
           item.classList.remove("is-open");
+          pinFaqQuestion(summary, anchorTop, faqMs);
         }
 
         window.setTimeout(function () {
@@ -604,14 +692,84 @@
       wrap.classList.toggle("is-invalid", !ok);
     });
 
-    var fileInput = form.querySelector("input[type='file']");
+    var fileInput = form.querySelector("input[type='file'][name='photos']");
     var fileText = form.querySelector(".field__file-text");
-    if (fileInput && fileText) {
-      fileInput.addEventListener("change", function () {
-        var names = Array.prototype.map.call(fileInput.files || [], function (file) {
-          return file.name;
+    var filePreviews = form.querySelector(".field__file-previews");
+    var selectedPhotos = [];
+    var previewUrls = [];
+
+    function samePhoto(a, b) {
+      return a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
+    }
+
+    function syncPhotoInput() {
+      if (!fileInput || typeof DataTransfer === "undefined") return;
+      var transfer = new DataTransfer();
+      selectedPhotos.forEach(function (file) {
+        transfer.items.add(file);
+      });
+      fileInput.files = transfer.files;
+    }
+
+    function revokePreviewUrls() {
+      previewUrls.forEach(function (url) {
+        URL.revokeObjectURL(url);
+      });
+      previewUrls = [];
+    }
+
+    function renderPhotoPreviews() {
+      if (!filePreviews) return;
+      revokePreviewUrls();
+      filePreviews.textContent = "";
+      selectedPhotos.forEach(function (file, index) {
+        var item = document.createElement("li");
+        item.className = "field__file-preview";
+
+        var image = document.createElement("img");
+        var url = URL.createObjectURL(file);
+        previewUrls.push(url);
+        image.src = url;
+        image.alt = file.name;
+        image.loading = "lazy";
+        image.decoding = "async";
+
+        var remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "field__file-remove";
+        remove.setAttribute("aria-label", "Fotó eltávolítása: " + file.name);
+        remove.innerHTML = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7m0-7l-7 7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+        remove.addEventListener("click", function () {
+          selectedPhotos.splice(index, 1);
+          syncPhotoInput();
+          renderPhotoPreviews();
         });
-        fileText.textContent = names.length ? names.join(", ") : "Fotók csatolása";
+
+        item.appendChild(image);
+        item.appendChild(remove);
+        filePreviews.appendChild(item);
+      });
+
+      var count = selectedPhotos.length;
+      filePreviews.hidden = count === 0;
+      if (fileText) {
+        fileText.textContent = count
+          ? (count === 1 ? "További fotó csatolása" : "További fotók csatolása")
+          : "Fotók csatolása";
+      }
+    }
+
+    if (fileInput && filePreviews) {
+      fileInput.addEventListener("change", function () {
+        Array.prototype.forEach.call(fileInput.files || [], function (file) {
+          if (!file || (file.type && file.type.indexOf("image/") !== 0)) return;
+          var exists = selectedPhotos.some(function (current) {
+            return samePhoto(current, file);
+          });
+          if (!exists) selectedPhotos.push(file);
+        });
+        syncPhotoInput();
+        renderPhotoPreviews();
       });
     }
   }
