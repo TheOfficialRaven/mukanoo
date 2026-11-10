@@ -110,7 +110,7 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.4;
   text-rendering: optimizeLegibility;
   overflow-x: clip;
   overscroll-behavior-y: none;
@@ -205,7 +205,7 @@ h2 {
 .lead {
   color: var(--muted);
   font-size: var(--type-lead);
-  line-height: 1.55;
+  line-height: 1.45;
 }
 
 .section-head {
@@ -607,7 +607,7 @@ section[id] {
   color: #fff;
   font-size: var(--type-display-sub);
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .hero__actions {
@@ -701,7 +701,7 @@ section[id] {
   margin-inline: auto;
   color: var(--ink);
   font-size: var(--p-body);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .pillars__grid {
@@ -767,7 +767,7 @@ section[id] {
   margin: 0;
   color: var(--muted);
   font-size: var(--p-body);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 /* Bemutatkozás ----------------------------------------------------------- */
@@ -834,7 +834,7 @@ section[id] {
 .about__text p {
   color: var(--muted);
   font-size: var(--type-body);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .about__text p + p {
@@ -1255,7 +1255,7 @@ section[id] {
   max-width: 26rem;
   margin-top: 1.35rem;
   font-size: var(--type-lead-sm);
-  line-height: 1.55;
+  line-height: 1.45;
 }
 
 .palette__copy .btn {
@@ -1321,7 +1321,7 @@ section[id] {
   max-width: 17.5rem;
   margin-top: 1.35rem;
   font-size: var(--type-card-body);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .swatch--wine {
@@ -1422,7 +1422,7 @@ section[id] {
   margin-top: 0.5rem;
   color: var(--muted);
   font-size: var(--type-body-sm);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .gallery__viewport {
@@ -1814,7 +1814,7 @@ body.lightbox-open {
 
 .quote p {
   font-size: var(--type-quote-text);
-  line-height: 1.55;
+  line-height: 1.45;
 }
 
 .quote--textil-1 p,
@@ -2077,7 +2077,7 @@ html.is-faq-pinning body {
   margin: 0.85rem 0 0 1.15rem;
   color: var(--muted);
   font-size: var(--type-faq-a);
-  line-height: 1.5;
+  line-height: 1.4;
   opacity: 0;
   transform: translateY(0.35rem);
   transition:
@@ -2339,7 +2339,7 @@ html.is-faq-pinning body {
   margin-bottom: 0.15rem;
   color: #7a7a7a;
   font-size: var(--type-contact-lead);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .form {
@@ -2540,25 +2540,25 @@ html.is-faq-pinning body {
 @media (hover: hover) and (pointer: fine) {
   .field:not(.field--file):not(.is-invalid):hover input:not(:focus):not(:disabled),
   .field:not(.field--file):not(.is-invalid):hover textarea:not(:focus):not(:disabled) {
-    border-color: color-mix(in srgb, var(--gold) 78%, var(--gold-ink));
-    background-color: color-mix(in srgb, var(--gold) 4%, #fff);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 12%, transparent);
+    border-color: color-mix(in srgb, var(--gold) 94%, var(--gold-ink));
+    background-color: color-mix(in srgb, var(--gold) 1.5%, #fff);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 4%, transparent);
   }
 
   .field:not(.field--file):not(.is-invalid):hover input:not(:focus):not(:disabled)::placeholder,
   .field:not(.field--file):not(.is-invalid):hover textarea:not(:focus):not(:disabled)::placeholder {
-    color: color-mix(in srgb, var(--gold) 18%, #9a9a9a);
+    color: color-mix(in srgb, var(--gold) 6%, #9a9a9a);
   }
 
   .field__file-trigger:not(:focus-within):hover .field__file-label {
-    border-color: color-mix(in srgb, var(--gold) 78%, var(--gold-ink));
-    background-color: color-mix(in srgb, var(--gold) 4%, #fff);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 12%, transparent);
-    color: #8a8a8a;
+    border-color: color-mix(in srgb, var(--gold) 94%, var(--gold-ink));
+    background-color: color-mix(in srgb, var(--gold) 1.5%, #fff);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 4%, transparent);
+    color: #949494;
   }
 
   .field__file-trigger:not(:focus-within):hover .field__file-icon {
-    color: color-mix(in srgb, var(--gold) 70%, var(--gold-ink));
+    color: color-mix(in srgb, var(--gold) 88%, var(--gold-ink));
   }
 
   .field__file-remove:hover,
