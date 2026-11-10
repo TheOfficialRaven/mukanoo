@@ -57,6 +57,52 @@
     window.visualViewport.addEventListener("resize", scheduleResizeEnd, { passive: true });
   }
 
+  /*
+   * Mobile browser chrome (URL/toolbars):
+   * keep page layout size stable (svh / locked --screen-h) and only let the
+   * fixed site header track the visual viewport — avoids content jump/scroll.
+   */
+  var mobileChromeMq = window.matchMedia("(max-width: 860px)");
+  var prevVvHeight = window.visualViewport ? window.visualViewport.height : 0;
+  var prevVvOffsetTop = window.visualViewport ? (window.visualViewport.offsetTop || 0) : 0;
+
+  function pinHeaderToVisualViewport() {
+    if (!header) return;
+    if (!mobileChromeMq.matches || !window.visualViewport) {
+      header.style.transform = "";
+      return;
+    }
+    var y = Math.round(window.visualViewport.offsetTop || 0);
+    header.style.transform = "translate3d(0," + y + "px,0)";
+  }
+
+  function onVisualViewportChrome() {
+    if (!window.visualViewport) return;
+    var nextH = window.visualViewport.height;
+    var nextTop = window.visualViewport.offsetTop || 0;
+    var dH = nextH - prevVvHeight;
+    var dTop = nextTop - prevVvOffsetTop;
+    prevVvHeight = nextH;
+    prevVvOffsetTop = nextTop;
+
+    pinHeaderToVisualViewport();
+
+    if (!mobileChromeMq.matches) return;
+    if (Math.abs(dH) < 1 || Math.abs(dH) >= 180) return;
+    // Counter the browser's scroll jump when chrome collapses/expands.
+    var compensate = dH - dTop;
+    if (Math.abs(compensate) > 0.5) window.scrollBy(0, compensate);
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", onVisualViewportChrome, { passive: true });
+    window.visualViewport.addEventListener("scroll", pinHeaderToVisualViewport, { passive: true });
+  }
+  if (mobileChromeMq.addEventListener) {
+    mobileChromeMq.addEventListener("change", pinHeaderToVisualViewport);
+  }
+  pinHeaderToVisualViewport();
+
   function bindSwipe(el, onPrev, onNext) {
     if (!el) return;
     var x0 = null;
