@@ -34,9 +34,9 @@
   --header-tall: 4.75rem;
   --header-short: 3.15rem;
   --header: var(--header-tall);
-  /* svh = smallest viewport: stable when mobile browser chrome shows/hides */
   --screen-h: calc(100vh - var(--header));
   --screen-h: calc(100svh - var(--header));
+  --screen-h: calc(100dvh - var(--header));
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --carousel-ease: cubic-bezier(0.45, 0.02, 0.12, 1);
   --carousel-dur: 1.15s;
@@ -566,8 +566,8 @@ section[id] {
   align-items: flex-end;
   justify-content: center;
   box-sizing: border-box;
-  min-height: 100vh;
   min-height: 100svh;
+  min-height: 100dvh;
   margin-top: 0;
   padding: var(--header-tall) var(--pad) 6.5vh;
   background-color: var(--hero);
@@ -2892,15 +2892,24 @@ html.is-faq-pinning body {
     padding-block: clamp(2.1rem, 5.5vh, 3.5rem);
   }
 
-  .works,
   .quotes,
   .faq {
     padding-top: clamp(3.4rem, 8.5vh, 5.6rem);
     padding-bottom: clamp(3.4rem, 8.5vh, 5.6rem);
   }
 
+  .works,
+  .gallery {
+    padding-top: clamp(2.75rem, 6.5vh, 4.1rem);
+    padding-bottom: clamp(2.75rem, 6.5vh, 4.1rem);
+  }
+
   .works h2 {
-    margin-bottom: clamp(1.55rem, 3.4vh, 2.5rem);
+    margin-bottom: clamp(1.15rem, 2.6vh, 1.85rem);
+  }
+
+  .gallery .section-head {
+    margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
   }
 }
 
@@ -3086,12 +3095,14 @@ html.is-faq-pinning body {
     min-height: clamp(16rem, 32vh, 24rem);
   }
 
+  /* Keep works/gallery viewport-locked on zoomed desktop; taller mobile
+     sections are handled only in the max-width: 860px block. */
   .works,
   .gallery {
-    height: auto;
-    max-height: none;
-    min-height: calc(var(--screen-h) + 22vh);
-    overflow: visible;
+    height: var(--screen-h);
+    max-height: var(--screen-h);
+    min-height: var(--screen-h);
+    overflow: hidden;
   }
 
   .works__frame,
@@ -3874,7 +3885,7 @@ html.is-faq-pinning body {
 
   .hero {
     min-height: 100vh;
-    min-height: 100svh;
+    min-height: 100dvh;
     padding-bottom: 8vh;
   }
 

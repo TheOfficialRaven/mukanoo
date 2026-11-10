@@ -8,14 +8,11 @@
    * Resize strategy (common pattern):
    * - while dragging/zooming: freeze transitions, skip heavy JS
    * - after settle (~150ms): run layout painters once
-   * - ignore mobile browser-chrome height jitter (URL bar show/hide)
    */
   var resizeEndListeners = [];
   var resizeEndTimer = 0;
   var resizeSettling = false;
   var RESIZE_SETTLE_MS = 150;
-  var lastLayoutWidth = window.innerWidth || 0;
-  var lastLayoutHeight = window.innerHeight || 0;
 
   function onResizeEnd(fn) {
     if (typeof fn === "function") resizeEndListeners.push(fn);
@@ -28,21 +25,7 @@
     for (var i = 0; i < resizeEndListeners.length; i++) resizeEndListeners[i]();
   }
 
-  function isBrowserChromeResize(nextW, nextH) {
-    var widthChanged = Math.abs(nextW - lastLayoutWidth) > 1;
-    var heightDelta = Math.abs(nextH - lastLayoutHeight);
-    return !widthChanged && heightDelta > 0 && heightDelta < 180;
-  }
-
   function scheduleResizeEnd() {
-    var nextW = window.innerWidth || 0;
-    var nextH = window.innerHeight || 0;
-    if (isBrowserChromeResize(nextW, nextH)) {
-      lastLayoutHeight = nextH;
-      return;
-    }
-    lastLayoutWidth = nextW;
-    lastLayoutHeight = nextH;
     if (!resizeSettling) {
       resizeSettling = true;
       document.documentElement.classList.add("is-resizing");
@@ -52,6 +35,9 @@
   }
 
   window.addEventListener("resize", scheduleResizeEnd, { passive: true });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", scheduleResizeEnd, { passive: true });
+  }
 
   function bindSwipe(el, onPrev, onNext) {
     if (!el) return;
@@ -92,6 +78,13 @@
   var COMPACT_ON = 88;
   var COMPACT_OFF = 20;
 
+  function viewportHeight() {
+    if (window.visualViewport && window.visualViewport.height) {
+      return window.visualViewport.height;
+    }
+    return window.innerHeight || document.documentElement.clientHeight;
+  }
+
   function remTokenToPx(token) {
     var raw = getComputedStyle(document.documentElement).getPropertyValue(token).trim();
     var value = parseFloat(raw);
@@ -109,16 +102,21 @@
   }
 
   var lastHeaderPx = "";
+  var lastScreenPx = "";
 
   function syncHeaderVar() {
     if (!header) return;
-    // Only sync sticky offset. --screen-h stays on CSS svh so mobile
-    // browser chrome show/hide does not resize or jump the page.
-    document.documentElement.style.removeProperty("--screen-h");
-    var headerPx = headerOffset() + "px";
+    var h = headerOffset();
+    var screen = Math.max(0, Math.round(viewportHeight() - h));
+    var headerPx = h + "px";
+    var screenPx = screen + "px";
     if (headerPx !== lastHeaderPx) {
       lastHeaderPx = headerPx;
       document.documentElement.style.setProperty("--header", headerPx);
+    }
+    if (screenPx !== lastScreenPx) {
+      lastScreenPx = screenPx;
+      document.documentElement.style.setProperty("--screen-h", screenPx);
     }
   }
 
