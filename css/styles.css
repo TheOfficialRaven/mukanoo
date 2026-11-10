@@ -3298,6 +3298,15 @@ html.is-faq-pinning body {
     height: auto;
   }
 
+  /* Keep panel in the tree while closed so clip-path/opacity can animate. */
+  .menu::details-content {
+    display: contents;
+  }
+
+  .menu:not([open])::details-content {
+    content-visibility: visible;
+  }
+
   .menu__btn {
     display: flex;
     margin-left: 0;
@@ -3331,7 +3340,7 @@ html.is-faq-pinning body {
     transition:
       opacity 0.45s ease,
       clip-path 0.7s var(--menu-ease),
-      visibility 0.7s,
+      visibility 0.7s allow-discrete,
       box-shadow 0.55s ease;
   }
 
