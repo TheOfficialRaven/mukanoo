@@ -813,7 +813,7 @@ section[id] {
   height: 100%;
   overflow: auto;
   padding-block: clamp(2.9rem, 5vw, 4.8rem);
-  padding-left: clamp(2rem, 3.8vw, 4rem);
+  padding-left: clamp(4.5rem, 8vw, 8rem);
   padding-right: var(--wrap-inset);
   background-color: #fff;
 }
@@ -824,7 +824,7 @@ section[id] {
   inset: 0;
   z-index: -1;
   background: url("../assets/backgrounds/rolam_bg.webp") center / cover no-repeat;
-  opacity: 0.5;
+  opacity: 0.25;
   pointer-events: none;
 }
 
@@ -1496,7 +1496,12 @@ section[id] {
 }
 
 .gallery .media--square img {
+  object-position: center 18%;
   pointer-events: none;
+}
+
+.gallery .media--focus-lower img {
+  object-position: center 38%;
 }
 
 .gallery__nav {
@@ -1835,8 +1840,15 @@ body.lightbox-open {
 }
 
 .quote--textil-1::before {
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  transform: translate(-50%, -50%);
   background-color: var(--burgundy);
   background-image: url("../assets/backgrounds/textil_1.png");
+  background-size: 100% 100%;
 }
 
 .quote--textil-2::before {
@@ -2338,7 +2350,7 @@ html.is-faq-pinning body {
   display: grid;
   flex: 1 1 auto;
   grid-template-columns: minmax(14rem, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(2.4rem, 5.5vw, 5.25rem);
+  gap: clamp(4.5rem, 8vw, 8rem);
   align-items: stretch;
   min-height: 0;
   width: var(--wrap-width);
@@ -2994,11 +3006,11 @@ html.is-faq-pinning body {
   }
 
   .about__copy {
-    padding-left: clamp(1.5rem, 2.8vw, 3rem);
+    padding-left: clamp(3.5rem, 6.5vw, 6.5rem);
   }
 
   .contact__grid {
-    gap: clamp(1.6rem, 3.5vw, 3.5rem);
+    gap: clamp(3.5rem, 6.5vw, 6.5rem);
   }
 
   .faq__grid {
