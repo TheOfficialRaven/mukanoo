@@ -252,7 +252,7 @@
   }
 
   if (!reduced) {
-    var sections = document.querySelectorAll("main > section:not(.band):not(.contact-bar):not(#hero):not(.faq)");
+    var sections = document.querySelectorAll("main > section:not(#hero):not(.faq)");
     var mobileSnapOff = window.matchMedia("(max-width: 860px)");
     var snapTimer = 0;
     var snapping = false;

@@ -77,8 +77,6 @@
   --type-footer-logo: calc(1.18rem + 0.1rem * var(--fluid));
   --type-footer-nav: calc(0.92rem + 0.06rem * var(--fluid));
   --type-footer: calc(0.86rem + 0.05rem * var(--fluid));
-  --type-contact-bar-title: var(--type-h2);
-  --type-contact-bar-body: calc(0.88rem + 0.06rem * var(--fluid));
   --type-contact-title: var(--type-h2);
   --type-contact-lead: calc(0.9rem + 0.1rem * var(--fluid));
 }
@@ -574,7 +572,6 @@ body.is-menu-open .site-header::before,
   .menu::after,
   .footer__nav a::after,
   .footer__legal a::after,
-  .contact-bar__list a::after,
   .form__consent a::after {
     transition: none;
   }
@@ -1987,7 +1984,8 @@ body.lightbox-open {
 .faq {
   --faq-dur: 0.42s;
   --faq-ease: var(--ease);
-  padding-block: clamp(3.15rem, 8vh, 5.35rem);
+  padding-top: clamp(3.15rem, 8vh, 5.35rem);
+  padding-bottom: clamp(1.35rem, 3vh, 2.25rem);
   background: var(--paper);
   overflow-anchor: none;
 }
@@ -2147,162 +2145,6 @@ html.is-faq-pinning body {
     opacity: 1;
     transform: none;
   }
-}
-
-/* Képsáv ----------------------------------------------------------------- */
-
-.band .media--wide {
-  aspect-ratio: 16 / 1.45;
-  min-height: 0;
-  background-color: var(--placeholder);
-  background-image: url("../assets/backgrounds/banner.webp");
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-@media (max-width: 860px) {
-  .band .media--wide {
-    aspect-ratio: 16 / 4;
-    min-height: clamp(5.5rem, 18vw, 9rem);
-  }
-}
-
-/* Kapcsolat sáv ---------------------------------------------------------- */
-
-.contact-bar {
-  padding: clamp(2.4rem, 5vw, 3.6rem) 0;
-  background: var(--paper);
-}
-
-.contact-bar__grid {
-  display: grid;
-  grid-template-columns:
-    minmax(8rem, 0.7fr)
-    minmax(12rem, 1.35fr)
-    minmax(11rem, 1fr)
-    minmax(12rem, 1.15fr);
-  gap: clamp(1.5rem, 3.5vw, 3.25rem);
-  align-items: center;
-}
-
-.contact-bar__title {
-  margin: 0;
-  font-family: var(--sans);
-  font-size: var(--type-contact-bar-title);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  color: var(--ink);
-}
-
-.contact-bar__about {
-  display: grid;
-  gap: 1rem;
-  max-width: 22rem;
-}
-
-.contact-bar__about p {
-  margin: 0;
-  color: #7a7a7a;
-  font-size: var(--type-contact-bar-body);
-  line-height: 1.45;
-}
-
-.contact-bar__social {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-}
-
-.contact-bar__social a {
-  display: grid;
-  place-items: center;
-  width: 1.35rem;
-  height: 1.35rem;
-  color: var(--ink);
-  transform: scale(1);
-  transform-origin: center;
-  transition: color 0.35s var(--ease), transform 0.35s var(--ease);
-}
-
-.contact-bar__social svg {
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.contact-bar__social a:hover,
-.contact-bar__social a:focus-visible {
-  color: var(--gold);
-  transform: scale(1.12);
-}
-
-.contact-bar__social a:focus-visible {
-  outline: 1px solid var(--gold);
-  outline-offset: 0.35rem;
-}
-
-.contact-bar__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0.85rem;
-}
-
-.contact-bar__list li {
-  display: grid;
-  grid-template-columns: 1.15rem 1fr;
-  gap: 0.75rem;
-  align-items: start;
-  color: #7a7a7a;
-  font-size: var(--type-footer-nav);
-  line-height: 1.4;
-}
-
-.contact-bar__list a {
-  position: relative;
-  color: inherit;
-  text-decoration: none;
-}
-
-.contact-bar__list a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.12em;
-  height: 1px;
-  background: var(--gold);
-  opacity: 0;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: opacity 0.6s var(--ease), transform 0.65s var(--ease);
-  pointer-events: none;
-}
-
-.contact-bar__list a:hover {
-  color: var(--gold-ink);
-}
-
-.contact-bar__list a:hover::after {
-  opacity: 1;
-  transform: scaleX(1);
-}
-
-.contact-bar__icon {
-  display: grid;
-  place-items: center;
-  width: 1.15rem;
-  height: 1.15rem;
-  margin-top: 0.08rem;
-  color: var(--ink);
-}
-
-.contact-bar__icon svg {
-  width: 100%;
-  height: 100%;
 }
 
 /* Kapcsolat űrlap -------------------------------------------------------- */
@@ -2841,6 +2683,9 @@ html.is-faq-pinning body {
 
 .footer__list a {
   position: relative;
+  justify-self: start;
+  width: fit-content;
+  max-width: 100%;
   color: inherit;
   text-decoration: none;
 }
@@ -3025,7 +2870,7 @@ html.is-faq-pinning body {
   .quotes,
   .faq {
     padding-top: clamp(3.4rem, 8.5vh, 5.6rem);
-    padding-bottom: clamp(3.4rem, 8.5vh, 5.6rem);
+    padding-bottom: clamp(1.25rem, 2.8vh, 2rem);
   }
 
   .works,
@@ -3653,6 +3498,14 @@ html.is-faq-pinning body {
     max-height: none;
     min-height: 0;
     overflow: visible;
+  }
+
+  .faq {
+    padding-top: clamp(2.5rem, 6vh, 3.75rem);
+    padding-bottom: clamp(1.1rem, 2.5vh, 1.75rem);
+  }
+
+  .contact {
     padding-block: clamp(2.5rem, 6vh, 3.75rem);
   }
 
@@ -3787,8 +3640,7 @@ html.is-faq-pinning body {
   }
 
   .contact__grid,
-  .faq__grid,
-  .contact-bar__grid {
+  .faq__grid {
     grid-template-columns: 1fr;
   }
 
@@ -3821,15 +3673,6 @@ html.is-faq-pinning body {
   .field textarea {
     height: auto;
     min-height: 7rem;
-  }
-
-  .contact-bar__grid {
-    align-items: start;
-    gap: 1.6rem;
-  }
-
-  .contact-bar__about {
-    max-width: none;
   }
 
   .quotes__page {
