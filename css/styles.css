@@ -2341,6 +2341,7 @@ html.is-faq-pinning body {
   height: var(--screen-h);
   max-height: var(--screen-h);
   min-height: var(--screen-h);
+  margin-bottom: clamp(2.5rem, 6vh, 4.5rem);
   padding-block: var(--dense-pad-y);
   overflow: hidden;
   background: var(--paper);
