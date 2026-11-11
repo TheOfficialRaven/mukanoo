@@ -1748,6 +1748,8 @@ body.lightbox-open {
 .quotes {
   --quotes-gap: clamp(3rem, 6vw, 5.5rem);
   --quotes-page-gap: clamp(0.85rem, 1.8vw, 1.25rem);
+  --quote-pad-y: clamp(0.7rem, 1.2vw, 1rem);
+  --quote-pad-bottom: clamp(0.825rem, 1.45vw, 1.225rem);
   padding-block: clamp(3.15rem, 8vh, 5.35rem);
   background-color: #fbf9f6;
   background-image:
@@ -1811,8 +1813,8 @@ body.lightbox-open {
 .quotes__page::before {
   content: "";
   position: absolute;
-  top: 18%;
-  bottom: 18%;
+  top: var(--quote-pad-y);
+  bottom: var(--quote-pad-bottom);
   left: 50%;
   z-index: 1;
   width: 1px;
@@ -1828,13 +1830,13 @@ body.lightbox-open {
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  min-height: 100%;
+  min-height: clamp(22rem, 42vh, 28rem);
   margin: 0;
   padding:
-    clamp(1.4rem, 2.4vw, 2rem)
-    clamp(1.55rem, 2.8vw, 2.35rem)
-    clamp(1.65rem, 2.9vw, 2.45rem)
-    clamp(1.4rem, 2.4vw, 2rem);
+    var(--quote-pad-y)
+    clamp(0.775rem, 1.4vw, 1.175rem)
+    var(--quote-pad-bottom)
+    clamp(0.7rem, 1.2vw, 1rem);
   border: 0;
   overflow: hidden;
   background: transparent;
@@ -1861,7 +1863,7 @@ body.lightbox-open {
   flex: 0 0 auto;
   display: block;
   align-self: flex-end;
-  margin: clamp(1.4rem, 2.4vw, 2rem) 0 0;
+  margin: 0;
   padding: 0;
   text-align: right;
 }
