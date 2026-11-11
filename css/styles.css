@@ -1734,26 +1734,31 @@ body.lightbox-open {
 }
 
 @media (max-width: 800px) {
-  .lightbox__close,
-  .lightbox__nav {
+  .lightbox__close {
     width: 3.1rem;
     height: 3.1rem;
     background: rgba(20, 18, 16, 0.48);
     border-color: rgba(255, 255, 255, 0.18);
   }
 
-  .lightbox__close svg,
-  .lightbox__nav svg {
+  .lightbox__close svg {
     width: 1.45rem;
     height: 1.45rem;
     stroke-width: 1.85;
   }
 
-  .lightbox__nav--prev { left: 0.45rem; }
-  .lightbox__nav--next { right: 0.45rem; }
+  .lightbox__nav {
+    display: none;
+  }
+
   .lightbox__close {
     top: max(0.55rem, env(safe-area-inset-top));
     right: max(0.55rem, env(safe-area-inset-right));
+  }
+
+  .lightbox__dialog,
+  .lightbox__img {
+    touch-action: pan-y;
   }
 }
 
@@ -1975,7 +1980,7 @@ body.lightbox-open {
 
 @media (prefers-reduced-motion: no-preference) {
   .quotes__track {
-    transition: transform var(--carousel-dur-soft) var(--carousel-ease);
+    transition: transform var(--carousel-dur) var(--carousel-ease);
   }
 }
 
@@ -2939,6 +2944,31 @@ html.is-faq-pinning body {
   }
 }
 
+@media (max-width: 1200px) {
+  /* Teljes oldal-lapozók: swipe elegendő, nyilak elrejtve */
+  .works__frame > .works__arrow.works__arrow--side,
+  .works__nav > .works__arrow,
+  .gallery__frame > .gallery__arrow {
+    display: none !important;
+  }
+
+  .works__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-top: 1.15rem;
+  }
+
+  .works__viewport {
+    width: calc(100vw - var(--gutter) * 2);
+  }
+
+  .gallery {
+    --gallery-arrow-space: 0rem;
+  }
+}
+
 @media (max-width: 1200px) and (min-width: 861px) {
   .pillars__item {
     padding-inline: clamp(0.4rem, 0.8vw, 0.75rem);
@@ -3119,9 +3149,13 @@ html.is-faq-pinning body {
   .palette__copy {
     flex: none;
     width: 100%;
-    min-height: var(--screen-h);
+    min-height: 0;
     height: auto;
-    padding: calc(var(--header) + 1.6rem) clamp(1.4rem, 5vw, 2.2rem) 2.4rem;
+    justify-content: flex-start;
+    padding:
+      clamp(6rem, 16vh, 9rem)
+      clamp(1.4rem, 5vw, 2.2rem)
+      clamp(6rem, 16vh, 9rem);
   }
 
   .palette__pin {
@@ -3570,6 +3604,14 @@ html.is-faq-pinning body {
     overflow: visible;
   }
 
+  /* Felső légtér megmarad, alsó üres sáv csökken */
+  .works {
+    justify-content: flex-start;
+    min-height: 0;
+    padding-top: calc(var(--mobile-pad-y) + (var(--mobile-extra) / 2));
+    padding-bottom: clamp(1.2rem, 3vh, 1.85rem);
+  }
+
   .works__wrap,
   .gallery .wrap--wide {
     display: flex;
@@ -3582,6 +3624,34 @@ html.is-faq-pinning body {
     margin-inline: auto;
   }
 
+  .works__wrap {
+    height: calc(var(--screen-h) - var(--mobile-pad-y) - 1.85rem);
+    max-height: calc(var(--screen-h) - var(--mobile-pad-y) - 1.85rem);
+  }
+
+  .works__frame {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .works__viewport {
+    width: 100%;
+  }
+
+  .works__frame > .works__arrow--side,
+  .works__nav > .works__arrow,
+  .gallery__frame > .gallery__arrow {
+    display: none !important;
+  }
+
+  .works__nav {
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: center;
+    gap: 0;
+    margin-top: clamp(0.75rem, 1.8vh, 1.1rem);
+  }
+
   .gallery .section-head {
     margin-bottom: clamp(1.1rem, 2.4vh, 1.65rem);
   }
@@ -3591,6 +3661,10 @@ html.is-faq-pinning body {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  .gallery {
+    --gallery-arrow-space: 0rem;
   }
 
   .gallery__frame {
@@ -3635,10 +3709,6 @@ html.is-faq-pinning body {
     margin-top: clamp(1.35rem, 3vh, 2rem);
   }
 
-  .gallery__arrow {
-    top: 50%;
-  }
-
   .contact__grid,
   .faq__grid {
     grid-template-columns: 1fr;
@@ -3675,16 +3745,24 @@ html.is-faq-pinning body {
     min-height: 7rem;
   }
 
+  .quotes {
+    --quotes-page-gap: 0;
+  }
+
   .quotes__page {
-    grid-template-columns: 1fr;
+    display: contents;
   }
 
   .quotes__page::before {
     display: none;
   }
 
-  .quotes__page .quote:nth-child(2) {
-    border-top: 1px solid var(--burgundy);
+  .quotes__track .quote {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: clamp(18rem, 48vh, 24rem);
   }
 
   .quotes__viewport {
@@ -3868,54 +3946,22 @@ html.is-faq-pinning body {
     flex: 0 0 auto;
   }
 
-  .works__arrow--side {
-    display: none;
+  .work__arrow {
+    width: 3.6rem;
+    height: 3.6rem;
   }
 
-  .works__nav {
-    display: flex;
-    flex: 0 0 auto;
-    margin-top: clamp(0.75rem, 1.8vh, 1.1rem);
+  .work__arrow svg {
+    width: 2.25rem;
+    height: 2.25rem;
+    stroke-width: 1.65;
   }
 
-  .works__nav .works__arrow {
-    position: static;
-    top: auto;
-    left: auto;
-    right: auto;
-    transform: none;
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-  .works__nav .works__arrow svg {
-    width: 1.45rem;
-    height: 1.45rem;
-  }
-
-  .works__nav .works__arrow--prev:hover,
-  .works__nav .works__arrow--prev:focus-visible {
-    transform: translateX(-0.18rem);
-  }
-
-  .works__nav .works__arrow--next:hover,
-  .works__nav .works__arrow--next:focus-visible {
-    transform: translateX(0.18rem);
-  }
 }
 
 @media (max-width: 640px) {
   .form {
     grid-template-columns: 1fr;
-  }
-
-  .gallery {
-    --gallery-arrow-space: 5.75rem;
-  }
-
-  .gallery__arrow {
-    width: 2.85rem;
-    height: 2.85rem;
   }
 
   .field--full,

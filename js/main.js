@@ -44,31 +44,53 @@
     var x0 = null;
     var y0 = null;
     var axis = null;
+    var fired = false;
+    var THRESH = 28;
+
+    function reset() {
+      x0 = null;
+      y0 = null;
+      axis = null;
+      fired = false;
+    }
+
+    function maybeSwipe(clientX) {
+      if (x0 == null || axis !== "x" || fired) return;
+      var dx = clientX - x0;
+      if (Math.abs(dx) < THRESH) return;
+      fired = true;
+      if (dx < 0) onNext();
+      else onPrev();
+    }
+
     el.addEventListener("touchstart", function (event) {
       if (!event.touches || !event.touches[0]) return;
       x0 = event.touches[0].clientX;
       y0 = event.touches[0].clientY;
       axis = null;
+      fired = false;
     }, { passive: true });
+
     el.addEventListener("touchmove", function (event) {
-      if (x0 == null || !event.touches || !event.touches[0]) return;
-      var dx = event.touches[0].clientX - x0;
-      var dy = event.touches[0].clientY - y0;
-      if (axis == null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      if (x0 == null || fired || !event.touches || !event.touches[0]) return;
+      var x = event.touches[0].clientX;
+      var y = event.touches[0].clientY;
+      var dx = x - x0;
+      var dy = y - y0;
+      if (axis == null && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
         axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
       }
+      if (axis === "x") maybeSwipe(x);
     }, { passive: true });
+
     el.addEventListener("touchend", function (event) {
-      if (x0 == null || axis !== "x" || !event.changedTouches || !event.changedTouches[0]) {
-        x0 = null;
-        return;
+      if (!fired && axis === "x" && event.changedTouches && event.changedTouches[0]) {
+        maybeSwipe(event.changedTouches[0].clientX);
       }
-      var dx = event.changedTouches[0].clientX - x0;
-      x0 = null;
-      if (Math.abs(dx) < 42) return;
-      if (dx < 0) onNext();
-      else onPrev();
+      reset();
     }, { passive: true });
+
+    el.addEventListener("touchcancel", reset, { passive: true });
   }
 
   if (year) year.textContent = String(new Date().getFullYear());
@@ -408,15 +430,47 @@
   if (quotes) {
     var quotesTrack = quotes.querySelector(".quotes__track");
     var quotesViewport = quotes.querySelector(".quotes__viewport");
-    var quotesPages = quotesTrack ? quotesTrack.children : [];
-    var quotesDots = quotes.querySelectorAll(".quotes__dots .quotes__dot");
+    var quotesPages = quotesTrack ? Array.prototype.slice.call(quotesTrack.children) : [];
+    var quotesDotsWrap = quotes.querySelector(".quotes__dots");
     var prevQuote = quotes.querySelector(".quotes__arrow--prev");
     var nextQuote = quotes.querySelector(".quotes__arrow--next");
+    var mobileQuotes = window.matchMedia("(max-width: 860px)");
 
     if (quotesTrack && quotesPages.length) {
       var quotesIndex = 0;
       var quotesTimer = null;
       var quotesAutoMs = 20000;
+      var quotesDots = [];
+
+      function getQuoteSlides() {
+        if (mobileQuotes.matches) {
+          return Array.prototype.slice.call(quotesTrack.querySelectorAll(".quote"));
+        }
+        return quotesPages;
+      }
+
+      function rebuildQuoteDots() {
+        if (!quotesDotsWrap) return;
+        var slides = getQuoteSlides();
+        var count = slides.length;
+        quotesDotsWrap.innerHTML = "";
+        quotesDots = [];
+        for (var i = 0; i < count; i += 1) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "quotes__dot";
+          btn.setAttribute("aria-label", (i + 1) + ". oldal");
+          (function (index) {
+            btn.addEventListener("click", function () {
+              userGoQuotes(index);
+            });
+          })(i);
+          quotesDotsWrap.appendChild(btn);
+          quotesDots.push(btn);
+        }
+        if (quotesIndex >= count) quotesIndex = 0;
+        syncQuoteDots();
+      }
 
       function syncQuoteDots() {
         Array.prototype.forEach.call(quotesDots, function (dot, n) {
@@ -428,8 +482,11 @@
       }
 
       function paintQuotes() {
-        var page = quotesPages[quotesIndex];
-        var offset = page ? page.offsetLeft : 0;
+        var slides = getQuoteSlides();
+        if (!slides.length) return;
+        if (quotesIndex >= slides.length) quotesIndex = 0;
+        var slide = slides[quotesIndex];
+        var offset = slide ? slide.offsetLeft : 0;
         quotesTrack.style.transform = "translate3d(" + (-offset) + "px,0,0)";
       }
 
@@ -442,14 +499,17 @@
 
       function startQuotesAuto() {
         stopQuotesAuto();
-        if (reduced || quotesPages.length < 2) return;
+        var slides = getQuoteSlides();
+        if (reduced || slides.length < 2) return;
         quotesTimer = window.setInterval(function () {
           goQuotes(quotesIndex + 1);
         }, quotesAutoMs);
       }
 
       function goQuotes(nextIndex) {
-        quotesIndex = (nextIndex + quotesPages.length) % quotesPages.length;
+        var slides = getQuoteSlides();
+        if (!slides.length) return;
+        quotesIndex = (nextIndex + slides.length) % slides.length;
         paintQuotes();
         syncQuoteDots();
       }
@@ -469,11 +529,6 @@
           userGoQuotes(quotesIndex + 1);
         });
       }
-      Array.prototype.forEach.call(quotesDots, function (dot, n) {
-        dot.addEventListener("click", function () {
-          userGoQuotes(n);
-        });
-      });
 
       quotes.addEventListener("mouseenter", stopQuotesAuto);
       quotes.addEventListener("mouseleave", startQuotesAuto);
@@ -487,10 +542,28 @@
         else startQuotesAuto();
       });
 
-      onResizeEnd(paintQuotes);
-      paintQuotes();
-      syncQuoteDots();
-      startQuotesAuto();
+      function refreshQuotesLayout() {
+        rebuildQuoteDots();
+        paintQuotes();
+        startQuotesAuto();
+      }
+
+      if (mobileQuotes.addEventListener) {
+        mobileQuotes.addEventListener("change", refreshQuotesLayout);
+      } else if (mobileQuotes.addListener) {
+        mobileQuotes.addListener(refreshQuotesLayout);
+      }
+
+      bindSwipe(quotesViewport || quotesTrack, function () {
+        userGoQuotes(quotesIndex - 1);
+      }, function () {
+        userGoQuotes(quotesIndex + 1);
+      });
+
+      onResizeEnd(function () {
+        paintQuotes();
+      });
+      refreshQuotesLayout();
     }
   }
 
@@ -913,11 +986,6 @@
       Array.prototype.forEach.call(chips, function (chip, n) {
         chip.addEventListener("click", function () { go(n); });
       });
-      bindSwipe(media || track, function () {
-        go(index - 1);
-      }, function () {
-        go(index + 1);
-      });
       onResizeEnd(paintWork);
       paintWork();
   });
@@ -992,6 +1060,14 @@
       var item = lightboxItems[lightboxIndex];
       lightboxImg.src = item.src;
       lightboxImg.alt = item.alt;
+      var n = lightboxItems.length;
+      if (n < 2) return;
+      [1, -1].forEach(function (step) {
+        var near = lightboxItems[(lightboxIndex + step + n) % n];
+        if (!near || !near.src) return;
+        var preload = new Image();
+        preload.src = near.src;
+      });
     }
 
     function openLightbox(index) {
@@ -1050,6 +1126,13 @@
       });
       if (lightboxPrev) lightboxPrev.addEventListener("click", function () { stepLightbox(-1); });
       if (lightboxNext) lightboxNext.addEventListener("click", function () { stepLightbox(1); });
+      bindSwipe(lightbox.querySelector(".lightbox__dialog") || lightbox, function () {
+        if (lightbox.hidden) return;
+        stepLightbox(-1);
+      }, function () {
+        if (lightbox.hidden) return;
+        stepLightbox(1);
+      });
       document.addEventListener("keydown", function (event) {
         if (lightbox.hidden) return;
         if (event.key === "Escape") closeLightbox();
