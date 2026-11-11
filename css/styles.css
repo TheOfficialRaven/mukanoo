@@ -803,6 +803,8 @@ section[id] {
 }
 
 .about__copy {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -813,13 +815,17 @@ section[id] {
   padding-block: clamp(2.9rem, 5vw, 4.8rem);
   padding-left: clamp(2rem, 3.8vw, 4rem);
   padding-right: var(--wrap-inset);
-  background-color: #fbf9f6;
-  background-image:
-    linear-gradient(rgba(251, 249, 246, 0.84), rgba(251, 249, 246, 0.84)),
-    url("../assets/backgrounds/rolam_bg.webp");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-color: #fff;
+}
+
+.about__copy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("../assets/backgrounds/rolam_bg.webp") center / cover no-repeat;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .about__quote {
