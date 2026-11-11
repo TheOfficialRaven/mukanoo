@@ -1440,15 +1440,16 @@ section[id] {
 
 .gallery__frame {
   position: relative;
-  flex: 1 1 auto;
+  flex: 1 1 0;
   width: 100%;
   min-height: 0;
+  overflow: hidden;
 }
 
 .gallery .section-head {
   flex: 0 0 auto;
   max-width: min(56rem, 100%);
-  margin: 0 auto clamp(0.7rem, 1.6vh, 1.15rem);
+  margin: 0 auto clamp(1.35rem, 3vh, 2.15rem);
   text-align: center;
 }
 
@@ -1506,11 +1507,14 @@ section[id] {
 }
 
 .gallery__nav {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex: 0 0 auto;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  margin-top: clamp(0.65rem, 1.5vh, 1.1rem);
+  margin-top: clamp(1.5rem, 3.2vh, 2.35rem);
 }
 
 .gallery__arrow {
@@ -2929,7 +2933,7 @@ html.is-faq-pinning body {
   }
 
   .gallery .section-head {
-    margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
+    margin-bottom: clamp(1.25rem, 2.8vh, 1.85rem);
   }
 }
 
@@ -3125,8 +3129,12 @@ html.is-faq-pinning body {
 
   .works__frame,
   .gallery__frame {
-    flex: 1 1 auto;
+    flex: 1 1 0;
     min-height: 0;
+  }
+
+  .gallery__frame {
+    overflow: hidden;
   }
 
   .works__viewport,
@@ -3615,7 +3623,7 @@ html.is-faq-pinning body {
   }
 
   .gallery .section-head {
-    margin-bottom: clamp(0.7rem, 1.8vh, 1.1rem);
+    margin-bottom: clamp(1.1rem, 2.4vh, 1.65rem);
   }
 
   .gallery .section-head .lead {
@@ -3626,8 +3634,10 @@ html.is-faq-pinning body {
   }
 
   .gallery__frame {
+    flex: 1 1 0;
     width: 100%;
     min-height: 0;
+    overflow: hidden;
   }
 
   .gallery__viewport {
@@ -3661,7 +3671,8 @@ html.is-faq-pinning body {
   }
 
   .gallery__nav {
-    margin-top: clamp(0.75rem, 1.8vh, 1.1rem);
+    flex-shrink: 0;
+    margin-top: clamp(1.35rem, 3vh, 2rem);
   }
 
   .gallery__arrow {
