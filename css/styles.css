@@ -24,6 +24,7 @@
   --serif: "Cormorant Garamond", "Palatino Linotype", Palatino, Georgia, serif;
   --sans: "Manrope", "Segoe UI", sans-serif;
   --display-sc: "Marcellus SC", "Cormorant Garamond", Georgia, serif;
+  --script: "Ms Madi", "Segoe Script", cursive;
   --gutter: clamp(1rem, 0.55rem + 2.2vw, 3.5rem);
   --pad: var(--gutter);
   --section: clamp(4.25rem, 9vh, 8.5rem);
@@ -1745,7 +1746,7 @@ body.lightbox-open {
 /* Vélemények ------------------------------------------------------------- */
 
 .quotes {
-  --quotes-gap: clamp(0.65rem, 1.2vw, 0.75rem);
+  --quotes-gap: clamp(3rem, 6vw, 5.5rem);
   --quotes-page-gap: clamp(0.85rem, 1.8vw, 1.25rem);
   padding-block: clamp(3.15rem, 8vh, 5.35rem);
   background-color: #fbf9f6;
@@ -1796,6 +1797,7 @@ body.lightbox-open {
 }
 
 .quotes__page {
+  position: relative;
   display: grid;
   flex: 0 0 100%;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1806,9 +1808,21 @@ body.lightbox-open {
   box-sizing: border-box;
 }
 
+.quotes__page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  z-index: 1;
+  width: 1px;
+  background: var(--burgundy);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
 .quote {
   position: relative;
-  isolation: isolate;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -1823,101 +1837,42 @@ body.lightbox-open {
     clamp(1.4rem, 2.4vw, 2rem);
   border: 0;
   overflow: hidden;
-  background-color: #fbf9f6;
+  background: transparent;
   box-shadow: none;
 }
 
-.quote::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  opacity: 0.9;
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  pointer-events: none;
-}
-
-.quote--textil-1::before {
-  inset: auto;
-  top: 50%;
-  left: 50%;
-  width: 200%;
-  height: 200%;
-  transform: translate(-50%, -50%);
-  background-color: var(--burgundy);
-  background-image: url("../assets/backgrounds/textil_1.png");
-  background-size: 100% 100%;
-}
-
-.quote--textil-2::before {
-  background-color: var(--ivory);
-  background-image: url("../assets/backgrounds/textil_2.png");
-}
-
-.quote--textil-3::before {
-  background-color: var(--charcoal);
-  background-image: url("../assets/backgrounds/textil_3.png");
-}
-
-.quote--textil-4::before {
-  background-color: var(--sand);
-  background-image: url("../assets/backgrounds/textil_4.png");
-}
-
-.quote blockquote,
-.quote figcaption {
-  position: relative;
-  z-index: 1;
-}
-
 .quote blockquote {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
   margin: 0;
+  width: 100%;
+  min-height: 0;
 }
 
 .quote p {
+  color: var(--ink);
   font-size: var(--type-quote-text);
   line-height: 1.45;
-}
-
-.quote--textil-1 p,
-.quote--textil-3 p {
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-}
-
-.quote--textil-2 p,
-.quote--textil-4 p {
-  color: #111;
-  text-shadow: none;
+  text-align: left;
 }
 
 .quote figcaption {
+  flex: 0 0 auto;
   display: block;
   align-self: flex-end;
-  margin: auto 0 0 auto;
-  padding: clamp(1.6rem, 2.6vw, 2.2rem) 0 0;
+  margin: clamp(1.4rem, 2.4vw, 2rem) 0 0;
+  padding: 0;
   text-align: right;
 }
 
 .quote strong {
   display: block;
-  font-family: var(--sans);
-  font-size: var(--type-quote-name);
-  font-weight: 600;
-  letter-spacing: 0.01em;
-}
-
-.quote--textil-1 strong,
-.quote--textil-3 strong {
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.quote--textil-2 strong,
-.quote--textil-4 strong {
   color: var(--burgundy);
+  font-family: var(--script);
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
 
 .quotes__nav {
@@ -2067,7 +2022,7 @@ html.is-faq-pinning body {
   position: relative;
   display: block;
   padding: 0 0 0.85rem 1.15rem;
-  border-bottom: 1px solid #dedede;
+  border-bottom: 1px solid #e6dcd2;
   color: var(--ink);
   font-family: var(--sans);
   font-size: var(--type-faq-q);
@@ -2108,7 +2063,7 @@ html.is-faq-pinning body {
 .faq__item.is-animating summary,
 .faq__item.is-open summary {
   color: var(--gold);
-  border-bottom-color: #e2e2e2;
+  border-bottom-color: #e6dcd2;
 }
 
 .faq__item[open] summary::before,
@@ -2434,7 +2389,7 @@ html.is-faq-pinning body {
 .field textarea {
   width: 100%;
   padding: 0.78rem 0.95rem;
-  border: 1px solid var(--gold);
+  border: 1px solid #e6dcd2;
   border-radius: 0;
   background: #fff;
   color: var(--ink);
@@ -2505,7 +2460,7 @@ html.is-faq-pinning body {
   align-items: center;
   gap: 0.65rem;
   padding: 0.78rem 0.95rem;
-  border: 1px solid var(--gold);
+  border: 1px solid #e6dcd2;
   color: #9a9a9a;
   font-size: var(--type-faq-a);
   line-height: 1.4;
@@ -2653,7 +2608,7 @@ html.is-faq-pinning body {
   width: 1.05rem;
   height: 1.05rem;
   margin: 0.2rem 0 0;
-  border: 1px solid var(--gold);
+  border: 1px solid #e6dcd2;
   border-radius: 0;
   background: #fff;
   color: var(--gold);
@@ -3759,6 +3714,14 @@ html.is-faq-pinning body {
 
   .quotes__page {
     grid-template-columns: 1fr;
+  }
+
+  .quotes__page::before {
+    display: none;
+  }
+
+  .quotes__page .quote:nth-child(2) {
+    border-top: 1px solid var(--burgundy);
   }
 
   .quotes__viewport {
