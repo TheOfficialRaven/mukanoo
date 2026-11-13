@@ -22,8 +22,9 @@
   --sand: #efe6da;
   --blush: #f1e0e2;
   --serif: "Cormorant Garamond", "Palatino Linotype", Palatino, Georgia, serif;
-  --sans: "Manrope", "Segoe UI", sans-serif;
+  --sans: "Montserrat", "Segoe UI", sans-serif;
   --display-sc: "Marcellus SC", "Cormorant Garamond", Georgia, serif;
+  --ui: "Cinzel", "Times New Roman", serif;
   --script: "Ms Madi", "Segoe Script", cursive;
   --gutter: clamp(1rem, 0.55rem + 2.2vw, 3.5rem);
   --pad: var(--gutter);
@@ -34,10 +35,11 @@
   --wrap-inset: max(var(--gutter), calc((100vw - var(--wrap)) / 2));
   --header-tall: 4.75rem;
   --header-short: 3.15rem;
-  --header: var(--header-tall);
-  --screen-h: calc(100vh - var(--header));
-  --screen-h: calc(100svh - var(--header));
-  --screen-h: calc(100dvh - var(--header));
+  /* Szekciómagasság / scroll: a kompakt (görgetett) navbarhoz igazítva */
+  --header: var(--header-short);
+  --screen-h: calc(100vh - var(--header-short));
+  --screen-h: calc(100svh - var(--header-short));
+  --screen-h: calc(100dvh - var(--header-short));
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --carousel-ease: cubic-bezier(0.45, 0.02, 0.12, 1);
   --carousel-dur: 1.15s;
@@ -110,6 +112,7 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   font-size: 1rem;
+  font-weight: 400;
   line-height: 1.4;
   text-rendering: optimizeLegibility;
   overflow-x: clip;
@@ -138,19 +141,29 @@ h1, h2, h3, p {
   margin: 0;
 }
 
-h1, h2, .serif {
+h1, .serif {
   font-family: var(--serif);
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -0.015em;
   line-height: 1.12;
 }
 
 h2 {
+  font-family: var(--serif);
   font-size: var(--type-h2);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+}
+
+p {
+  font-family: var(--sans);
+  font-size: var(--type-body);
 }
 
 h3 {
   font-size: var(--type-h3);
+  font-weight: 500;
 }
 
 ::selection {
@@ -200,15 +213,16 @@ h3 {
   display: block;
   margin-bottom: 0.85rem;
   color: var(--burgundy);
+  font-family: var(--display-sc);
   font-size: var(--type-eyebrow);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 .lead {
   color: var(--muted);
-  font-size: var(--type-lead);
+  font-size: var(--type-body);
   line-height: 1.45;
 }
 
@@ -266,16 +280,18 @@ section[id] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 10.5rem;
+  min-width: 11.5rem;
   min-height: 2.9rem;
-  padding: 0.8rem 1.4rem;
+  padding: 0.8rem 1.55rem;
   border: 1px solid transparent;
   background: transparent;
+  font-family: var(--ui);
   font-size: var(--type-btn);
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
   transition:
     background-color 0.5s var(--ease),
@@ -326,16 +342,16 @@ section[id] {
 
 @media (min-width: 861px) {
   .btn {
-    min-width: 12.25rem;
+    min-width: 13.5rem;
     min-height: 3.35rem;
-    padding: 0.95rem 1.7rem;
+    padding: 0.95rem 1.85rem;
     font-size: 0.82rem;
   }
 
   .hero .btn {
-    width: 18.25rem;
-    min-width: 18.25rem;
-    max-width: 18.25rem;
+    width: 20.5rem;
+    min-width: 20.5rem;
+    max-width: 20.5rem;
   }
 
   .contact .btn,
@@ -398,6 +414,25 @@ body.is-menu-open .site-header::before {
   opacity: 1;
 }
 
+/* Subpixel rés takarása: a solid header alja 1px-cel belóg a tartalom fölé */
+.site-header.is-compact::after,
+.site-header:has(.menu[open])::after,
+body.is-menu-open .site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 1px;
+  background: rgba(251, 251, 250, 0.94);
+  pointer-events: none;
+}
+
+body.is-menu-open .site-header::after,
+.site-header:has(.menu[open])::after {
+  background: #fff;
+}
+
 body.is-menu-open .site-header,
 .site-header:has(.menu[open]) {
   background: #fff;
@@ -417,7 +452,7 @@ body.is-menu-open .site-header::before,
     text-shadow 0.35s var(--nav-ease);
 }
 
-@media (min-width: 861px) {
+@media (min-width: 1101px) {
   .site-header .site-nav a {
     position: relative;
     text-decoration: none;
@@ -473,7 +508,7 @@ body.is-menu-open .site-header::before,
   z-index: 2;
   font-family: var(--sans);
   font-size: 1.35rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   text-decoration: none;
@@ -554,6 +589,7 @@ body.is-menu-open .site-header::before,
 }
 
 .site-nav a {
+  font-family: var(--ui);
   font-size: var(--type-ui);
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -586,8 +622,8 @@ body.is-menu-open .site-header::before,
   align-items: flex-end;
   justify-content: center;
   box-sizing: border-box;
-  min-height: 100svh;
-  min-height: 100dvh;
+  /* Ugyanaz a mérték, mint a többi szekció: screen-h + kompakt header */
+  min-height: calc(var(--screen-h) + var(--header-short));
   margin-top: 0;
   padding: var(--header-tall) var(--pad) 6.5vh;
   background-color: var(--hero);
@@ -615,7 +651,7 @@ body.is-menu-open .site-header::before,
 
 .hero h1 {
   font-size: var(--type-display);
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.32em;
   text-indent: 0.32em;
   text-transform: uppercase;
@@ -626,7 +662,7 @@ body.is-menu-open .site-header::before,
   margin-top: 1.15rem;
   color: #fff;
   font-size: var(--type-display-sub);
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.4;
 }
 
@@ -641,9 +677,10 @@ body.is-menu-open .site-header::before,
 .hero .btn {
   box-sizing: border-box;
   flex: 0 0 auto;
-  width: 17rem;
-  min-width: 17rem;
-  max-width: 17rem;
+  width: 19.5rem;
+  min-width: 19.5rem;
+  max-width: 19.5rem;
+  white-space: nowrap;
 }
 
 .hero .btn--gold {
@@ -677,7 +714,7 @@ body.is-menu-open .site-header::before,
   /* Maps to site type tokens — title >> eyebrow > label ≈ body */
   --p-eyebrow: var(--type-eyebrow);
   --p-title: var(--type-h2);
-  --p-body: var(--type-body-sm);
+  --p-body: var(--type-body);
   --p-label: var(--type-h3);
   --p-icon: 60px;
   --p-head-gap: clamp(2.9rem, 5.5vw, 4.2rem);
@@ -707,7 +744,7 @@ body.is-menu-open .site-header::before,
 .pillars .eyebrow {
   margin-bottom: var(--p-eyebrow-gap);
   font-size: var(--p-eyebrow);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -776,7 +813,7 @@ body.is-menu-open .site-header::before,
   margin-bottom: var(--p-label-gap);
   font-family: var(--sans);
   font-size: var(--p-label);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.03em;
   line-height: 1.3;
   text-transform: uppercase;
@@ -790,12 +827,6 @@ body.is-menu-open .site-header::before,
   color: var(--muted);
   font-size: var(--p-body);
   line-height: 1.4;
-}
-
-.pillars__item--wip,
-.pillars__item--wip h3,
-.pillars__item--wip p {
-  color: #ff00f6;
 }
 
 /* Bemutatkozás ----------------------------------------------------------- */
@@ -844,8 +875,9 @@ body.is-menu-open .site-header::before,
   max-width: none;
   margin-bottom: clamp(1rem, 2vh, 1.35rem);
   color: var(--burgundy);
+  font-family: var(--display-sc);
   font-size: var(--type-quote);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 1.35;
   text-transform: uppercase;
@@ -878,29 +910,28 @@ body.is-menu-open .site-header::before,
 /* Munkák ----------------------------------------------------------------- */
 
 .works {
-  --section-extra: clamp(2.5rem, 5.5vh, 4.25rem);
   --section-pad-y: clamp(2.75rem, 6.5vh, 4.5rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
-  height: auto;
-  max-height: none;
-  min-height: calc(var(--screen-h) + var(--section-extra));
+  height: var(--screen-h);
+  max-height: var(--screen-h);
+  min-height: var(--screen-h);
   padding-top: var(--section-pad-y);
   padding-bottom: var(--section-pad-y);
-  overflow: visible;
+  overflow: hidden;
   background: var(--paper);
 }
 
 .works__wrap {
   display: flex;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   flex-direction: column;
   width: calc(100vw - var(--gutter) * 2 - 7.25rem);
   max-width: none;
-  height: calc(var(--screen-h) - (var(--section-pad-y) * 2));
-  max-height: calc(var(--screen-h) - (var(--section-pad-y) * 2));
+  height: auto;
+  max-height: none;
   min-height: 0;
   margin-inline: auto;
 }
@@ -1215,7 +1246,7 @@ body.is-menu-open .site-header::before,
 .work h3 {
   font-family: var(--sans);
   font-size: var(--type-work-title);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -1224,7 +1255,7 @@ body.is-menu-open .site-header::before,
   max-width: 16rem;
   margin: 0.4rem auto 0;
   color: var(--muted);
-  font-size: var(--type-work-body);
+  font-size: var(--type-body);
   line-height: 1.45;
 }
 
@@ -1232,8 +1263,8 @@ body.is-menu-open .site-header::before,
   max-width: none;
   margin-top: 0.7rem;
   color: var(--ink);
-  font-size: var(--type-work-price);
-  font-weight: 600;
+  font-size: var(--type-body);
+  font-weight: 400;
   line-height: 1.2;
 }
 
@@ -1291,9 +1322,9 @@ body.is-menu-open .site-header::before,
 }
 
 .palette__copy .lead {
-  max-width: 26rem;
+  max-width: min(38rem, 100%);
   margin-top: 1.35rem;
-  font-size: var(--type-lead-sm);
+  font-size: var(--type-body);
   line-height: 1.45;
 }
 
@@ -1339,7 +1370,7 @@ body.is-menu-open .site-header::before,
   max-width: 12em;
   font-family: var(--sans);
   font-size: var(--type-card-title);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.2;
   text-transform: none;
@@ -1359,7 +1390,7 @@ body.is-menu-open .site-header::before,
 .swatch p {
   max-width: 17.5rem;
   margin-top: 1.35rem;
-  font-size: var(--type-card-body);
+  font-size: var(--type-body);
   line-height: 1.4;
 }
 
@@ -1422,28 +1453,27 @@ body.is-menu-open .site-header::before,
 .gallery {
   --gallery-arrow-space: 7.25rem;
   --gallery-gap: clamp(0.75rem, 1.4vw, 1rem);
-  --section-extra: clamp(2.5rem, 5.5vh, 4.25rem);
   --section-pad-y: clamp(2.75rem, 6.5vh, 4.5rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
-  height: auto;
-  max-height: none;
-  min-height: calc(var(--screen-h) + var(--section-extra));
+  height: var(--screen-h);
+  max-height: var(--screen-h);
+  min-height: var(--screen-h);
   padding-top: var(--section-pad-y);
   padding-bottom: var(--section-pad-y);
-  overflow: visible;
+  overflow: hidden;
   background: var(--paper);
 }
 
 .gallery .wrap--wide {
   display: flex;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   flex-direction: column;
   width: var(--wrap-width);
-  height: calc(var(--screen-h) - (var(--section-pad-y) * 2));
-  max-height: calc(var(--screen-h) - (var(--section-pad-y) * 2));
+  height: auto;
+  max-height: none;
   min-height: 0;
   margin-inline: auto;
 }
@@ -1874,6 +1904,7 @@ body.lightbox-open {
 .quote p {
   color: var(--ink);
   font-size: var(--type-quote-text);
+  font-weight: 600;
   line-height: 1.45;
   text-align: left;
 }
@@ -2010,9 +2041,9 @@ html.is-faq-pinning body {
 }
 
 .faq__head h2 {
-  font-family: var(--sans);
+  font-family: var(--serif);
   font-size: var(--type-title-xs);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0;
 }
 
@@ -2046,9 +2077,9 @@ html.is-faq-pinning body {
   padding: 0 0 0.85rem 1.15rem;
   border-bottom: 1px solid #e6dcd2;
   color: var(--ink);
-  font-family: var(--sans);
+  font-family: var(--display-sc);
   font-size: var(--type-faq-q);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.35;
   list-style: none;
   cursor: pointer;
@@ -2117,7 +2148,7 @@ html.is-faq-pinning body {
 .faq__answer p {
   margin: 0.85rem 0 0 1.15rem;
   color: var(--muted);
-  font-size: var(--type-faq-a);
+  font-size: var(--type-body);
   line-height: 1.4;
   opacity: 0;
   transform: translateY(0.35rem);
@@ -2162,7 +2193,7 @@ html.is-faq-pinning body {
   height: var(--screen-h);
   max-height: var(--screen-h);
   min-height: var(--screen-h);
-  margin-bottom: clamp(4.5rem, 10vh, 7.5rem);
+  margin-bottom: 0;
   padding-block: var(--dense-pad-y);
   overflow: hidden;
   background: var(--paper);
@@ -2213,9 +2244,9 @@ html.is-faq-pinning body {
 
 .contact__copy h2 {
   margin-bottom: 0;
-  font-family: var(--sans);
+  font-family: var(--serif);
   font-size: var(--type-contact-title);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.15;
 }
@@ -2223,7 +2254,7 @@ html.is-faq-pinning body {
 .contact__copy .lead {
   margin-bottom: 0.15rem;
   color: #7a7a7a;
-  font-size: var(--type-contact-lead);
+  font-size: var(--type-body);
   line-height: 1.4;
 }
 
@@ -2573,7 +2604,7 @@ html.is-faq-pinning body {
   margin-top: 0.2rem;
   min-height: 3.35rem;
   font-size: var(--type-meta);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -2629,7 +2660,7 @@ html.is-faq-pinning body {
 .footer__brand p {
   margin: 0;
   color: #7a7a7a;
-  font-size: var(--type-footer);
+  font-size: var(--type-body);
   line-height: 1.5;
 }
 
@@ -2642,15 +2673,23 @@ html.is-faq-pinning body {
 .footer__heading {
   margin: 0;
   color: var(--ink);
-  font-family: var(--sans);
-  font-size: var(--type-footer-nav);
-  font-weight: 700;
-  letter-spacing: 0.01em;
+  font-family: var(--display-sc);
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
   line-height: 1.3;
+}
+
+.site-footer a,
+.site-footer li {
+  font-family: var(--sans);
+  font-weight: 500;
 }
 
 .footer__col .footer__heading + .footer__heading {
   margin-top: 1.15rem;
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 
 .footer__list,
@@ -2661,7 +2700,7 @@ html.is-faq-pinning body {
   display: grid;
   gap: 0.7rem;
   color: #7a7a7a;
-  font-size: var(--type-footer);
+  font-size: 1rem;
   line-height: 1.45;
 }
 
@@ -2728,7 +2767,7 @@ html.is-faq-pinning body {
 .footer__nav a {
   position: relative;
   color: #7a7a7a;
-  font-size: var(--type-footer);
+  font-size: 1rem;
   font-weight: 500;
   text-decoration: none;
 }
@@ -2983,13 +3022,34 @@ html.is-faq-pinning body {
   }
 }
 
-@media (max-width: 1100px) and (min-width: 861px) {
+/* Szűkebb desktop / kicsinyítés: nav ne csússzon a logóra */
+@media (max-width: 1400px) and (min-width: 1101px) {
   .site-header {
-    --nav-logo-clearance: calc(2.2rem + clamp(3.6rem, 8vw, 8.5rem));
+    --nav-logo-clearance: max(5.75rem, 9vw);
   }
 
   .nav__group {
-    gap: clamp(0.55rem, 1.2vw, 1.4rem);
+    gap: clamp(0.5rem, 1.1vw, 1.35rem);
+  }
+
+  .site-nav a {
+    font-size: clamp(0.72rem, 0.55rem + 0.55vw, var(--type-ui));
+  }
+
+  .menu:not([open]) > .site-nav {
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
+    padding-inline: var(--gutter);
+    transform: none;
+    justify-content: space-between;
+  }
+
+  .menu:not([open]) > .site-nav::before {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: calc(var(--nav-logo-clearance) * 2);
   }
 }
 
@@ -3005,10 +3065,9 @@ html.is-faq-pinning body {
     --p-item-pad-x: clamp(0.7rem, 1.6vw, 1.15rem);
     --p-item-pad-bottom: clamp(0.55rem, 1.4vh, 0.95rem);
     --pad-y: clamp(2.4rem, 5.5vh, 3.6rem);
-    --extra: 20vh;
     height: auto;
     max-height: none;
-    min-height: calc(var(--screen-h) + var(--extra));
+    min-height: var(--screen-h);
     padding-block: var(--pad-y);
     overflow: visible;
     justify-content: center;
@@ -3021,7 +3080,7 @@ html.is-faq-pinning body {
   }
 
   .about {
-    min-height: calc(var(--screen-h) + 20vh);
+    min-height: var(--screen-h);
     height: auto;
     max-height: none;
     overflow: visible;
@@ -3069,8 +3128,7 @@ html.is-faq-pinning body {
 /* Rövid CSS-viewport (pl. 125–150% böngészőnagyítás) ---------------------- */
 
 @media (max-height: 820px) {
-  /* Unlock about only. Pillars stay screen-locked + centered so top/bottom
-     air matches 100% zoom. Contact + works/gallery stay screen-locked. */
+  /* Rövid CSS-viewport / böngészőnagyítás: a tartalom ne legyen belgörgetős */
   .about {
     height: auto;
     max-height: none;
@@ -3095,16 +3153,29 @@ html.is-faq-pinning body {
     overflow: visible;
   }
 
+  .contact {
+    height: auto;
+    max-height: none;
+    min-height: var(--screen-h);
+    overflow: visible;
+  }
+
+  .contact__copy {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
   .faq__grid {
     min-height: clamp(16rem, 32vh, 24rem);
   }
 
   .works,
   .gallery {
-    height: auto;
-    max-height: none;
-    min-height: calc(var(--screen-h) + var(--section-extra));
-    overflow: visible;
+    height: var(--screen-h);
+    max-height: var(--screen-h);
+    min-height: var(--screen-h);
+    overflow: hidden;
   }
 
   .works__frame,
@@ -3125,8 +3196,9 @@ html.is-faq-pinning body {
 }
 
 @media (max-height: 680px) {
+  /* Ne törjük össze a herót nagyításnál (CSS max-height csökken) */
   .hero {
-    min-height: auto;
+    min-height: calc(var(--screen-h) + var(--header-short));
     padding-bottom: 4vh;
   }
 
@@ -3201,7 +3273,7 @@ html.is-faq-pinning body {
   }
 }
 
-@media (min-width: 861px) {
+@media (min-width: 1101px) {
   .site-header {
     --nav-logo-clearance: calc(2.6rem + clamp(4.25rem, 9.5vw, 10.5rem));
     padding-inline: 0;
@@ -3289,7 +3361,7 @@ html.is-faq-pinning body {
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1100px) {
   .site-header {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -3468,8 +3540,7 @@ html.is-faq-pinning body {
       filter 0.25s ease,
       background-color 0.5s var(--ease),
       border-color 0.5s var(--ease),
-      color 0.5s var(--ease),
-      letter-spacing 0.5s var(--ease);
+      color 0.5s var(--ease);
   }
 
   .menu[open] .site-nav a.site-nav__cta {
@@ -3521,7 +3592,9 @@ html.is-faq-pinning body {
   body.is-menu-open {
     overflow: hidden;
   }
+}
 
+@media (max-width: 860px) {
   :root {
     --section: clamp(2.75rem, 7vh, 4rem);
   }
@@ -3540,35 +3613,27 @@ html.is-faq-pinning body {
   }
 
   .contact {
+    height: var(--screen-h);
+    max-height: var(--screen-h);
+    min-height: var(--screen-h);
     padding-block: clamp(2.5rem, 6vh, 3.75rem);
+    margin-bottom: 0;
   }
 
   .quotes {
-    --mobile-pad-y: clamp(2.5rem, 6vh, 3.75rem);
-    --mobile-extra: 22vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-sizing: border-box;
     height: auto;
     max-height: none;
-    min-height: calc(var(--screen-h) + var(--mobile-extra));
-    padding-block: var(--mobile-pad-y);
+    min-height: 0;
+    padding-block: clamp(2.5rem, 6vh, 3.75rem);
     overflow: visible;
-  }
-
-  .quotes .wrap {
-    flex: 0 0 auto;
-    width: var(--wrap-width);
-    margin-inline: auto;
   }
 
   .about {
     grid-template-columns: minmax(14rem, 42%) minmax(0, 1fr);
-    min-height: calc(var(--screen-h) + 22vh);
-    height: auto;
-    max-height: none;
-    overflow: visible;
+    height: var(--screen-h);
+    max-height: var(--screen-h);
+    min-height: var(--screen-h);
+    overflow: hidden;
     padding: 0;
     align-items: stretch;
   }
@@ -3589,44 +3654,31 @@ html.is-faq-pinning body {
     aspect-ratio: unset;
   }
 
-  /* Teljes méretű szekciók: hosszabb blokk, tartalom vertikálisan középen */
+  /* Teljes méretű szekciók: pontosan egy képernyő magasak */
   .works,
   .gallery {
     --mobile-pad-y: clamp(1.1rem, 3vh, 1.75rem);
-    --mobile-extra: 22vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: auto;
-    max-height: none;
-    min-height: calc(var(--screen-h) + var(--mobile-extra));
+    box-sizing: border-box;
+    height: var(--screen-h);
+    max-height: var(--screen-h);
+    min-height: var(--screen-h);
     padding-block: var(--mobile-pad-y);
-    overflow: visible;
-  }
-
-  /* Felső légtér megmarad, alsó üres sáv csökken */
-  .works {
-    justify-content: flex-start;
-    min-height: 0;
-    padding-top: calc(var(--mobile-pad-y) + (var(--mobile-extra) / 2));
-    padding-bottom: clamp(1.2rem, 3vh, 1.85rem);
+    overflow: hidden;
   }
 
   .works__wrap,
   .gallery .wrap--wide {
     display: flex;
-    flex: 0 0 auto;
+    flex: 1 1 auto;
     flex-direction: column;
     width: var(--wrap-width);
-    height: calc(var(--screen-h) - (var(--mobile-pad-y) * 2));
-    max-height: calc(var(--screen-h) - (var(--mobile-pad-y) * 2));
+    height: auto;
+    max-height: none;
     min-height: 0;
     margin-inline: auto;
-  }
-
-  .works__wrap {
-    height: calc(var(--screen-h) - var(--mobile-pad-y) - 1.85rem);
-    max-height: calc(var(--screen-h) - var(--mobile-pad-y) - 1.85rem);
   }
 
   .works__frame {
@@ -3810,7 +3862,10 @@ html.is-faq-pinning body {
 @media (max-width: 700px) {
   .about {
     grid-template-columns: 1fr;
-    min-height: calc(var(--screen-h) + 22vh);
+    height: auto;
+    max-height: none;
+    min-height: var(--screen-h);
+    overflow: visible;
   }
 
   .about__copy {
@@ -3834,10 +3889,9 @@ html.is-faq-pinning body {
     --p-item-pad-x: 0.4rem;
     --p-item-pad-bottom: 0.25rem;
     --pad-y: clamp(3rem, 7vh, 4.5rem);
-    --extra: 22vh;
     height: auto;
     max-height: none;
-    min-height: calc(var(--screen-h) + var(--extra));
+    min-height: var(--screen-h);
     overflow: visible;
     padding-block: var(--pad-y);
     justify-content: center;
@@ -3959,6 +4013,14 @@ html.is-faq-pinning body {
 
 }
 
+@media (max-width: 860px) {
+  .hero .btn {
+    width: min(20.5rem, 100%);
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 640px) {
   .form {
     grid-template-columns: 1fr;
@@ -3971,8 +4033,7 @@ html.is-faq-pinning body {
   }
 
   .hero {
-    min-height: 100vh;
-    min-height: 100dvh;
+    min-height: calc(var(--screen-h) + var(--header-short));
     padding-bottom: 8vh;
   }
 
