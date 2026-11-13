@@ -233,10 +233,56 @@
   }
 
   var snapLockUntil = 0;
+  var spyPausedUntil = 0;
+  var spyActiveId = "";
+  var spySections = document.querySelectorAll(
+    "#hero, #elvek, #bemutatkozas, #munkak, #szemlelet, #galeria, #velemenyek, #gyik, #kapcsolat, #elerhetoseg"
+  );
+
+  function sectionIdForHash(el) {
+    if (!el) return "";
+    if (el.id === "contact-title") return "kapcsolat";
+    if (el.closest) {
+      var section = el.closest("main > section[id], #elerhetoseg");
+      if (section && section.id) return section.id;
+    }
+    return el.id || "";
+  }
+
+  function setLocationHash(id, push) {
+    if (!id) return;
+    var hash = "#" + id;
+    if (location.hash === hash) {
+      spyActiveId = id;
+      return;
+    }
+    spyActiveId = id;
+    if (push && history.pushState) history.pushState(null, "", hash);
+    else if (history.replaceState) history.replaceState(null, "", hash);
+    else location.hash = hash;
+  }
+
+  function updateHashFromScroll() {
+    if (Date.now() < spyPausedUntil) return;
+    var offset = headerOffset() + 12;
+    var current = "hero";
+    var y = window.scrollY || window.pageYOffset || 0;
+    if (y < 40) {
+      current = "hero";
+    } else {
+      Array.prototype.forEach.call(spySections, function (section) {
+        if (!section.id) return;
+        if (section.getBoundingClientRect().top <= offset) current = section.id;
+      });
+    }
+    if (current === spyActiveId) return;
+    setLocationHash(current, false);
+  }
 
   function goToSection(el, behavior) {
     if (!el) return;
     snapLockUntil = Date.now() + 1000;
+    spyPausedUntil = Date.now() + 1100;
     window.scrollTo({
       top: sectionScrollTop(el),
       behavior: behavior || (reduced ? "auto" : "smooth")
@@ -252,9 +298,9 @@
     var target = document.getElementById(id);
     if (!target) return;
     event.preventDefault();
+    var hashId = sectionIdForHash(target) || id;
     goToSection(target);
-    if (history.pushState) history.pushState(null, "", href);
-    else location.hash = href;
+    setLocationHash(hashId, true);
   });
 
   syncHeaderVar();
@@ -266,11 +312,23 @@
   if (location.hash.length > 1) {
     var initial = document.getElementById(location.hash.slice(1));
     if (initial) {
+      spyActiveId = sectionIdForHash(initial) || location.hash.slice(1);
       window.setTimeout(function () {
         goToSection(initial, "auto");
       }, 0);
     }
+  } else {
+    spyActiveId = "hero";
   }
+
+  var spyRaf = 0;
+  window.addEventListener("scroll", function () {
+    if (spyRaf) return;
+    spyRaf = window.requestAnimationFrame(function () {
+      spyRaf = 0;
+      updateHashFromScroll();
+    });
+  }, { passive: true });
 
   /* Soft-snap: lassú, lágy korrekció — csak kis elcsúszásra */
   if (!reduced) {
