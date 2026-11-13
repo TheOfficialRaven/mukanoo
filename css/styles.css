@@ -215,7 +215,7 @@ h3 {
   color: var(--burgundy);
   font-family: var(--display-sc);
   font-size: var(--type-eyebrow);
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
@@ -744,7 +744,7 @@ body.is-menu-open .site-header::before,
 .pillars .eyebrow {
   margin-bottom: var(--p-eyebrow-gap);
   font-size: var(--p-eyebrow);
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -877,7 +877,7 @@ body.is-menu-open .site-header::before,
   color: var(--burgundy);
   font-family: var(--display-sc);
   font-size: var(--type-quote);
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.04em;
   line-height: 1.35;
   text-transform: uppercase;
@@ -2022,7 +2022,7 @@ body.lightbox-open {
   --faq-dur: 0.42s;
   --faq-ease: var(--ease);
   padding-top: clamp(3.15rem, 8vh, 5.35rem);
-  padding-bottom: clamp(1.35rem, 3vh, 2.25rem);
+  padding-bottom: clamp(4.5rem, 10vh, 7.5rem);
   background: var(--paper);
   overflow-anchor: none;
 }
@@ -2100,7 +2100,7 @@ html.is-faq-pinning body {
   height: 0;
   border-style: solid;
   border-width: 0.28rem 0 0.28rem 0.42rem;
-  border-color: transparent transparent transparent var(--ink);
+  border-color: transparent transparent transparent var(--gold);
   transform-origin: 35% 50%;
   transition: transform var(--faq-dur) var(--faq-ease), border-color var(--faq-dur) ease;
 }
@@ -2912,10 +2912,14 @@ html.is-faq-pinning body {
     padding-block: clamp(2.1rem, 5.5vh, 3.5rem);
   }
 
-  .quotes,
-  .faq {
+  .quotes {
     padding-top: clamp(3.4rem, 8.5vh, 5.6rem);
     padding-bottom: clamp(1.25rem, 2.8vh, 2rem);
+  }
+
+  .faq {
+    padding-top: clamp(3.4rem, 8.5vh, 5.6rem);
+    padding-bottom: clamp(4rem, 9vh, 6.5rem);
   }
 
   .works,
@@ -3610,7 +3614,7 @@ html.is-faq-pinning body {
 
   .faq {
     padding-top: clamp(2.5rem, 6vh, 3.75rem);
-    padding-bottom: clamp(1.1rem, 2.5vh, 1.75rem);
+    padding-bottom: clamp(3.25rem, 8vh, 5.5rem);
   }
 
   .contact {
