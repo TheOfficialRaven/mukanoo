@@ -1904,7 +1904,8 @@ body.lightbox-open {
 .quote p {
   color: var(--ink);
   font-size: var(--type-quote-text);
-  font-weight: 600;
+  font-weight: 500;
+  font-style: italic;
   line-height: 1.45;
   text-align: left;
 }
