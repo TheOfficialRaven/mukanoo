@@ -216,7 +216,8 @@ h3 {
   font-family: var(--display-sc);
   font-size: var(--type-eyebrow);
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
   text-transform: uppercase;
 }
 
@@ -745,7 +746,8 @@ body.is-menu-open .site-header::before,
   margin-bottom: var(--p-eyebrow-gap);
   font-size: var(--p-eyebrow);
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
   text-transform: uppercase;
 }
 
@@ -1309,7 +1311,8 @@ body.is-menu-open .site-header::before,
 .palette__copy .eyebrow {
   margin-bottom: 1.45rem;
   font-size: var(--type-eyebrow);
-  letter-spacing: 0.24em;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
 }
 
 .palette__copy h2 {
