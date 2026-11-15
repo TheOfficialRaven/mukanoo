@@ -1520,6 +1520,7 @@ body.is-menu-open .site-header .logo__img--nav {
 .swatch--wine::before {
   background-color: var(--burgundy);
   background-image: url("../assets/backgrounds/textil_1.webp");
+  opacity: 0.95;
 }
 
 .swatch--wine .eyebrow {
@@ -1547,6 +1548,7 @@ body.is-menu-open .site-header .logo__img--nav {
 .swatch--ink::before {
   background-color: var(--charcoal);
   background-image: url("../assets/backgrounds/textil_3.webp");
+  opacity: 0.95;
 }
 
 .swatch--ink .eyebrow {
