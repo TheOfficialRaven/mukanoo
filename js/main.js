@@ -737,18 +737,48 @@
     var status = document.getElementById("form-status");
     var submitBtn = form.querySelector('button[type="submit"]');
 
+    var fileInput = form.querySelector("input[type='file'][name='Fotok']");
+    var fileText = form.querySelector(".field__file-text");
+    var filePreviews = form.querySelector(".field__file-previews");
+    var selectedPhotos = [];
+    var previewUrls = [];
+
+    function samePhoto(a, b) {
+      return a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
+    }
+
+    function syncPhotoInput() {
+      if (!fileInput || typeof DataTransfer === "undefined") return;
+      var transfer = new DataTransfer();
+      selectedPhotos.forEach(function (file) {
+        transfer.items.add(file);
+      });
+      fileInput.files = transfer.files;
+    }
+
     function encodeFormBody(formEl) {
+      syncPhotoInput();
+
       var formData = new FormData(formEl);
       if (!formData.get("form-name")) {
         formData.set("form-name", formEl.getAttribute("name") || "kapcsolat");
       }
 
-      var hasFile = false;
-      formData.forEach(function (value) {
-        if (typeof File !== "undefined" && value instanceof File && value.size > 0) hasFile = true;
+      // Privacy csak kliensoldali kötelező mező — ne jelenjen meg az értesítő e-mailben
+      formData.delete("privacy");
+
+      // Üres file input bejegyzések törlése, majd a kiválasztott fotók explicit csatolása
+      formData.delete("Fotok");
+      formData.delete("photos");
+      selectedPhotos.forEach(function (file) {
+        if (file && file.size > 0) formData.append("Fotok", file, file.name);
       });
 
-      // Fájl nélkül: URL-encoded (Netlify Forms AJAX). Fájllal: multipart (Netlify file upload).
+      var hasFile = selectedPhotos.some(function (file) {
+        return file && file.size > 0;
+      });
+
+      // Fájllal: multipart (Netlify file upload). Fájl nélkül: URL-encoded.
       if (hasFile) {
         return { body: formData, headers: null };
       }
@@ -835,25 +865,6 @@
       target.setAttribute("aria-invalid", ok ? "false" : "true");
       wrap.classList.toggle("is-invalid", !ok);
     });
-
-    var fileInput = form.querySelector("input[type='file'][name='photos']");
-    var fileText = form.querySelector(".field__file-text");
-    var filePreviews = form.querySelector(".field__file-previews");
-    var selectedPhotos = [];
-    var previewUrls = [];
-
-    function samePhoto(a, b) {
-      return a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
-    }
-
-    function syncPhotoInput() {
-      if (!fileInput || typeof DataTransfer === "undefined") return;
-      var transfer = new DataTransfer();
-      selectedPhotos.forEach(function (file) {
-        transfer.items.add(file);
-      });
-      fileInput.files = transfer.files;
-    }
 
     function revokePreviewUrls() {
       previewUrls.forEach(function (url) {

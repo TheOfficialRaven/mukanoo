@@ -612,16 +612,17 @@
             novalidate
           >
             <input type="hidden" name="form-name" value="kapcsolat">
+            <input type="hidden" name="subject" data-remove-prefix value="Mukanoo — új megkeresés">
             <div class="hp" aria-hidden="true">
               <label>Ne töltse ki <input type="text" name="company" tabindex="-1" autocomplete="off"></label>
             </div>
             <label class="field">
               <span class="visually-hidden">Vezetéknév</span>
-              <input type="text" name="lastname" autocomplete="family-name" placeholder="Vezetéknév" required>
+              <input type="text" name="Vezeteknev" autocomplete="family-name" placeholder="Vezetéknév" required>
             </label>
             <label class="field">
               <span class="visually-hidden">Keresztnév</span>
-              <input type="text" name="firstname" autocomplete="given-name" placeholder="Keresztnév" required>
+              <input type="text" name="Keresztnev" autocomplete="given-name" placeholder="Keresztnév" required>
             </label>
             <label class="field">
               <span class="visually-hidden">E-mail</span>
@@ -629,12 +630,12 @@
             </label>
             <label class="field">
               <span class="visually-hidden">Telefonszám</span>
-              <input type="tel" name="phone" autocomplete="tel" placeholder="telefonszám" required>
+              <input type="tel" name="Telefonszam" autocomplete="tel" placeholder="telefonszám" required>
             </label>
             <div class="field field--full field--file">
               <label class="field__file-trigger">
                 <span class="visually-hidden">Fotók csatolása</span>
-                <input type="file" name="photos" accept="image/*" multiple>
+                <input type="file" name="Fotok" accept="image/*" multiple>
                 <span class="field__file-label" aria-hidden="true">
                   <svg class="field__file-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M8.5 15.5 14 10a2.5 2.5 0 0 1 3.5 3.5l-6.2 6.2a4 4 0 0 1-5.7-5.7L13 6.6a5.5 5.5 0 0 1 7.8 7.8l-7 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
@@ -646,10 +647,10 @@
             </div>
             <label class="field field--full">
               <span class="visually-hidden">Üzenet</span>
-              <textarea name="message" placeholder="Üzenet" required></textarea>
+              <textarea name="Uzenet" placeholder="Üzenet" required></textarea>
             </label>
             <label class="form__consent">
-              <input type="checkbox" name="privacy" value="1" required>
+              <input type="checkbox" name="privacy" value="Igen" required>
               <span>Elolvastam és elfogadom az <a href="#">adatkezelési tájékoztatót</a>.</span>
             </label>
             <p class="form__status" id="form-status" role="status"></p>
