@@ -699,9 +699,9 @@ body.is-menu-open .site-header .logo__img--nav {
 
 .hero__brand .hero__logo {
   display: block;
-  /* 4x WebP downsample: élesebb, mint a kis méretű SVG/mask raster */
-  width: min(92vw, round(calc(var(--type-display) * 6.6), 1px));
-  max-width: 576px;
+  /* Picit túlnyúlik a két hero gomb + gap szélességén */
+  width: min(96vw, round(calc(2 * 20.5rem + 1.35rem + 2.75rem), 1px));
+  max-width: none;
   height: auto;
   margin-inline: auto;
   opacity: 1;
@@ -1402,10 +1402,18 @@ body.is-menu-open .site-header .logo__img--nav {
   flex: 0 0 calc(100vw / 3);
   width: calc(100vw / 3);
   min-width: 0;
-  justify-content: center;
+  /* Picit nagyobb tipográfia csak a swatch kártyákon */
+  --type-card-title: calc(1.48rem + 0.6rem * var(--fluid));
+  --type-card-meta: calc(0.82rem + 0.16rem * var(--fluid));
+  --type-body: calc(0.98rem + 0.14rem * var(--fluid));
+  /* Azonos start minden kártyán, a középtől picit feljebb */
+  justify-content: flex-start;
   align-items: center;
   gap: 0;
-  padding: calc(var(--header) + 1.5rem) clamp(1.6rem, 2.8vw, 2.8rem) 2rem;
+  padding:
+    max(calc(var(--header) + 1.25rem), calc(42vh - 6rem))
+    clamp(1.6rem, 2.8vw, 2.8rem)
+    2rem;
   text-align: center;
 }
 
@@ -1414,7 +1422,7 @@ body.is-menu-open .site-header .logo__img--nav {
   position: absolute;
   inset: 0;
   z-index: -1;
-  opacity: 0.9;
+  opacity: 0.85;
   background-position: center center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -1423,6 +1431,7 @@ body.is-menu-open .site-header .logo__img--nav {
 
 .swatch h3 {
   max-width: 12em;
+  margin: 0;
   font-family: var(--sans);
   font-size: var(--type-card-title);
   font-weight: 500;
@@ -1432,8 +1441,11 @@ body.is-menu-open .site-header .logo__img--nav {
 }
 
 .swatch .eyebrow {
+  position: relative;
   max-width: 18em;
-  margin: 0.85rem 0 0;
+  margin: 0.4rem 0 0;
+  padding-bottom: 16px;
+  overflow: visible;
   font-family: var(--display-sc);
   font-size: var(--type-card-meta);
   font-style: normal;
@@ -1442,11 +1454,63 @@ body.is-menu-open .site-header .logo__img--nav {
   text-transform: uppercase;
 }
 
+.swatch .eyebrow::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  /* h3 12em + plusz; nem max-width:100% — kilóghat az eyebrow dobozából */
+  width: calc(12 * var(--type-card-title) + 0.5rem);
+  height: 1px;
+  transform: translateX(-50%);
+  background: currentColor;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.swatch p,
+.swatch__list {
+  /* Ugyanaz a szélesség, mint a vonal → bal szél egybeesik */
+  box-sizing: border-box;
+  width: calc(12 * var(--type-card-title) + 0.5rem);
+  max-width: 100%;
+  margin-inline: auto;
+  align-self: center;
+  text-align: left;
+}
+
 .swatch p {
-  max-width: 17.5rem;
   margin-top: 1.35rem;
   font-size: var(--type-body);
   line-height: 1.4;
+}
+
+.swatch__list {
+  margin-top: 0.85rem;
+  padding: 0;
+  list-style: none;
+  font-size: var(--type-body);
+  line-height: 1.4;
+}
+
+.swatch__list li {
+  position: relative;
+  padding-left: 0.95rem;
+}
+
+.swatch__list li + li {
+  margin-top: 0.4rem;
+}
+
+.swatch__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.28rem;
+  height: 0.28rem;
+  border-radius: 50%;
+  background: currentColor;
 }
 
 .swatch--wine {
