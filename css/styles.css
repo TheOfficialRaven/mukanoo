@@ -258,6 +258,7 @@ section[id] {
 .media {
   position: relative;
   background: var(--placeholder);
+  border-radius: 5px;
   overflow: hidden;
 }
 
@@ -285,6 +286,7 @@ section[id] {
   min-height: 2.9rem;
   padding: 0.8rem 1.55rem;
   border: 1px solid transparent;
+  border-radius: 5px;
   background: transparent;
   font-family: var(--ui);
   font-size: var(--type-btn);
@@ -717,7 +719,7 @@ body.is-menu-open .site-header::before,
   --p-title: var(--type-h2);
   --p-body: var(--type-body);
   --p-label: var(--type-h3);
-  --p-icon: 60px;
+  --p-icon: 80px;
   --p-head-gap: clamp(2.9rem, 5.5vw, 4.2rem);
   --p-eyebrow-gap: 0.85rem;
   --p-icon-gap: clamp(1rem, 1.5vw, 1.35rem);
@@ -785,8 +787,8 @@ body.is-menu-open .site-header::before,
 
 .icon {
   flex: 0 0 auto;
-  width: var(--p-icon, 60px);
-  height: var(--p-icon, 60px);
+  width: var(--p-icon, 80px);
+  height: var(--p-icon, 80px);
   margin: 0 auto var(--p-icon-gap, 1.35rem);
   color: var(--burgundy);
 }
@@ -844,6 +846,10 @@ body.is-menu-open .site-header::before,
   align-items: stretch;
   overflow: hidden;
   background: var(--white);
+}
+
+.about > .media {
+  border-radius: 0 5px 5px 0;
 }
 
 .about__copy {
@@ -2116,21 +2122,26 @@ html.is-faq-pinning body {
   border-color: transparent transparent transparent var(--gold);
 }
 
-.faq__item[open] summary,
-.faq__item.is-animating summary,
-.faq__item.is-open summary {
+.faq__item[open]:not(.is-closing) summary,
+.faq__item.is-animating:not(.is-closing) summary,
+.faq__item.is-open:not(.is-closing) summary {
   color: var(--gold);
   border-bottom-color: #e6dcd2;
 }
 
-.faq__item[open] summary::before,
-.faq__item.is-animating summary::before,
-.faq__item.is-open summary::before {
+.faq__item[open]:not(.is-closing) summary::before,
+.faq__item.is-animating:not(.is-closing) summary::before,
+.faq__item.is-open:not(.is-closing) summary::before {
   border-color: transparent transparent transparent var(--gold);
   transform: rotate(90deg);
 }
 
+.faq__item.is-closing summary {
+  color: var(--ink);
+}
+
 .faq__item.is-closing summary::before {
+  border-color: transparent transparent transparent var(--gold);
   transform: rotate(0deg);
 }
 
@@ -2219,6 +2230,10 @@ html.is-faq-pinning body {
   min-height: 0;
   height: 100%;
   aspect-ratio: auto;
+}
+
+.contact__media img {
+  object-position: 28% center;
 }
 
 .contact__copy {
@@ -3064,7 +3079,7 @@ html.is-faq-pinning body {
 /* Tablet mid: layout only — type stays on fluid --fluid scale */
 @media (max-width: 1100px) {
   .pillars {
-    --p-icon: 60px;
+    --p-icon: 80px;
     --p-head-gap: clamp(1.2rem, 3vh, 2.2rem);
     --p-eyebrow-gap: 0.7rem;
     --p-icon-gap: 0.95rem;
@@ -3621,11 +3636,16 @@ html.is-faq-pinning body {
   }
 
   .contact {
-    height: var(--screen-h);
-    max-height: var(--screen-h);
-    min-height: var(--screen-h);
+    height: auto;
+    max-height: none;
+    min-height: 0;
     padding-block: clamp(2.5rem, 6vh, 3.75rem);
-    margin-bottom: 0;
+    margin-bottom: clamp(2.5rem, 8vh, 4.5rem);
+    overflow: visible;
+  }
+
+  .site-footer {
+    padding-top: clamp(2.5rem, 7vh, 4rem);
   }
 
   .quotes {
@@ -3881,6 +3901,10 @@ html.is-faq-pinning body {
     min-height: 0;
   }
 
+  .about > .media {
+    border-radius: 0 0 5px 5px;
+  }
+
   .about .media--fill {
     min-height: min(70vw, 28rem);
     height: auto;
@@ -3888,7 +3912,7 @@ html.is-faq-pinning body {
   }
 
   .pillars {
-    --p-icon: 60px;
+    --p-icon: 80px;
     --p-head-gap: clamp(1.6rem, 4vw, 2.6rem);
     --p-eyebrow-gap: 0.75rem;
     --p-icon-gap: 1.1rem;

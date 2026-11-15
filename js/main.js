@@ -610,10 +610,6 @@
     var faqItems = faq.querySelectorAll(".faq__item");
     var faqMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var faqMs = 420;
-    var faqPinTimers = [];
-    var faqPinSummary = null;
-    var faqPinAnchor = 0;
-    var faqPinRaf = 0;
 
     function faqSetOpen(item, open) {
       item.open = open;
@@ -621,69 +617,30 @@
       item.classList.remove("is-closing", "is-animating");
     }
 
-    function clearFaqPinTimers() {
-      faqPinTimers.forEach(function (id) { window.clearTimeout(id); });
-      faqPinTimers = [];
-      if (faqPinRaf) {
-        window.cancelAnimationFrame(faqPinRaf);
-        faqPinRaf = 0;
-      }
-      faqPinSummary = null;
-      faqPinActive = false;
-      document.documentElement.classList.remove("is-faq-pinning");
-    }
+    function faqAnimateClose(item) {
+      if (!item || (!item.classList.contains("is-open") && !item.open)) return;
+      if (item.classList.contains("is-closing")) return;
 
-    function releaseFaqPin() {
-      if (!faqPinActive && !faqPinSummary) return;
-      clearFaqPinTimers();
-    }
-
-    // Keep the question fixed only while the browser would jump it;
-    // release immediately on intentional user scroll/touch.
-    function pinFaqQuestion(summary, anchorTop, duration) {
-      if (!summary) return;
-      clearFaqPinTimers();
-      faqPinSummary = summary;
-      faqPinAnchor = anchorTop;
-      faqPinActive = true;
-      document.documentElement.classList.add("is-faq-pinning");
-
-      function correct() {
-        if (!faqPinActive || !faqPinSummary) return;
-        var delta = faqPinSummary.getBoundingClientRect().top - faqPinAnchor;
-        if (Math.abs(delta) > 1) window.scrollBy(0, delta);
+      if (faqMotion) {
+        faqSetOpen(item, false);
+        return;
       }
 
-      function tick() {
-        if (!faqPinActive) {
-          faqPinRaf = 0;
-          return;
-        }
-        correct();
-        faqPinRaf = window.requestAnimationFrame(tick);
-      }
-
-      faqPinRaf = window.requestAnimationFrame(tick);
-      faqPinTimers.push(window.setTimeout(function () {
-        correct();
-        clearFaqPinTimers();
-      }, duration + 24));
+      item.classList.add("is-animating", "is-closing");
+      item.classList.remove("is-open");
+      window.setTimeout(function () {
+        item.classList.remove("is-animating", "is-closing");
+        item.open = false;
+        item.classList.remove("is-open");
+      }, faqMs);
     }
 
-    window.addEventListener("wheel", releaseFaqPin, { passive: true });
-    window.addEventListener("touchmove", releaseFaqPin, { passive: true });
-    window.addEventListener("keydown", function (event) {
-      var keys = {
-        ArrowUp: 1,
-        ArrowDown: 1,
-        PageUp: 1,
-        PageDown: 1,
-        Home: 1,
-        End: 1,
-        " ": 1
-      };
-      if (keys[event.key]) releaseFaqPin();
-    });
+    function faqCloseOthers(except) {
+      Array.prototype.forEach.call(faqItems, function (other) {
+        if (other === except) return;
+        faqAnimateClose(other);
+      });
+    }
 
     Array.prototype.forEach.call(faqItems, function (item) {
       var summary = item.querySelector("summary");
@@ -697,18 +654,17 @@
         if (item.classList.contains("is-animating")) return;
 
         var nextOpen = !item.classList.contains("is-open");
-        var anchorTop = summary.getBoundingClientRect().top;
 
         if (faqMotion) {
+          if (nextOpen) faqCloseOthers(item);
           faqSetOpen(item, nextOpen);
-          pinFaqQuestion(summary, anchorTop, 48);
           return;
         }
 
-        item.classList.add("is-animating");
-        item.classList.toggle("is-closing", !nextOpen);
-
         if (nextOpen) {
+          faqCloseOthers(item);
+          item.classList.add("is-animating");
+          item.classList.remove("is-closing");
           // Open details first while still visually collapsed, so the
           // 0fr → 1fr transition has a real starting frame.
           item.open = true;
@@ -716,17 +672,21 @@
           void answer.offsetHeight;
           window.requestAnimationFrame(function () {
             item.classList.add("is-open");
-            pinFaqQuestion(summary, anchorTop, faqMs);
           });
-        } else {
-          item.classList.remove("is-open");
-          pinFaqQuestion(summary, anchorTop, faqMs);
+          window.setTimeout(function () {
+            item.classList.remove("is-animating", "is-closing");
+            item.open = true;
+            item.classList.add("is-open");
+          }, faqMs);
+          return;
         }
 
+        item.classList.add("is-animating", "is-closing");
+        item.classList.remove("is-open");
         window.setTimeout(function () {
           item.classList.remove("is-animating", "is-closing");
-          item.open = nextOpen;
-          item.classList.toggle("is-open", nextOpen);
+          item.open = false;
+          item.classList.remove("is-open");
         }, faqMs);
       });
     });
