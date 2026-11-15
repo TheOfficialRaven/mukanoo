@@ -76,7 +76,7 @@
   --type-ui: calc(0.94rem + 0.16rem * var(--fluid));
   --type-btn: 0.76rem;
   --type-meta: calc(0.78rem + 0.05rem * var(--fluid));
-  --type-footer-logo: 3.35rem;
+  --type-footer-logo: min(100%, 15.75rem);
   --type-footer-nav: calc(0.92rem + 0.06rem * var(--fluid));
   --type-footer: calc(0.86rem + 0.05rem * var(--fluid));
   --type-contact-title: var(--type-h2);
@@ -520,9 +520,9 @@ body.is-menu-open .site-header::before,
   position: relative;
   display: grid;
   place-items: center;
-  /* Felgörgetve (nem compact): nagyobb; compact: 2.35rem */
-  width: 3.35rem;
-  height: 3.35rem;
+  /* Felgörgetve: ~64px; compact: ~48px */
+  width: 4rem;
+  height: 4rem;
   transition:
     width 0.65s var(--nav-ease),
     height 0.65s var(--nav-ease);
@@ -531,8 +531,8 @@ body.is-menu-open .site-header::before,
 .site-header.is-compact .logo__stack,
 .site-header:has(.menu[open]) .logo__stack,
 body.is-menu-open .site-header .logo__stack {
-  width: 2.35rem;
-  height: 2.35rem;
+  width: 2.75rem;
+  height: 2.75rem;
 }
 
 .logo__img {
@@ -546,7 +546,7 @@ body.is-menu-open .site-header .logo__stack {
 }
 
 .logo__img--top {
-  opacity: 0.7;
+  opacity: 1;
 }
 
 .logo__img--nav {
@@ -704,7 +704,7 @@ body.is-menu-open .site-header .logo__img--nav {
   max-width: 576px;
   height: auto;
   margin-inline: auto;
-  opacity: 0.7;
+  opacity: 1;
 }
 
 .hero__quote {
@@ -2708,9 +2708,9 @@ html.is-faq-pinning body {
 .footer__logo {
   display: inline-flex;
   width: var(--type-footer-logo);
-  height: var(--type-footer-logo);
-  min-width: 3.35rem;
-  min-height: 3.35rem;
+  height: auto;
+  aspect-ratio: 717 / 206;
+  margin-bottom: 0.35rem;
   transform: scale(1);
   transform-origin: left center;
   transition: transform 0.45s var(--nav-ease, var(--ease));
@@ -2719,7 +2719,7 @@ html.is-faq-pinning body {
 .footer__logo img {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: contain;
 }
 
