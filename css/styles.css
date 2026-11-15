@@ -3708,12 +3708,12 @@ html.is-faq-pinning body {
     max-height: none;
     min-height: 0;
     padding-block: clamp(2.5rem, 6vh, 3.75rem);
-    margin-bottom: clamp(2.5rem, 8vh, 4.5rem);
+    margin-bottom: clamp(1.25rem, 3.5vh, 2rem);
     overflow: visible;
   }
 
   .site-footer {
-    padding-top: clamp(2.5rem, 7vh, 4rem);
+    padding-top: clamp(1.5rem, 4vh, 2.5rem);
   }
 
   .quotes {
