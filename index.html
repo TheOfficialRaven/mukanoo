@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hu">
 <head>
   <meta charset="utf-8">
@@ -45,13 +45,21 @@
         <a class="btn btn--gold site-nav__cta" href="#contact-title">Időpontot foglalok</a>
       </nav>
     </details>
-    <a class="logo" href="#hero">Mukanoo</a>
+    <a class="logo" href="#hero" aria-label="Mukanoo">
+      <span class="logo__stack" aria-hidden="true">
+        <img class="logo__img logo__img--top" src="assets/icons/mukanoo_logo@4x.webp" alt="" width="82" height="82" decoding="async">
+        <img class="logo__img logo__img--nav" src="assets/icons/Mukanoo_logo_smallnav@4x.webp" alt="" width="82" height="82" decoding="async">
+      </span>
+    </a>
   </header>
 
   <main id="tartalom">
     <section class="hero" id="hero" aria-labelledby="hero-title">
       <div class="hero__inner">
-        <h1 id="hero-title">Mukanoo</h1>
+        <h1 id="hero-title" class="hero__brand">
+          <span class="visually-hidden">Mukanoo</span>
+          <img class="hero__logo" src="assets/icons/Mukanoo_Hero@4x.webp" alt="" width="576" height="44" decoding="async">
+        </h1>
         <p class="hero__quote">„Az egyediség nem méret és kor kérdése.”</p>
         <div class="hero__actions">
           <a class="btn btn--gold" href="#contact-title">Időpontot foglalok</a>
@@ -63,7 +71,7 @@
     <section class="section pillars" id="elvek" aria-labelledby="elvek-title">
       <div class="wrap">
         <div class="section-head">
-          <span class="eyebrow">• Egyediség kompromisszumok nélkül •</span>
+          <span class="eyebrow">Egyediség kompromisszumok nélkül</span>
           <h2 id="elvek-title">Mi a MUKANOO?</h2>
           <p class="lead">Hiszek abban, hogy egy jól elkészített ruha nemcsak látványos, hanem kényelmes, tartós és valóban annak az embernek készül, aki viseli. A MUKANOO darabjainál nem a konfekcióméretből indulok ki, hanem belőled: a testalkatodból, az igényeidből, a személyiségedből és abból, hogyan szeretnéd érezni magad a ruhában.</p>
         </div>
@@ -665,7 +673,9 @@
     <div class="footer__inner">
       <div class="footer__grid">
         <div class="footer__brand">
-          <a class="logo footer__logo" href="#hero">Mukanoo</a>
+          <a class="logo footer__logo" href="#hero" aria-label="Mukanoo">
+            <img src="assets/icons/Mukanoo_logo_smallnav@4x.webp" alt="" width="82" height="82" decoding="async">
+          </a>
           <p>Rövid leírás a vállalkozásról, ami leírja, hogy mivel foglalkozik, milyen problémára kínál megoldást.</p>
         </div>
 
