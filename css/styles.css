@@ -2709,7 +2709,7 @@ html.is-faq-pinning body {
   display: inline-flex;
   width: var(--type-footer-logo);
   height: auto;
-  aspect-ratio: 717 / 206;
+  aspect-ratio: 717 / 204;
   margin-bottom: 0.35rem;
   transform: scale(1);
   transform-origin: left center;
@@ -3359,13 +3359,20 @@ html.is-faq-pinning body {
   .site-header .logo {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%) scale(1);
+    /* Felgörgetve kicsit lejjebb */
+    transform: translate(-50%, 0.35rem) scale(1);
     transition: transform 0.65s var(--nav-ease);
   }
 
   .site-header .logo:hover,
   .site-header .logo:focus-visible {
-    transform: translateX(-50%) scale(1.06);
+    transform: translate(-50%, 0.35rem) scale(1.06);
+  }
+
+  .site-header.is-compact .logo,
+  .site-header:has(.menu[open]) .logo,
+  body.is-menu-open .site-header .logo {
+    transform: translateX(-50%) scale(1);
   }
 
   .site-header.is-compact .logo:hover,
@@ -3446,12 +3453,25 @@ html.is-faq-pinning body {
     grid-row: 1;
     justify-self: center;
     z-index: 2;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, calc(-50% + 0.35rem)) scale(1);
     transition: transform 0.65s var(--nav-ease);
   }
 
   .site-header .logo:hover,
   .site-header .logo:focus-visible {
+    transform: translate(-50%, calc(-50% + 0.35rem)) scale(1.06);
+  }
+
+  .site-header.is-compact .logo,
+  .site-header:has(.menu[open]) .logo,
+  body.is-menu-open .site-header .logo {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .site-header.is-compact .logo:hover,
+  .site-header.is-compact .logo:focus-visible,
+  .site-header:has(.menu[open]) .logo:hover,
+  .site-header:has(.menu[open]) .logo:focus-visible {
     transform: translate(-50%, -50%) scale(1.06);
   }
 
