@@ -735,6 +735,34 @@
   var form = document.querySelector(".form");
   if (form) {
     var status = document.getElementById("form-status");
+    var submitBtn = form.querySelector('button[type="submit"]');
+
+    function encodeFormBody(formEl) {
+      var formData = new FormData(formEl);
+      if (!formData.get("form-name")) {
+        formData.set("form-name", formEl.getAttribute("name") || "kapcsolat");
+      }
+
+      var hasFile = false;
+      formData.forEach(function (value) {
+        if (typeof File !== "undefined" && value instanceof File && value.size > 0) hasFile = true;
+      });
+
+      // Fájl nélkül: URL-encoded (Netlify Forms AJAX). Fájllal: multipart (Netlify file upload).
+      if (hasFile) {
+        return { body: formData, headers: null };
+      }
+
+      var params = new URLSearchParams();
+      formData.forEach(function (value, key) {
+        if (typeof File !== "undefined" && value instanceof File) return;
+        params.append(key, value);
+      });
+      return {
+        body: params.toString(),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      };
+    }
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
@@ -769,21 +797,32 @@
         return;
       }
 
-      var email = form.getAttribute("data-email") || "hello@mukanoo.hu";
-      var lines = [];
-      new FormData(form).forEach(function (value, key) {
-        if (key === "company" || key === "photos" || key === "privacy") return;
-        if (!String(value).trim()) return;
-        lines.push(key + ": " + value);
-      });
+      var payload = encodeFormBody(form);
+      var request = { method: "POST", body: payload.body };
+      if (payload.headers) request.headers = payload.headers;
 
-      var href = "mailto:" + email
-        + "?subject=" + encodeURIComponent("Megkeresés a Mukanoo oldalról")
-        + "&body=" + encodeURIComponent(lines.join("\n"));
-
+      if (submitBtn) submitBtn.disabled = true;
       status.classList.remove("is-error");
-      status.textContent = "Megnyitjuk a levelezőt a kitöltött üzenettel.";
-      window.location.href = href;
+      status.textContent = "Küldés folyamatban…";
+
+      fetch("/", request)
+        .then(function (response) {
+          if (!response.ok) throw new Error("Netlify Forms hiba: " + response.status);
+          status.classList.remove("is-error");
+          status.textContent = "Köszönjük az üzeneted! Hamarosan felvesszük veled a kapcsolatot.";
+          form.reset();
+          selectedPhotos = [];
+          syncPhotoInput();
+          renderPhotoPreviews();
+          if (fileText) fileText.textContent = "Fotók csatolása";
+        })
+        .catch(function () {
+          status.classList.add("is-error");
+          status.textContent = "Az üzenet elküldése nem sikerült. Kérjük, próbáld újra később.";
+        })
+        .then(function () {
+          if (submitBtn) submitBtn.disabled = false;
+        });
     });
 
     form.addEventListener("input", function (event) {

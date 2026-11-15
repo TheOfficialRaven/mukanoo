@@ -16,7 +16,7 @@
     Képek: a szürke .media keretbe tedd az <img>-et, és töltsd ki az alt-ot.
     Példa: <img src="images/munka-01.jpg" alt="A munka rövid leírása">
     Színek: css/styles.css, a fájl tetején a :root változók.
-    Űrlap címzettje: a form data-email értéke.
+    Kapcsolat űrlap: Netlify Forms (name="kapcsolat"). Értesítések: Netlify admin.
   -->
 </head>
 <body>
@@ -600,7 +600,18 @@
           <span class="eyebrow">Együtt a kezdetektől a kész darabig</span>
           <h2 id="contact-title">Mesélj az elképzelésedről</h2>
           <p class="lead">Legyen szó egyedi ruhakészítésről, méretre igazításról, ruhaátalakításról vagy különleges színpadi és mozgásművészeti öltözékről, írd meg röviden, miben segíthetek. Ha van fotód vagy inspirációd, azt is csatolhatod, így már az első egyeztetés előtt jobban megismerhetem az elképzelésedet.</p>
-          <form class="form" id="kapcsolat-form" data-email="hello@mukanoo.hu" novalidate>
+          <form
+            class="form"
+            id="kapcsolat-form"
+            name="kapcsolat"
+            method="POST"
+            action="/"
+            enctype="multipart/form-data"
+            data-netlify="true"
+            data-netlify-honeypot="company"
+            novalidate
+          >
+            <input type="hidden" name="form-name" value="kapcsolat">
             <div class="hp" aria-hidden="true">
               <label>Ne töltse ki <input type="text" name="company" tabindex="-1" autocomplete="off"></label>
             </div>
