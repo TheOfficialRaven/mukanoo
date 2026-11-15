@@ -756,48 +756,25 @@
       fileInput.files = transfer.files;
     }
 
-    function encodeFormBody(formEl) {
+    function buildFormSubmitBody(formEl) {
       syncPhotoInput();
 
       var formData = new FormData(formEl);
-      if (!formData.get("form-name")) {
-        formData.set("form-name", formEl.getAttribute("name") || "kapcsolat");
-      }
-
-      // Privacy csak kliensoldali kötelező mező — ne jelenjen meg az értesítő e-mailben
       formData.delete("privacy");
-
-      // Üres file input bejegyzések törlése, majd a kiválasztott fotók explicit csatolása
       formData.delete("Fotok");
       formData.delete("photos");
       selectedPhotos.forEach(function (file) {
         if (file && file.size > 0) formData.append("Fotok", file, file.name);
       });
 
-      var hasFile = selectedPhotos.some(function (file) {
-        return file && file.size > 0;
-      });
-
-      // Fájllal: multipart (Netlify file upload). Fájl nélkül: URL-encoded.
-      if (hasFile) {
-        return { body: formData, headers: null };
-      }
-
-      var params = new URLSearchParams();
-      formData.forEach(function (value, key) {
-        if (typeof File !== "undefined" && value instanceof File) return;
-        params.append(key, value);
-      });
-      return {
-        body: params.toString(),
-        headers: { "Content-Type": "application/x-www-form-urlencoded" }
-      };
+      return formData;
     }
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
-      var honeypot = form.querySelector("[name='company']");
-      if (honeypot && honeypot.value) return;
+      var honeypot = form.querySelector("[name='_honey']");
+      // Autofill gyakran kitölti a honeypotot — küldés előtt ürítjük
+      if (honeypot) honeypot.value = "";
 
       var invalid = false;
       Array.prototype.forEach.call(form.querySelectorAll("[required]"), function (field) {
@@ -827,17 +804,38 @@
         return;
       }
 
-      var payload = encodeFormBody(form);
-      var request = { method: "POST", body: payload.body };
-      if (payload.headers) request.headers = payload.headers;
-
       if (submitBtn) submitBtn.disabled = true;
       status.classList.remove("is-error");
       status.textContent = "Küldés folyamatban…";
 
-      fetch("/", request)
+      fetch("https://formsubmit.co/ajax/sath_@outlook.hu", {
+        method: "POST",
+        body: buildFormSubmitBody(form),
+        headers: { Accept: "application/json" }
+      })
         .then(function (response) {
-          if (!response.ok) throw new Error("Netlify Forms hiba: " + response.status);
+          return response.json().catch(function () {
+            return {};
+          }).then(function (data) {
+            return { response: response, data: data || {} };
+          });
+        })
+        .then(function (result) {
+          var data = result.data;
+          var success = data.success === true || data.success === "true";
+          var message = String(data.message || data.error || "");
+          var needsActivation = /activation/i.test(message) || /activate form/i.test(message);
+
+          if (needsActivation) {
+            status.classList.add("is-error");
+            status.textContent = "A FormSubmit űrlap még nincs aktiválva. Nézd meg a sath_@outlook.hu fiókot (Beérkezett, Spam és a Quarantine/Junk mappát) a FormSubmit „Activate Form” leveléért, kattints a linkre, majd küldd újra az űrlapot.";
+            return;
+          }
+
+          if (!result.response.ok || !success) {
+            throw new Error(message || ("FormSubmit hiba: " + result.response.status));
+          }
+
           status.classList.remove("is-error");
           status.textContent = "Köszönjük az üzeneted! Hamarosan felvesszük veled a kapcsolatot.";
           form.reset();
