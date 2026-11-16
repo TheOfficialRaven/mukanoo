@@ -37,8 +37,9 @@
   --header-short: 3.15rem;
   /* Szekciómagasság / scroll: a kompakt (görgetett) navbarhoz igazítva */
   --header: var(--header-short);
-  /* svh = „kis” viewport (böngészősávval): nem ugrik, ha a chrome elrejtődik/előjön */
-  --screen-h: calc(100svh - var(--header-short));
+  /* lvh = „nagy” viewport (chrome nélkül): kitölti a képernyőt, mégsem ugrik görgetéskor */
+  --screen-h: calc(100vh - var(--header-short));
+  --screen-h: calc(100lvh - var(--header-short));
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --carousel-ease: cubic-bezier(0.45, 0.02, 0.12, 1);
   --carousel-dur: 1.15s;
@@ -519,19 +520,21 @@ body.is-menu-open .site-header::before,
   position: relative;
   display: grid;
   place-items: center;
-  /* Felgörgetve: ~64px; compact: ~48px */
+  /* Fix doboz — méretváltás scale-lel (nem width/height), így nem ugrik oldalra */
   width: 4rem;
   height: 4rem;
-  transition:
-    width 0.65s var(--nav-ease),
-    height 0.65s var(--nav-ease);
 }
 
-.site-header.is-compact .logo__stack,
-.site-header:has(.menu[open]) .logo__stack,
-body.is-menu-open .site-header .logo__stack {
-  width: 2.75rem;
-  height: 2.75rem;
+.site-header {
+  --logo-scale: 1;
+  --logo-nudge-y: 0.35rem;
+}
+
+.site-header.is-compact,
+.site-header:has(.menu[open]),
+body.is-menu-open .site-header {
+  --logo-scale: 0.6875; /* 2.75 / 4 */
+  --logo-nudge-y: 0px;
 }
 
 .logo__img {
@@ -553,7 +556,7 @@ body.is-menu-open .site-header .logo__stack {
 }
 
 .site-header .logo {
-  transform: scale(1);
+  transform: translateY(var(--logo-nudge-y)) scale(var(--logo-scale));
   transform-origin: center center;
   transition: transform 0.65s var(--nav-ease);
 }
@@ -3424,27 +3427,20 @@ html.is-faq-pinning body {
   .site-header .logo {
     position: absolute;
     left: 50%;
-    /* Felgörgetve kicsit lejjebb */
-    transform: translate(-50%, 0.35rem) scale(1);
+    transform: translate(-50%, var(--logo-nudge-y)) scale(var(--logo-scale));
     transition: transform 0.65s var(--nav-ease);
   }
 
   .site-header .logo:hover,
   .site-header .logo:focus-visible {
-    transform: translate(-50%, 0.35rem) scale(1.06);
-  }
-
-  .site-header.is-compact .logo,
-  .site-header:has(.menu[open]) .logo,
-  body.is-menu-open .site-header .logo {
-    transform: translateX(-50%) scale(1);
+    transform: translate(-50%, var(--logo-nudge-y)) scale(calc(var(--logo-scale) * 1.06));
   }
 
   .site-header.is-compact .logo:hover,
   .site-header.is-compact .logo:focus-visible,
   .site-header:has(.menu[open]) .logo:hover,
   .site-header:has(.menu[open]) .logo:focus-visible {
-    transform: translateX(-50%) scale(1.06);
+    transform: translate(-50%, var(--logo-nudge-y)) scale(calc(var(--logo-scale) * 1.06));
   }
 
   .menu {
@@ -3518,26 +3514,20 @@ html.is-faq-pinning body {
     grid-row: 1;
     justify-self: center;
     z-index: 2;
-    transform: translate(-50%, calc(-50% + 0.35rem)) scale(1);
+    transform: translate(-50%, calc(-50% + var(--logo-nudge-y))) scale(var(--logo-scale));
     transition: transform 0.65s var(--nav-ease);
   }
 
   .site-header .logo:hover,
   .site-header .logo:focus-visible {
-    transform: translate(-50%, calc(-50% + 0.35rem)) scale(1.06);
-  }
-
-  .site-header.is-compact .logo,
-  .site-header:has(.menu[open]) .logo,
-  body.is-menu-open .site-header .logo {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, calc(-50% + var(--logo-nudge-y))) scale(calc(var(--logo-scale) * 1.06));
   }
 
   .site-header.is-compact .logo:hover,
   .site-header.is-compact .logo:focus-visible,
   .site-header:has(.menu[open]) .logo:hover,
   .site-header:has(.menu[open]) .logo:focus-visible {
-    transform: translate(-50%, -50%) scale(1.06);
+    transform: translate(-50%, calc(-50% + var(--logo-nudge-y))) scale(calc(var(--logo-scale) * 1.06));
   }
 
   .menu {

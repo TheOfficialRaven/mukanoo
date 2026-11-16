@@ -123,38 +123,17 @@
   }
 
   var lastHeaderPx = "";
-  var lastScreenPx = "";
-  /*
-   * Leggyakoribb mobil-minta: zárolt viewport-magasság.
-   * Csak load + orientáció / szélességváltás frissíti — a chrome show/hide NEM.
-   * CSS fallback: 100svh
-   */
-  var lockedVh = 0;
-  var lockedWidth = 0;
 
-  function syncHeaderVar(forceLock) {
+  function syncHeaderVar() {
     if (!header) return;
     var h = remTokenToPx("--header-short");
-    var w = window.innerWidth || 0;
-    var vh = window.innerHeight || document.documentElement.clientHeight || 0;
-    var widthChanged = Math.abs(w - lockedWidth) > 2;
-
-    if (forceLock || !lockedVh || widthChanged) {
-      lockedVh = vh;
-      lockedWidth = w;
-    }
-
-    var screen = Math.max(0, Math.ceil(lockedVh - h));
     var headerPx = Math.round(h) + "px";
-    var screenPx = screen + "px";
     if (headerPx !== lastHeaderPx) {
       lastHeaderPx = headerPx;
       document.documentElement.style.setProperty("--header", headerPx);
     }
-    if (screenPx !== lastScreenPx) {
-      lastScreenPx = screenPx;
-      document.documentElement.style.setProperty("--screen-h", screenPx);
-    }
+    /* --screen-h: CSS 100lvh — ne írjuk felül JS-sel (kis/nagy chrome ugrás) */
+    document.documentElement.style.removeProperty("--screen-h");
   }
 
   function updateNav(force) {
@@ -190,16 +169,16 @@
   }
 
   updateNav(true);
-  syncHeaderVar(true);
+  syncHeaderVar();
   window.addEventListener("scroll", onScrollNav, { passive: true });
   onResizeEnd(function () {
     updateNav(true);
-    syncHeaderVar(false);
+    syncHeaderVar();
     syncContentWidth();
   });
   window.addEventListener("orientationchange", function () {
     window.setTimeout(function () {
-      syncHeaderVar(true);
+      syncHeaderVar();
       updateNav(true);
     }, 250);
   });
