@@ -972,11 +972,8 @@ body.is-menu-open .site-header .logo__img--nav {
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
-  /* Élő viewport: chrome nélkül is a képernyő aljáig ér */
   height: var(--screen-h);
-  height: calc(100dvh - var(--header));
   max-height: var(--screen-h);
-  max-height: calc(100dvh - var(--header));
   min-height: var(--screen-h);
   padding-top: var(--section-pad-y);
   padding-bottom: var(--section-pad-y);
@@ -1338,9 +1335,7 @@ body.is-menu-open .site-header .logo__img--nav {
 .palette__pin {
   position: sticky;
   top: var(--header);
-  /* Mindig a látható viewport aljáig érjen (chrome nélkül se legyen fehér rés) */
   height: var(--screen-h);
-  height: calc(100dvh - var(--header));
   min-height: var(--screen-h);
   overflow: hidden;
 }
@@ -3325,9 +3320,7 @@ html.is-faq-pinning body {
   .works,
   .gallery {
     height: var(--screen-h);
-    height: calc(100dvh - var(--header));
     max-height: var(--screen-h);
-    max-height: calc(100dvh - var(--header));
     min-height: var(--screen-h);
     overflow: hidden;
   }
@@ -3388,7 +3381,6 @@ html.is-faq-pinning body {
     position: sticky;
     top: var(--header);
     height: var(--screen-h);
-    height: calc(100dvh - var(--header));
     min-height: var(--screen-h);
     overflow: hidden;
   }
@@ -3816,7 +3808,7 @@ html.is-faq-pinning body {
     aspect-ratio: unset;
   }
 
-  /* Teljes méretű szekciók: látható viewport aljáig (dvh) */
+  /* Teljes méretű szekciók */
   .works,
   .gallery {
     --mobile-pad-y: clamp(1.1rem, 3svh, 1.75rem);
@@ -3825,9 +3817,7 @@ html.is-faq-pinning body {
     justify-content: center;
     box-sizing: border-box;
     height: var(--screen-h);
-    height: calc(100dvh - var(--header));
     max-height: var(--screen-h);
-    max-height: calc(100dvh - var(--header));
     min-height: var(--screen-h);
     padding-block: var(--mobile-pad-y);
     overflow: hidden;

@@ -127,26 +127,39 @@
   var lockedAppWidth = 0;
   var snapChromeLockUntil = 0;
 
-  /* Nagy viewport mérése (lvh) — stabil, nem követi a chrome-ot */
+  /* Nagy (chrome nélküli) viewport — lvh, majd max(innerHeight) */
   function measureLargeViewport() {
     var el = document.createElement("div");
     el.setAttribute("aria-hidden", "true");
     el.style.cssText =
-      "position:fixed;left:0;top:0;width:0;height:100vh;height:100lvh;" +
+      "position:fixed;left:0;top:0;width:0;height:100lvh;" +
       "overflow:hidden;visibility:hidden;pointer-events:none;";
     document.documentElement.appendChild(el);
-    var h = Math.round(el.getBoundingClientRect().height || 0);
+    var lvh = Math.round(el.getBoundingClientRect().height || 0);
     document.documentElement.removeChild(el);
     var ih = window.innerHeight || document.documentElement.clientHeight || 0;
-    /* Ha az lvh nem támogatott, legalább az aktuális magasság */
-    return Math.max(h, ih);
+    var vv = window.visualViewport ? Math.round(window.visualViewport.height) : 0;
+    return Math.max(lvh, ih, vv);
   }
 
+  /*
+   * Zárás a NAGY viewportra, és ott marad:
+   * - force / szélességváltás: újramér
+   * - ha a chrome eltűnik és nő a magasság: felvenni (soha nem zsugorodik vissza)
+   */
   function lockAppHeight(force) {
     var w = window.innerWidth || 0;
-    if (!force && lockedAppH && Math.abs(w - lockedAppWidth) < 2) return;
-    lockedAppWidth = w;
-    lockedAppH = measureLargeViewport();
+    var h = measureLargeViewport();
+    var widthChanged = Math.abs(w - lockedAppWidth) > 2;
+
+    if (force || !lockedAppH || widthChanged) {
+      lockedAppWidth = w;
+      lockedAppH = h;
+    } else if (h > lockedAppH + 8) {
+      lockedAppH = h;
+    } else {
+      return;
+    }
     document.documentElement.style.setProperty("--app-height", lockedAppH + "px");
   }
 
@@ -209,7 +222,7 @@
       updateNav(true);
     }, 300);
   });
-  /* Chrome show/hide: ne soft-snapeljen / ne layoutoljon — csak rövid snap-lock */
+  /* Chrome eltűnésekor: egyszer felvesszük a nagyobb magasságot, vissza soha */
   if (window.visualViewport) {
     var lastVvH = window.visualViewport.height;
     window.visualViewport.addEventListener("resize", function () {
@@ -217,6 +230,7 @@
       if (Math.abs(h - lastVvH) < 1) return;
       lastVvH = h;
       snapChromeLockUntil = Date.now() + 500;
+      if (h > lockedAppH + 8) lockAppHeight(false);
     }, { passive: true });
   }
   if (menu) {
