@@ -123,6 +123,32 @@
   }
 
   var lastHeaderPx = "";
+  var lockedAppH = 0;
+  var lockedAppWidth = 0;
+  var snapChromeLockUntil = 0;
+
+  /* Nagy viewport mérése (lvh) — stabil, nem követi a chrome-ot */
+  function measureLargeViewport() {
+    var el = document.createElement("div");
+    el.setAttribute("aria-hidden", "true");
+    el.style.cssText =
+      "position:fixed;left:0;top:0;width:0;height:100vh;height:100lvh;" +
+      "overflow:hidden;visibility:hidden;pointer-events:none;";
+    document.documentElement.appendChild(el);
+    var h = Math.round(el.getBoundingClientRect().height || 0);
+    document.documentElement.removeChild(el);
+    var ih = window.innerHeight || document.documentElement.clientHeight || 0;
+    /* Ha az lvh nem támogatott, legalább az aktuális magasság */
+    return Math.max(h, ih);
+  }
+
+  function lockAppHeight(force) {
+    var w = window.innerWidth || 0;
+    if (!force && lockedAppH && Math.abs(w - lockedAppWidth) < 2) return;
+    lockedAppWidth = w;
+    lockedAppH = measureLargeViewport();
+    document.documentElement.style.setProperty("--app-height", lockedAppH + "px");
+  }
 
   function syncHeaderVar() {
     if (!header) return;
@@ -132,8 +158,6 @@
       lastHeaderPx = headerPx;
       document.documentElement.style.setProperty("--header", headerPx);
     }
-    /* --screen-h: CSS 100lvh — ne írjuk felül JS-sel (kis/nagy chrome ugrás) */
-    document.documentElement.style.removeProperty("--screen-h");
   }
 
   function updateNav(force) {
@@ -168,20 +192,33 @@
     });
   }
 
+  lockAppHeight(true);
   updateNav(true);
   syncHeaderVar();
   window.addEventListener("scroll", onScrollNav, { passive: true });
   onResizeEnd(function () {
+    lockAppHeight(false);
     updateNav(true);
     syncHeaderVar();
     syncContentWidth();
   });
   window.addEventListener("orientationchange", function () {
     window.setTimeout(function () {
+      lockAppHeight(true);
       syncHeaderVar();
       updateNav(true);
-    }, 250);
+    }, 300);
   });
+  /* Chrome show/hide: ne soft-snapeljen / ne layoutoljon — csak rövid snap-lock */
+  if (window.visualViewport) {
+    var lastVvH = window.visualViewport.height;
+    window.visualViewport.addEventListener("resize", function () {
+      var h = window.visualViewport.height;
+      if (Math.abs(h - lastVvH) < 1) return;
+      lastVvH = h;
+      snapChromeLockUntil = Date.now() + 500;
+    }, { passive: true });
+  }
   if (menu) {
     function setMenuScrollLock(locked) {
       document.body.classList.toggle("is-menu-open", locked);
@@ -338,7 +375,7 @@
     var snapSections = document.querySelectorAll(
       "main > .hero, main > .pillars, main > .about, main > .works, main > .gallery, main > .palette, main > .contact"
     );
-    var mobileSnapOff = window.matchMedia("(max-width: 860px)");
+    var mobileSnapOff = window.matchMedia("(max-width: 1100px), (hover: none), (pointer: coarse)");
     var snapTimer = 0;
     var snapping = false;
     var snapRaf = 0;
@@ -383,14 +420,22 @@
     }
 
     function softSnap() {
-      if (mobileSnapOff.matches || snapping || faqPinActive || Date.now() < snapLockUntil) return;
+      if (
+        mobileSnapOff.matches ||
+        snapping ||
+        faqPinActive ||
+        Date.now() < snapLockUntil ||
+        Date.now() < snapChromeLockUntil
+      ) {
+        return;
+      }
 
       var offset = headerOffset();
       var y = window.scrollY || window.pageYOffset || 0;
       if (y < 80) return;
 
       var threshold = 48;
-      var viewH = window.innerHeight || 0;
+      var viewH = lockedAppH || window.innerHeight || 0;
       var maxY = Math.max(0, document.documentElement.scrollHeight - viewH);
       var bestTop = y;
       var bestDist = Infinity;

@@ -37,9 +37,10 @@
   --header-short: 3.15rem;
   /* Szekciómagasság / scroll: a kompakt (görgetett) navbarhoz igazítva */
   --header: var(--header-short);
-  /* lvh = „nagy” viewport (chrome nélkül): kitölti a képernyőt, mégsem ugrik görgetéskor */
-  --screen-h: calc(100vh - var(--header-short));
-  --screen-h: calc(100lvh - var(--header-short));
+  /* Pixelre zárolt app-magasság (JS) — fallback: lvh. Chrome show/hide nem méretezi újra. */
+  --app-height: 100vh;
+  --app-height: 100lvh;
+  --screen-h: calc(var(--app-height) - var(--header-short));
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --carousel-ease: cubic-bezier(0.45, 0.02, 0.12, 1);
   --carousel-dur: 1.15s;
