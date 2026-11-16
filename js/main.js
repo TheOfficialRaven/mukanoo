@@ -1038,12 +1038,29 @@
       paint(goalOffset());
     }
 
+    function syncPaletteRunway() {
+      if (!pin || !palette) return;
+      if (narrow.matches) {
+        palette.style.height = (leadHeight() + pin.clientHeight + scrollSpan()) + "px";
+      } else {
+        palette.style.height = (pin.clientHeight + scrollSpan()) + "px";
+      }
+    }
+
     layoutPalette();
     window.addEventListener("scroll", function () {
       if (!frame) frame = window.requestAnimationFrame(step);
     }, { passive: true });
     onResizeEnd(layoutPalette);
     if (narrow.addEventListener) narrow.addEventListener("change", layoutPalette);
+    /* Chrome eltűnésekor a pin (dvh) nő — csak a runway magasságot igazítjuk */
+    if (window.visualViewport) {
+      var paletteVvTimer = 0;
+      window.visualViewport.addEventListener("resize", function () {
+        window.clearTimeout(paletteVvTimer);
+        paletteVvTimer = window.setTimeout(syncPaletteRunway, 120);
+      }, { passive: true });
+    }
   }
 
   document.querySelectorAll(".work").forEach(function (card) {
