@@ -3,6 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    /* Stabil mobil viewport: kis (sávval) + nagy (sáv nélkül), egyszer mérve — chrome show/hide nem írja újra */
+    (function () {
+      function measure(unit) {
+        var el = document.createElement("div");
+        el.style.cssText = "position:fixed;left:0;top:0;width:0;height:" + unit + ";visibility:hidden;pointer-events:none;";
+        document.documentElement.appendChild(el);
+        var h = el.getBoundingClientRect().height;
+        document.documentElement.removeChild(el);
+        return Math.round(h) || 0;
+      }
+      function lock() {
+        var small = measure("100svh") || window.innerHeight || 0;
+        var large = measure("100lvh") || 0;
+        if (large < small) large = small;
+        /* Ha a böngésző nem különíti el svh/lvh-t: screen.availHeight tipp */
+        var avail = (window.screen && screen.availHeight) || 0;
+        var coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+        if (coarse && large <= small + 2 && avail > small + 24 && avail < small * 1.45) {
+          large = avail;
+        }
+        var root = document.documentElement.style;
+        root.setProperty("--vh-small", small + "px");
+        root.setProperty("--vh-large", large + "px");
+        root.setProperty("--app-height", large + "px");
+      }
+      lock();
+      window.__mukanooLockVh = lock;
+    })();
+  </script>
   <title>Mukanoo</title>
   <meta name="description" content="Mukanoo — anyag, fény és nyugodt arányok. Munkák, szemlélet és kapcsolat.">
   <meta name="theme-color" content="#e1e1e1">

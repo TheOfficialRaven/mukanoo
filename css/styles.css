@@ -37,10 +37,16 @@
   --header-short: 3.15rem;
   /* Szekciómagasság / scroll: a kompakt (görgetett) navbarhoz igazítva */
   --header: var(--header-short);
-  /* Pixelre zárolt app-magasság (JS) — fallback: lvh. Chrome show/hide nem méretezi újra. */
-  --app-height: 100vh;
-  --app-height: 100lvh;
-  --screen-h: calc(var(--app-height) - var(--header-short));
+  /*
+   * Mobil viewport (head script + main.js zárolja pixelre):
+   * --vh-small = sávval (hero), --vh-large / --app-height = sáv nélkül (works stb.)
+   */
+  --vh-small: 100vh;
+  --vh-small: 100svh;
+  --vh-large: 100vh;
+  --vh-large: 100lvh;
+  --app-height: var(--vh-large);
+  --screen-h: calc(var(--vh-large) - var(--header-short));
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --carousel-ease: cubic-bezier(0.45, 0.02, 0.12, 1);
   --carousel-dur: 1.15s;
@@ -668,9 +674,8 @@ body.is-menu-open .site-header .logo__img--nav {
   align-items: flex-end;
   justify-content: center;
   box-sizing: border-box;
-  /* Kis viewport (böngészősávval) — nem a zárolt nagy --screen-h */
-  min-height: 100vh;
-  min-height: 100svh;
+  /* Csak a zárolt kis viewport — ne vh/svh/dvh (azok böngészőnként ugrálhatnak) */
+  min-height: var(--vh-small);
   margin-top: 0;
   padding: var(--header-tall) var(--pad) 6.5svh;
   background-color: var(--hero);
@@ -3346,7 +3351,7 @@ html.is-faq-pinning body {
 @media (max-height: 680px) {
   /* Ne törjük össze a herót nagyításnál (CSS max-height csökken) */
   .hero {
-    min-height: 100svh;
+    min-height: var(--vh-small);
     padding-bottom: 4svh;
   }
 
@@ -4219,7 +4224,7 @@ html.is-faq-pinning body {
   }
 
   .hero {
-    min-height: 100svh;
+    min-height: var(--vh-small);
     padding-bottom: 8svh;
   }
 

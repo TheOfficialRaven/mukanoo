@@ -127,33 +127,47 @@
   var lockedAppWidth = 0;
   var snapChromeLockUntil = 0;
 
-  /* Nagy (chrome nélküli) viewport — lvh, majd max(innerHeight) */
-  function measureLargeViewport() {
+  function measureVhUnit(unit) {
     var el = document.createElement("div");
     el.setAttribute("aria-hidden", "true");
     el.style.cssText =
-      "position:fixed;left:0;top:0;width:0;height:100lvh;" +
+      "position:fixed;left:0;top:0;width:0;height:" + unit + ";" +
       "overflow:hidden;visibility:hidden;pointer-events:none;";
     document.documentElement.appendChild(el);
-    var lvh = Math.round(el.getBoundingClientRect().height || 0);
+    var h = Math.round(el.getBoundingClientRect().height || 0);
     document.documentElement.removeChild(el);
-    var ih = window.innerHeight || document.documentElement.clientHeight || 0;
-    var vv = window.visualViewport ? Math.round(window.visualViewport.height) : 0;
-    return Math.max(lvh, ih, vv);
+    return h;
   }
 
   /*
-   * Zárás a NAGY viewportra egyszer — chrome show/hide NEM méretezi újra (nincs ugrás).
-   * Hero külön: 100svh (sávos nézet).
+   * Megbízható minta: --vh-small (sávval) + --vh-large (sáv nélkül), pixelre zárolva.
+   * Csak load / orientáció / szélességváltás — chrome show/hide SOHA.
    */
   function lockAppHeight(force) {
     var w = window.innerWidth || 0;
     var widthChanged = Math.abs(w - lockedAppWidth) > 2;
     if (!force && lockedAppH && !widthChanged) return;
 
+    if (typeof window.__mukanooLockVh === "function") {
+      window.__mukanooLockVh();
+    }
+
+    var small = measureVhUnit("100svh") || window.innerHeight || 0;
+    var large = measureVhUnit("100lvh") || 0;
+    if (large < small) large = small;
+    var avail = (window.screen && screen.availHeight) || 0;
+    var coarse = window.matchMedia("(pointer: coarse)").matches;
+    if (coarse && large <= small + 2 && avail > small + 24 && avail < small * 1.45) {
+      large = avail;
+    }
+
     lockedAppWidth = w;
-    lockedAppH = measureLargeViewport();
-    document.documentElement.style.setProperty("--app-height", lockedAppH + "px");
+    lockedAppH = large;
+
+    var root = document.documentElement.style;
+    root.setProperty("--vh-small", small + "px");
+    root.setProperty("--vh-large", large + "px");
+    root.setProperty("--app-height", large + "px");
   }
 
   function syncHeaderVar() {
