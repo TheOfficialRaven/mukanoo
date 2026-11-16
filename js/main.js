@@ -143,23 +143,16 @@
   }
 
   /*
-   * Zárás a NAGY viewportra, és ott marad:
-   * - force / szélességváltás: újramér
-   * - ha a chrome eltűnik és nő a magasság: felvenni (soha nem zsugorodik vissza)
+   * Zárás a NAGY viewportra egyszer — chrome show/hide NEM méretezi újra (nincs ugrás).
+   * Hero külön: 100svh (sávos nézet).
    */
   function lockAppHeight(force) {
     var w = window.innerWidth || 0;
-    var h = measureLargeViewport();
     var widthChanged = Math.abs(w - lockedAppWidth) > 2;
+    if (!force && lockedAppH && !widthChanged) return;
 
-    if (force || !lockedAppH || widthChanged) {
-      lockedAppWidth = w;
-      lockedAppH = h;
-    } else if (h > lockedAppH + 8) {
-      lockedAppH = h;
-    } else {
-      return;
-    }
+    lockedAppWidth = w;
+    lockedAppH = measureLargeViewport();
     document.documentElement.style.setProperty("--app-height", lockedAppH + "px");
   }
 
@@ -222,7 +215,7 @@
       updateNav(true);
     }, 300);
   });
-  /* Chrome eltűnésekor: egyszer felvesszük a nagyobb magasságot, vissza soha */
+  /* Chrome show/hide: ne méretezzünk — csak soft-snap zárolás */
   if (window.visualViewport) {
     var lastVvH = window.visualViewport.height;
     window.visualViewport.addEventListener("resize", function () {
@@ -230,7 +223,6 @@
       if (Math.abs(h - lastVvH) < 1) return;
       lastVvH = h;
       snapChromeLockUntil = Date.now() + 500;
-      if (h > lockedAppH + 8) lockAppHeight(false);
     }, { passive: true });
   }
   if (menu) {

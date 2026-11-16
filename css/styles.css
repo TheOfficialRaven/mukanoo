@@ -668,8 +668,9 @@ body.is-menu-open .site-header .logo__img--nav {
   align-items: flex-end;
   justify-content: center;
   box-sizing: border-box;
-  /* Ugyanaz a mérték, mint a többi szekció: screen-h + kompakt header */
-  min-height: calc(var(--screen-h) + var(--header-short));
+  /* Kis viewport (böngészősávval) — nem a zárolt nagy --screen-h */
+  min-height: 100vh;
+  min-height: 100svh;
   margin-top: 0;
   padding: var(--header-tall) var(--pad) 6.5svh;
   background-color: var(--hero);
@@ -3345,7 +3346,7 @@ html.is-faq-pinning body {
 @media (max-height: 680px) {
   /* Ne törjük össze a herót nagyításnál (CSS max-height csökken) */
   .hero {
-    min-height: calc(var(--screen-h) + var(--header-short));
+    min-height: 100svh;
     padding-bottom: 4svh;
   }
 
@@ -4218,7 +4219,7 @@ html.is-faq-pinning body {
   }
 
   .hero {
-    min-height: calc(var(--screen-h) + var(--header-short));
+    min-height: 100svh;
     padding-bottom: 8svh;
   }
 
