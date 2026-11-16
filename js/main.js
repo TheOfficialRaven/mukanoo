@@ -120,14 +120,26 @@
 
   var lastHeaderPx = "";
   var lastScreenPx = "";
+  /* Mobil chrome show/hide ~40–70px; ezt NEM követjük. Újramérés: orientáció / ablakméret. */
+  var lockedVh = 0;
+  var lockedWidth = 0;
+  var VH_RELOCK_PX = 120;
 
-  function syncHeaderVar() {
+  function syncHeaderVar(forceLock) {
     if (!header) return;
     var h = remTokenToPx("--header-short");
+    var w = window.innerWidth || 0;
     var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+    var widthChanged = Math.abs(w - lockedWidth) > 24;
+    var heightJumped = Math.abs(vh - lockedVh) > VH_RELOCK_PX;
+
+    if (forceLock || !lockedVh || widthChanged || heightJumped) {
+      lockedVh = vh;
+      lockedWidth = w;
+    }
+
     // ceil: a szekció soha ne legyen rövidebb a navbar alatti látható területnél
-    // (különben alul kilóg a következő, felfelé pedig az előző)
-    var screen = Math.max(0, Math.ceil(vh - h));
+    var screen = Math.max(0, Math.ceil(lockedVh - h));
     var headerPx = Math.round(h) + "px";
     var screenPx = screen + "px";
     if (headerPx !== lastHeaderPx) {
@@ -173,11 +185,18 @@
   }
 
   updateNav(true);
+  syncHeaderVar(true);
   window.addEventListener("scroll", onScrollNav, { passive: true });
   onResizeEnd(function () {
     updateNav(true);
-    syncHeaderVar();
+    syncHeaderVar(false);
     syncContentWidth();
+  });
+  window.addEventListener("orientationchange", function () {
+    window.setTimeout(function () {
+      syncHeaderVar(true);
+      updateNav(true);
+    }, 250);
   });
   if (menu) {
     function setMenuScrollLock(locked) {
