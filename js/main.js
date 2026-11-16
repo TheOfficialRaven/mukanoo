@@ -34,10 +34,14 @@
     resizeEndTimer = window.setTimeout(runResizeEnd, RESIZE_SETTLE_MS);
   }
 
-  window.addEventListener("resize", scheduleResizeEnd, { passive: true });
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", scheduleResizeEnd, { passive: true });
-  }
+  /* Csak layout-szélesség / orientáció — NE a visualViewport (chrome show/hide) */
+  var lastLayoutWidth = window.innerWidth || 0;
+  window.addEventListener("resize", function () {
+    var w = window.innerWidth || 0;
+    if (Math.abs(w - lastLayoutWidth) < 2) return;
+    lastLayoutWidth = w;
+    scheduleResizeEnd();
+  }, { passive: true });
 
   function bindSwipe(el, onPrev, onNext) {
     if (!el) return;
@@ -120,25 +124,26 @@
 
   var lastHeaderPx = "";
   var lastScreenPx = "";
-  /* Mobil chrome show/hide ~40–70px; ezt NEM követjük. Újramérés: orientáció / ablakméret. */
+  /*
+   * Leggyakoribb mobil-minta: zárolt viewport-magasság.
+   * Csak load + orientáció / szélességváltás frissíti — a chrome show/hide NEM.
+   * CSS fallback: 100svh
+   */
   var lockedVh = 0;
   var lockedWidth = 0;
-  var VH_RELOCK_PX = 120;
 
   function syncHeaderVar(forceLock) {
     if (!header) return;
     var h = remTokenToPx("--header-short");
     var w = window.innerWidth || 0;
     var vh = window.innerHeight || document.documentElement.clientHeight || 0;
-    var widthChanged = Math.abs(w - lockedWidth) > 24;
-    var heightJumped = Math.abs(vh - lockedVh) > VH_RELOCK_PX;
+    var widthChanged = Math.abs(w - lockedWidth) > 2;
 
-    if (forceLock || !lockedVh || widthChanged || heightJumped) {
+    if (forceLock || !lockedVh || widthChanged) {
       lockedVh = vh;
       lockedWidth = w;
     }
 
-    // ceil: a szekció soha ne legyen rövidebb a navbar alatti látható területnél
     var screen = Math.max(0, Math.ceil(lockedVh - h));
     var headerPx = Math.round(h) + "px";
     var screenPx = screen + "px";

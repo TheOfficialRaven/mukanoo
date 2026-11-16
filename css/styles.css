@@ -28,8 +28,8 @@
   --script: "Ms Madi", "Segoe Script", cursive;
   --gutter: clamp(1rem, 0.55rem + 2.2vw, 3.5rem);
   --pad: var(--gutter);
-  --section: clamp(4.25rem, 9vh, 8.5rem);
-  --section-y: clamp(1.65rem, 4vh, 3.25rem);
+  --section: clamp(4.25rem, 9svh, 8.5rem);
+  --section-y: clamp(1.65rem, 4svh, 3.25rem);
   --wrap: 1120px;
   --wrap-width: min(var(--wrap), calc(100vw - var(--gutter) * 2));
   --wrap-inset: max(var(--gutter), calc((100vw - var(--wrap)) / 2));
@@ -38,13 +38,12 @@
   /* Szekciómagasság / scroll: a kompakt (görgetett) navbarhoz igazítva */
   --header: var(--header-short);
   /* svh = „kis” viewport (böngészősávval): nem ugrik, ha a chrome elrejtődik/előjön */
-  --screen-h: calc(100vh - var(--header-short));
   --screen-h: calc(100svh - var(--header-short));
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --carousel-ease: cubic-bezier(0.45, 0.02, 0.12, 1);
   --carousel-dur: 1.15s;
   --carousel-dur-soft: 1.45s;
-  --dense-pad-y: clamp(1.35rem, 3.2vh, 2.85rem);
+  --dense-pad-y: clamp(1.35rem, 3.2svh, 2.85rem);
 
   /* Fluid type progress: 360px → 1440px (~6–8% larger than prior desktop) */
   --fluid: clamp(0, (100vw - 22.5rem) / 67.5rem, 1);
@@ -91,8 +90,8 @@
 
 html {
   color-scheme: light;
-  /* Continuous rem scale — no stepped 100/93.75/90/85% jumps */
-  font-size: clamp(0.9rem, 0.22rem + 1.25vh, 1.0625rem);
+  /* vw — ne vh/svh: a mobil chrome show/hide ne méretezze újra a tipográfiát/logót */
+  font-size: clamp(0.9rem, 0.78rem + 0.45vw, 1.0625rem);
   scroll-behavior: smooth;
   scroll-padding-top: var(--header);
   overscroll-behavior-y: none;
@@ -668,7 +667,7 @@ body.is-menu-open .site-header .logo__img--nav {
   /* Ugyanaz a mérték, mint a többi szekció: screen-h + kompakt header */
   min-height: calc(var(--screen-h) + var(--header-short));
   margin-top: 0;
-  padding: var(--header-tall) var(--pad) 6.5vh;
+  padding: var(--header-tall) var(--pad) 6.5svh;
   background-color: var(--hero);
   background-image: url("../assets/backgrounds/hero_bg.webp");
   background-position: center center;
@@ -927,7 +926,7 @@ body.is-menu-open .site-header .logo__img--nav {
 .about__quote {
   width: 100%;
   max-width: none;
-  margin-bottom: clamp(1rem, 2vh, 1.35rem);
+  margin-bottom: clamp(1rem, 2svh, 1.35rem);
   color: var(--burgundy);
   font-family: var(--display-sc);
   font-size: var(--type-eyebrow);
@@ -958,13 +957,13 @@ body.is-menu-open .site-header .logo__img--nav {
 }
 
 .about__text p + p {
-  margin-top: clamp(0.7rem, 1.4vh, 0.95rem);
+  margin-top: clamp(0.7rem, 1.4svh, 0.95rem);
 }
 
 /* Munkák ----------------------------------------------------------------- */
 
 .works {
-  --section-pad-y: clamp(2.75rem, 6.5vh, 4.5rem);
+  --section-pad-y: clamp(2.75rem, 6.5svh, 4.5rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -992,7 +991,7 @@ body.is-menu-open .site-header .logo__img--nav {
 
 .works h2 {
   flex: 0 0 auto;
-  margin-bottom: clamp(1.45rem, 3.2vh, 2.4rem);
+  margin-bottom: clamp(1.45rem, 3.2svh, 2.4rem);
   font-size: var(--type-title-md);
   font-weight: 500;
   letter-spacing: 0;
@@ -1411,7 +1410,7 @@ body.is-menu-open .site-header .logo__img--nav {
   align-items: center;
   gap: 0;
   padding:
-    max(calc(var(--header) + 1.25rem), calc(26vh - 6rem))
+    max(calc(var(--header) + 1.25rem), calc(26svh - 6rem))
     clamp(1.6rem, 2.8vw, 2.8rem)
     2rem;
   text-align: center;
@@ -1574,7 +1573,7 @@ body.is-menu-open .site-header .logo__img--nav {
 .gallery {
   --gallery-arrow-space: 7.25rem;
   --gallery-gap: clamp(0.75rem, 1.4vw, 1rem);
-  --section-pad-y: clamp(2.75rem, 6.5vh, 4.5rem);
+  --section-pad-y: clamp(2.75rem, 6.5svh, 4.5rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1610,12 +1609,12 @@ body.is-menu-open .site-header .logo__img--nav {
 .gallery .section-head {
   flex: 0 0 auto;
   max-width: min(56rem, 100%);
-  margin: 0 auto clamp(1.35rem, 3vh, 2.15rem);
+  margin: 0 auto clamp(1.35rem, 3svh, 2.15rem);
   text-align: center;
 }
 
 .gallery .section-head .lead {
-  margin-top: clamp(0.85rem, 1.6vh, 1.25rem);
+  margin-top: clamp(0.85rem, 1.6svh, 1.25rem);
   color: var(--muted);
   font-size: calc(0.82rem + 0.08rem * var(--fluid));
   line-height: 1.4;
@@ -1675,7 +1674,7 @@ body.is-menu-open .site-header .logo__img--nav {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  margin-top: clamp(1.5rem, 3.2vh, 2.35rem);
+  margin-top: clamp(1.5rem, 3.2svh, 2.35rem);
 }
 
 .gallery__arrow {
@@ -1795,7 +1794,7 @@ body.is-menu-open .site-header .logo__img--nav {
   display: grid;
   place-items: center;
   width: min(92vw, 1100px);
-  max-height: min(88vh, 900px);
+  max-height: min(88svh, 900px);
 }
 
 .lightbox__img {
@@ -1803,7 +1802,7 @@ body.is-menu-open .site-header .logo__img--nav {
   width: auto;
   height: auto;
   max-width: 100%;
-  max-height: min(88vh, 900px);
+  max-height: min(88svh, 900px);
   object-fit: contain;
   background: #111;
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
@@ -1920,7 +1919,7 @@ body.lightbox-open {
   --quotes-page-gap: clamp(0.85rem, 1.8vw, 1.25rem);
   --quote-pad-y: clamp(0.7rem, 1.2vw, 1rem);
   --quote-pad-bottom: clamp(0.825rem, 1.45vw, 1.225rem);
-  padding-block: clamp(3.15rem, 8vh, 5.35rem);
+  padding-block: clamp(3.15rem, 8svh, 5.35rem);
   background-color: #fbf9f6;
   background-image:
     linear-gradient(rgba(251, 249, 246, 0.84), rgba(251, 249, 246, 0.84)),
@@ -2000,7 +1999,7 @@ body.lightbox-open {
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  min-height: clamp(22rem, 42vh, 28rem);
+  min-height: clamp(22rem, 42svh, 28rem);
   margin: 0;
   padding:
     var(--quote-pad-y)
@@ -2142,8 +2141,8 @@ body.lightbox-open {
 .faq {
   --faq-dur: 0.42s;
   --faq-ease: var(--ease);
-  padding-top: clamp(3.15rem, 8vh, 5.35rem);
-  padding-bottom: clamp(4.5rem, 10vh, 7.5rem);
+  padding-top: clamp(3.15rem, 8svh, 5.35rem);
+  padding-bottom: clamp(4.5rem, 10svh, 7.5rem);
   background: var(--paper);
   overflow-anchor: none;
 }
@@ -2174,7 +2173,7 @@ html.is-faq-pinning body {
   grid-template-columns: 1fr 1fr;
   gap: clamp(3.5rem, 8vw, 7.5rem);
   max-width: none;
-  min-height: clamp(22rem, 38vh, 28rem);
+  min-height: clamp(22rem, 38svh, 28rem);
   margin-inline: 0;
   align-items: start;
   overflow-anchor: none;
@@ -2353,7 +2352,7 @@ html.is-faq-pinning body {
   flex-direction: column;
   justify-content: flex-start;
   align-self: center;
-  gap: clamp(0.85rem, 1.7vh, 1.25rem);
+  gap: clamp(0.85rem, 1.7svh, 1.25rem);
   width: 100%;
   max-width: none;
   min-width: 0;
@@ -2394,7 +2393,7 @@ html.is-faq-pinning body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto minmax(6rem, 1fr) auto auto auto;
-  gap: clamp(0.7rem, 1.35vh, 0.95rem) 0.9rem;
+  gap: clamp(0.7rem, 1.35svh, 0.95rem) 0.9rem;
   align-content: stretch;
 }
 
@@ -2744,7 +2743,7 @@ html.is-faq-pinning body {
 /* Lábléc ----------------------------------------------------------------- */
 
 .site-footer {
-  padding: clamp(3rem, 7vh, 4.75rem) var(--pad) 0;
+  padding: clamp(3rem, 7svh, 4.75rem) var(--pad) 0;
   background: var(--paper);
 }
 
@@ -3041,44 +3040,44 @@ html.is-faq-pinning body {
 /* Rövid / nagyított viewport: folytonos ritmus (html font-size már fluid) */
 @media (max-height: 900px) and (min-width: 861px) {
   :root {
-    --section: clamp(4.2rem, 8vh, 7.5rem);
-    --section-y: clamp(1.55rem, 3.5vh, 2.75rem);
-    --dense-pad-y: clamp(1.25rem, 2.8vh, 2.4rem);
+    --section: clamp(4.2rem, 8svh, 7.5rem);
+    --section-y: clamp(1.55rem, 3.5svh, 2.75rem);
+    --dense-pad-y: clamp(1.25rem, 2.8svh, 2.4rem);
   }
 
   .pillars {
-    padding-block: clamp(2.1rem, 5.5vh, 3.5rem);
+    padding-block: clamp(2.1rem, 5.5svh, 3.5rem);
   }
 
   .quotes {
-    padding-top: clamp(3.4rem, 8.5vh, 5.6rem);
-    padding-bottom: clamp(1.25rem, 2.8vh, 2rem);
+    padding-top: clamp(3.4rem, 8.5svh, 5.6rem);
+    padding-bottom: clamp(1.25rem, 2.8svh, 2rem);
   }
 
   .faq {
-    padding-top: clamp(3.4rem, 8.5vh, 5.6rem);
-    padding-bottom: clamp(4rem, 9vh, 6.5rem);
+    padding-top: clamp(3.4rem, 8.5svh, 5.6rem);
+    padding-bottom: clamp(4rem, 9svh, 6.5rem);
   }
 
   .works,
   .gallery {
-    --section-pad-y: clamp(2.75rem, 6.5vh, 4.1rem);
+    --section-pad-y: clamp(2.75rem, 6.5svh, 4.1rem);
   }
 
   .works h2 {
-    margin-bottom: clamp(1.15rem, 2.6vh, 1.85rem);
+    margin-bottom: clamp(1.15rem, 2.6svh, 1.85rem);
   }
 
   .gallery .section-head {
-    margin-bottom: clamp(1.25rem, 2.8vh, 1.85rem);
+    margin-bottom: clamp(1.25rem, 2.8svh, 1.85rem);
   }
 }
 
 @media (max-height: 760px) and (min-width: 861px) {
   :root {
-    --section: clamp(4.4rem, 8vh, 7.5rem);
-    --section-y: clamp(1.65rem, 3.5vh, 2.75rem);
-    --dense-pad-y: clamp(1.3rem, 2.8vh, 2.4rem);
+    --section: clamp(4.4rem, 8svh, 7.5rem);
+    --section-y: clamp(1.65rem, 3.5svh, 2.75rem);
+    --dense-pad-y: clamp(1.3rem, 2.8svh, 2.4rem);
   }
 }
 
@@ -3091,13 +3090,13 @@ html.is-faq-pinning body {
 @media (max-width: 1366px) and (min-width: 861px) {
   .pillars {
     --p-head-gap: clamp(2.1rem, 4.5vw, 3.4rem);
-    --p-icon-gap: clamp(0.95rem, 2vh, 1.35rem);
+    --p-icon-gap: clamp(0.95rem, 2svh, 1.35rem);
   }
 
   .icon {
     width: 60px;
     height: 60px;
-    margin-bottom: clamp(0.95rem, 2vh, 1.35rem);
+    margin-bottom: clamp(0.95rem, 2svh, 1.35rem);
   }
 
   .about {
@@ -3114,7 +3113,7 @@ html.is-faq-pinning body {
 
   .faq__grid {
     gap: clamp(2.2rem, 5vw, 5rem);
-    min-height: clamp(16rem, 32vh, 24rem);
+    min-height: clamp(16rem, 32svh, 24rem);
   }
 
   .works__wrap {
@@ -3161,7 +3160,7 @@ html.is-faq-pinning body {
   }
 
   .form {
-    gap: clamp(0.55rem, 1.1vh, 0.8rem) 0.75rem;
+    gap: clamp(0.55rem, 1.1svh, 0.8rem) 0.75rem;
   }
 }
 
@@ -3200,14 +3199,14 @@ html.is-faq-pinning body {
 @media (max-width: 1100px) {
   .pillars {
     --p-icon: 80px;
-    --p-head-gap: clamp(1.2rem, 3vh, 2.2rem);
+    --p-head-gap: clamp(1.2rem, 3svh, 2.2rem);
     --p-eyebrow-gap: 0.7rem;
     --p-icon-gap: 0.95rem;
     --p-label-gap: 0.65rem;
-    --p-item-pad-y: clamp(0.55rem, 1.4vh, 0.95rem);
+    --p-item-pad-y: clamp(0.55rem, 1.4svh, 0.95rem);
     --p-item-pad-x: clamp(0.7rem, 1.6vw, 1.15rem);
-    --p-item-pad-bottom: clamp(0.55rem, 1.4vh, 0.95rem);
-    --pad-y: clamp(2.4rem, 5.5vh, 3.6rem);
+    --p-item-pad-bottom: clamp(0.55rem, 1.4svh, 0.95rem);
+    --pad-y: clamp(2.4rem, 5.5svh, 3.6rem);
     height: auto;
     max-height: none;
     min-height: var(--screen-h);
@@ -3230,7 +3229,7 @@ html.is-faq-pinning body {
   }
 
   .about__copy {
-    padding-block: clamp(3.25rem, 7vh, 5rem);
+    padding-block: clamp(3.25rem, 7svh, 5rem);
   }
 
   .pillars .section-head .lead {
@@ -3254,7 +3253,7 @@ html.is-faq-pinning body {
     justify-self: center;
     width: 100%;
     max-width: calc(50% - 0.5px);
-    --p-item-pad-y: clamp(0.55rem, 1.4vh, 0.95rem);
+    --p-item-pad-y: clamp(0.55rem, 1.4svh, 0.95rem);
   }
 
   .pillars__item h3 {
@@ -3310,7 +3309,7 @@ html.is-faq-pinning body {
   }
 
   .faq__grid {
-    min-height: clamp(16rem, 32vh, 24rem);
+    min-height: clamp(16rem, 32svh, 24rem);
   }
 
   .works,
@@ -3342,7 +3341,7 @@ html.is-faq-pinning body {
   /* Ne törjük össze a herót nagyításnál (CSS max-height csökken) */
   .hero {
     min-height: calc(var(--screen-h) + var(--header-short));
-    padding-bottom: 4vh;
+    padding-bottom: 4svh;
   }
 
   .media--fill {
@@ -3368,9 +3367,9 @@ html.is-faq-pinning body {
     height: auto;
     justify-content: flex-start;
     padding:
-      clamp(6rem, 16vh, 9rem)
+      clamp(6rem, 16svh, 9rem)
       clamp(1.4rem, 5vw, 2.2rem)
-      clamp(6rem, 16vh, 9rem);
+      clamp(6rem, 16svh, 9rem);
   }
 
   .palette__pin {
@@ -3753,7 +3752,7 @@ html.is-faq-pinning body {
 
 @media (max-width: 860px) {
   :root {
-    --section: clamp(2.75rem, 7vh, 4rem);
+    --section: clamp(2.75rem, 7svh, 4rem);
   }
 
   .faq,
@@ -3765,28 +3764,28 @@ html.is-faq-pinning body {
   }
 
   .faq {
-    padding-top: clamp(2.5rem, 6vh, 3.75rem);
-    padding-bottom: clamp(3.25rem, 8vh, 5.5rem);
+    padding-top: clamp(2.5rem, 6svh, 3.75rem);
+    padding-bottom: clamp(3.25rem, 8svh, 5.5rem);
   }
 
   .contact {
     height: auto;
     max-height: none;
     min-height: 0;
-    padding-block: clamp(2.5rem, 6vh, 3.75rem);
-    margin-bottom: clamp(1.25rem, 3.5vh, 2rem);
+    padding-block: clamp(2.5rem, 6svh, 3.75rem);
+    margin-bottom: clamp(1.25rem, 3.5svh, 2rem);
     overflow: visible;
   }
 
   .site-footer {
-    padding-top: clamp(1.5rem, 4vh, 2.5rem);
+    padding-top: clamp(1.5rem, 4svh, 2.5rem);
   }
 
   .quotes {
     height: auto;
     max-height: none;
     min-height: 0;
-    padding-block: clamp(2.5rem, 6vh, 3.75rem);
+    padding-block: clamp(2.5rem, 6svh, 3.75rem);
     overflow: visible;
   }
 
@@ -3805,7 +3804,7 @@ html.is-faq-pinning body {
     min-height: 100%;
     overflow: visible;
     justify-content: center;
-    padding-block: clamp(3.5rem, 8vh, 5.25rem);
+    padding-block: clamp(3.5rem, 8svh, 5.25rem);
   }
 
   .about .media--fill {
@@ -3819,7 +3818,7 @@ html.is-faq-pinning body {
   /* Teljes méretű szekciók: pontosan egy képernyő magasak */
   .works,
   .gallery {
-    --mobile-pad-y: clamp(1.1rem, 3vh, 1.75rem);
+    --mobile-pad-y: clamp(1.1rem, 3svh, 1.75rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -3863,11 +3862,11 @@ html.is-faq-pinning body {
     flex: 0 0 auto;
     justify-content: center;
     gap: 0;
-    margin-top: clamp(0.75rem, 1.8vh, 1.1rem);
+    margin-top: clamp(0.75rem, 1.8svh, 1.1rem);
   }
 
   .gallery .section-head {
-    margin-bottom: clamp(1.1rem, 2.4vh, 1.65rem);
+    margin-bottom: clamp(1.1rem, 2.4svh, 1.65rem);
   }
 
   .gallery .section-head .lead {
@@ -3920,7 +3919,7 @@ html.is-faq-pinning body {
 
   .gallery__nav {
     flex-shrink: 0;
-    margin-top: clamp(1.35rem, 3vh, 2rem);
+    margin-top: clamp(1.35rem, 3svh, 2rem);
   }
 
   .contact__grid,
@@ -3976,7 +3975,7 @@ html.is-faq-pinning body {
     width: 100%;
     min-width: 100%;
     max-width: 100%;
-    min-height: clamp(18rem, 48vh, 24rem);
+    min-height: clamp(18rem, 48svh, 24rem);
   }
 
   .quotes__viewport {
@@ -4031,7 +4030,7 @@ html.is-faq-pinning body {
   }
 
   .about__copy {
-    padding: clamp(3.25rem, 8vh, 4.75rem) var(--wrap-inset);
+    padding: clamp(3.25rem, 8svh, 4.75rem) var(--wrap-inset);
     min-height: 0;
   }
 
@@ -4054,7 +4053,7 @@ html.is-faq-pinning body {
     --p-item-pad-y: 1.5rem;
     --p-item-pad-x: 0.4rem;
     --p-item-pad-bottom: 0.25rem;
-    --pad-y: clamp(3rem, 7vh, 4.5rem);
+    --pad-y: clamp(3rem, 7svh, 4.5rem);
     height: auto;
     max-height: none;
     min-height: var(--screen-h);
@@ -4100,7 +4099,7 @@ html.is-faq-pinning body {
 
   .works h2 {
     flex: 0 0 auto;
-    margin-bottom: clamp(0.7rem, 1.8vh, 1.1rem);
+    margin-bottom: clamp(0.7rem, 1.8svh, 1.1rem);
   }
 
   .works__frame {
@@ -4227,7 +4226,7 @@ html.is-faq-pinning body {
 
   .hero {
     min-height: calc(var(--screen-h) + var(--header-short));
-    padding-bottom: 8vh;
+    padding-bottom: 8svh;
   }
 
   .btn {
