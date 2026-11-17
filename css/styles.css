@@ -26,20 +26,24 @@
   --display-sc: "Marcellus SC", "Cormorant Garamond", Georgia, serif;
   --ui: "Cinzel", "Times New Roman", serif;
   --script: "Ms Madi", "Segoe Script", cursive;
-  /* 125%-os nézeten is legyen egy pici oldalsó levegő */
-  --gutter: clamp(1.5rem, 1rem + 3.8vw, 5.5rem);
+  /*
+   * Oldalsó margó:
+   * - 100% fölött (szűkebb CSS vw): a 1200-as sáv adja a jó levegőt
+   * - 100% széles képernyőn: max ~6.75rem, ne nőjön óriásira
+   */
+  --gutter: clamp(1.75rem, 5.5vw, 5.5rem);
   --pad: var(--gutter);
   --section: clamp(4.25rem, 9svh, 8.5rem);
   --section-y: clamp(1.65rem, 4svh, 3.25rem);
-  /* Tartalom sáv — nem a nav szélességéhez kötve */
-  --wrap: 1240px;
-  --wrap-width: min(var(--wrap), calc(100vw - var(--gutter) * 2));
-  --wrap-inset: max(var(--gutter), calc((100vw - var(--wrap)) / 2));
+  --wrap: 1200px;
+  /* 100%: a túl nagy és túl kicsi között (~11rem max) */
+  --wrap-inset: max(var(--gutter), min(11rem, calc((100vw - var(--wrap)) / 2)));
+  --wrap-width: calc(100vw - var(--wrap-inset) * 2);
   /*
    * Nav oldalsó margó: a header saját szélességéből (100%),
    * ne 100vw-ből — a scrollbar miatt a jobb oldal elcsúszott.
    */
-  --nav-inset: max(var(--gutter), calc((100% - var(--wrap)) / 2));
+  --nav-inset: max(var(--gutter), min(11rem, calc((100% - var(--wrap)) / 2)));
   --header-tall: 4.75rem;
   --header-short: 3.15rem;
   /* Szekciómagasság / scroll: a kompakt (görgetett) navbarhoz igazítva */
@@ -88,7 +92,7 @@
   --type-quote-text: calc(0.98rem + 0.06rem * var(--fluid));
   --type-quote-name: calc(0.98rem + 0.03rem * var(--fluid));
   --type-work-title: calc(1.04rem + 0.04rem * var(--fluid));
-  --type-work-body: var(--type-body);
+  --type-work-body: 0.82rem;
   --type-work-price: calc(1rem + 0.04rem * var(--fluid));
   --type-ui: calc(0.98rem + 0.08rem * var(--fluid));
   --type-btn: 0.8rem;
@@ -1255,6 +1259,22 @@ body.is-menu-open .site-header .logo__img--nav {
   transform: translate(0.18rem, -50%);
 }
 
+.work__onmedia {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 0.45rem;
+  padding: 0.9rem 0.75rem;
+  text-align: center;
+  color: #fff;
+  background: transparent;
+  pointer-events: none;
+}
+
 .work figcaption {
   flex: 0 0 auto;
   margin-top: 0.85rem;
@@ -1265,9 +1285,10 @@ body.is-menu-open .site-header .logo__img--nav {
   display: flex;
   justify-content: center;
   gap: 4px;
-  margin: 0 0 0.55rem;
+  margin: 0;
   padding: 0;
   list-style: none;
+  pointer-events: auto;
 }
 
 .work__chips button {
@@ -1276,8 +1297,9 @@ body.is-menu-open .site-header .logo__img--nav {
   height: 0.45rem;
   padding: 0;
   border: 0;
-  background: var(--ink);
-  opacity: 0.34;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(20, 16, 12, 0.35);
+  opacity: 0.55;
   cursor: pointer;
   transition:
     width var(--carousel-dur-soft) var(--carousel-ease),
@@ -1291,7 +1313,9 @@ body.is-menu-open .site-header .logo__img--nav {
   opacity: 1;
 }
 
+.work__onmedia h3,
 .work h3 {
+  margin: 0;
   font-family: var(--sans);
   font-size: var(--type-work-title);
   font-weight: 500;
@@ -1299,19 +1323,25 @@ body.is-menu-open .site-header .logo__img--nav {
   text-transform: none;
 }
 
+.work__onmedia h3 {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(20, 16, 12, 0.45);
+}
+
 .work p {
-  max-width: 16rem;
-  margin: 0.4rem auto 0;
+  max-width: none;
+  width: 100%;
+  margin: 0.4rem 0 0;
   color: var(--muted);
-  font-size: var(--type-body);
-  line-height: 1.45;
+  font-size: var(--type-work-body);
+  line-height: 1.35;
 }
 
 .work p.work__price {
   max-width: none;
   margin-top: 0.7rem;
   color: var(--ink);
-  font-size: var(--type-body);
+  font-size: var(--type-work-price);
   font-weight: 400;
   line-height: 1.2;
 }
@@ -4177,32 +4207,6 @@ html.is-faq-pinning body {
     max-width: 100%;
   }
 
-  /* Chip-ek a kép alján, pici margóval */
-  .work figcaption {
-    position: relative;
-  }
-
-  .work__chips {
-    position: absolute;
-    left: 0;
-    right: 0;
-    /* A kép keretén belül, az aljától beljebb */
-    bottom: calc(100% + 2.5rem);
-    z-index: 2;
-    margin: 0;
-    pointer-events: auto;
-  }
-
-  .work__chips button {
-    background: #fff;
-    box-shadow: 0 1px 2px rgba(20, 16, 12, 0.35);
-    opacity: 0.55;
-  }
-
-  .work__chips button[aria-current="true"] {
-    background: var(--gold);
-    opacity: 1;
-  }
 }
 
 @media (max-width: 640px) {
