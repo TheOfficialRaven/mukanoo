@@ -220,7 +220,6 @@
     lockAppHeight(false);
     updateNav(true);
     syncHeaderVar();
-    syncContentWidth();
   });
   window.addEventListener("orientationchange", function () {
     window.setTimeout(function () {
@@ -248,40 +247,6 @@
       setMenuScrollLock(menu.open);
       updateNav(true);
     });
-  }
-
-  var navLeft = document.querySelector(".nav__group--left");
-  var navRight = document.querySelector(".nav__group--right");
-  var desktopNav = window.matchMedia("(min-width: 861px)");
-
-  var lastWrapWidth = "";
-  var lastWrapInset = "";
-
-  function syncContentWidth() {
-    if (!navLeft || !navRight || !desktopNav.matches) {
-      if (lastWrapWidth || lastWrapInset) {
-        lastWrapWidth = "";
-        lastWrapInset = "";
-        document.documentElement.style.removeProperty("--wrap-width");
-        document.documentElement.style.removeProperty("--wrap-inset");
-      }
-      return;
-    }
-    var left = navLeft.getBoundingClientRect();
-    var right = navRight.getBoundingClientRect();
-    var width = Math.round(right.right - left.left);
-    var inset = Math.round(left.left);
-    if (width < 320) return;
-    var widthPx = width + "px";
-    var insetPx = inset + "px";
-    if (widthPx !== lastWrapWidth) {
-      lastWrapWidth = widthPx;
-      document.documentElement.style.setProperty("--wrap-width", widthPx);
-    }
-    if (insetPx !== lastWrapInset) {
-      lastWrapInset = insetPx;
-      document.documentElement.style.setProperty("--wrap-inset", insetPx);
-    }
   }
 
   function sectionScrollTop(el) {
@@ -364,11 +329,6 @@
   });
 
   syncHeaderVar();
-  syncContentWidth();
-  if (desktopNav.addEventListener) desktopNav.addEventListener("change", syncContentWidth);
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(syncContentWidth);
-  }
   if (location.hash.length > 1) {
     var initial = document.getElementById(location.hash.slice(1));
     if (initial) {
@@ -1048,7 +1008,7 @@
         });
         palette.style.height = (leadHeight() + pin.clientHeight + scrollSpan()) + "px";
       } else {
-        var swatchWidth = Math.round(width / 3);
+        var swatchWidth = Math.round(width * 0.37);
         var copyWidth = width - swatchWidth;
         Array.prototype.forEach.call(track.children, function (item, index) {
           sizePanel(item, index === 0 ? copyWidth : swatchWidth);

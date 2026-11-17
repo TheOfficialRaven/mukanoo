@@ -26,13 +26,20 @@
   --display-sc: "Marcellus SC", "Cormorant Garamond", Georgia, serif;
   --ui: "Cinzel", "Times New Roman", serif;
   --script: "Ms Madi", "Segoe Script", cursive;
-  --gutter: clamp(1rem, 0.55rem + 2.2vw, 3.5rem);
+  /* 125%-os nézeten is legyen egy pici oldalsó levegő */
+  --gutter: clamp(1.5rem, 1rem + 3.8vw, 5.5rem);
   --pad: var(--gutter);
   --section: clamp(4.25rem, 9svh, 8.5rem);
   --section-y: clamp(1.65rem, 4svh, 3.25rem);
-  --wrap: 1120px;
+  /* Tartalom sáv — nem a nav szélességéhez kötve */
+  --wrap: 1240px;
   --wrap-width: min(var(--wrap), calc(100vw - var(--gutter) * 2));
   --wrap-inset: max(var(--gutter), calc((100vw - var(--wrap)) / 2));
+  /*
+   * Nav oldalsó margó: a header saját szélességéből (100%),
+   * ne 100vw-ből — a scrollbar miatt a jobb oldal elcsúszott.
+   */
+  --nav-inset: max(var(--gutter), calc((100% - var(--wrap)) / 2));
   --header-tall: 4.75rem;
   --header-short: 3.15rem;
   /* Szekciómagasság / scroll: a kompakt (görgetett) navbarhoz igazítva */
@@ -53,41 +60,44 @@
   --carousel-dur-soft: 1.45s;
   --dense-pad-y: clamp(1.35rem, 3.2svh, 2.85rem);
 
-  /* Fluid type progress: 360px → 1440px (~6–8% larger than prior desktop) */
-  --fluid: clamp(0, (100vw - 22.5rem) / 67.5rem, 1);
-  --type-display: calc(2.85rem + 3.1rem * var(--fluid));
-  --type-display-sub: calc(0.95rem + 0.28rem * var(--fluid));
-  --type-h2: calc(1.7rem + 0.85rem * var(--fluid));
-  --type-h3: calc(0.82rem + 0.12rem * var(--fluid));
+  /*
+   * Fluid type: magasabb 100%-os bázis, enyhe növekedés nagyításkor.
+   * (root font fix 100% — nincs vw duplázás)
+   */
+  --fluid: clamp(0, (100vw - 360px) / 1080px, 1);
+  --type-display: calc(3.55rem + 1.15rem * var(--fluid));
+  --type-display-sub: calc(1.02rem + 0.12rem * var(--fluid));
+  --type-h2: calc(1.55rem + 0.4rem * var(--fluid));
+  --type-h3: calc(0.9rem + 0.06rem * var(--fluid));
   --type-title: var(--type-h2);
   --type-title-md: var(--type-h2);
   --type-title-sm: var(--type-h2);
   --type-title-xs: var(--type-h2);
-  --type-eyebrow: calc(0.98rem + 0.08rem * var(--fluid));
-  --type-lead: calc(0.98rem + 0.1rem * var(--fluid));
-  --type-lead-sm: calc(0.9rem + 0.08rem * var(--fluid));
-  --type-body: calc(0.9rem + 0.12rem * var(--fluid));
-  --type-body-sm: calc(0.88rem + 0.1rem * var(--fluid));
-  --type-label: calc(0.84rem + 0.16rem * var(--fluid));
-  --type-quote: calc(0.9rem + 0.32rem * var(--fluid));
-  --type-card-title: calc(1.35rem + 0.55rem * var(--fluid));
-  --type-card-meta: calc(0.74rem + 0.14rem * var(--fluid));
-  --type-card-body: calc(0.86rem + 0.06rem * var(--fluid));
-  --type-faq-q: calc(1.08rem + 0.1rem * var(--fluid));
-  --type-faq-a: calc(0.9rem + 0.06rem * var(--fluid));
-  --type-quote-text: calc(0.94rem + 0.14rem * var(--fluid));
-  --type-quote-name: calc(0.94rem + 0.06rem * var(--fluid));
-  --type-work-title: calc(1rem + 0.08rem * var(--fluid));
-  --type-work-body: calc(0.84rem + 0.04rem * var(--fluid));
-  --type-work-price: calc(0.96rem + 0.08rem * var(--fluid));
-  --type-ui: calc(0.94rem + 0.16rem * var(--fluid));
-  --type-btn: 0.76rem;
-  --type-meta: calc(0.78rem + 0.05rem * var(--fluid));
-  --type-footer-logo: min(100%, 15.75rem);
-  --type-footer-nav: calc(0.92rem + 0.06rem * var(--fluid));
-  --type-footer: calc(0.86rem + 0.05rem * var(--fluid));
+  --type-eyebrow: calc(1.02rem + 0.05rem * var(--fluid));
+  --type-lead: calc(1.02rem + 0.06rem * var(--fluid));
+  --type-lead-sm: calc(0.94rem + 0.05rem * var(--fluid));
+  --type-body: 0.97rem;
+  --type-body-sm: 0.97rem;
+  --type-label: calc(0.92rem + 0.08rem * var(--fluid));
+  --type-quote: calc(1.02rem + 0.16rem * var(--fluid));
+  --type-card-title: calc(1.48rem + 0.28rem * var(--fluid));
+  --type-card-meta: calc(0.82rem + 0.06rem * var(--fluid));
+  --type-card-body: calc(0.92rem + 0.03rem * var(--fluid));
+  --type-faq-q: calc(1.06rem + 0.06rem * var(--fluid));
+  --type-faq-a: var(--type-body);
+  --type-quote-text: calc(0.98rem + 0.06rem * var(--fluid));
+  --type-quote-name: calc(0.98rem + 0.03rem * var(--fluid));
+  --type-work-title: calc(1.04rem + 0.04rem * var(--fluid));
+  --type-work-body: var(--type-body);
+  --type-work-price: calc(1rem + 0.04rem * var(--fluid));
+  --type-ui: calc(0.98rem + 0.08rem * var(--fluid));
+  --type-btn: 0.8rem;
+  --type-meta: calc(0.82rem + 0.03rem * var(--fluid));
+  --type-footer-logo: min(100%, 11.5rem);
+  --type-footer-nav: calc(0.96rem + 0.03rem * var(--fluid));
+  --type-footer: calc(0.9rem + 0.03rem * var(--fluid));
   --type-contact-title: var(--type-h2);
-  --type-contact-lead: calc(0.9rem + 0.1rem * var(--fluid));
+  --type-contact-lead: calc(0.95rem + 0.05rem * var(--fluid));
 }
 
 *,
@@ -98,8 +108,8 @@
 
 html {
   color-scheme: light;
-  /* vw — ne vh/svh: a mobil chrome show/hide ne méretezze újra a tipográfiát/logót */
-  font-size: clamp(0.9rem, 0.78rem + 0.45vw, 1.0625rem);
+  /* Fix 100% — ne vw: nagyításkor ne legyen dupla skálázás a tipográfián */
+  font-size: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: var(--header);
   overscroll-behavior-y: none;
@@ -464,25 +474,7 @@ body.is-menu-open .site-header::before,
 
 @media (min-width: 1101px) {
   .site-header .site-nav a {
-    position: relative;
     text-decoration: none;
-  }
-
-  .site-header .site-nav a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.3em;
-    height: 1px;
-    background: var(--gold);
-    opacity: 0;
-    transform: scaleX(0);
-    transform-origin: center;
-    transition:
-      opacity 0.6s var(--ease),
-      transform 0.65s var(--ease);
-    pointer-events: none;
   }
 
   /* Scrolled/solid header: brand gold */
@@ -499,12 +491,6 @@ body.is-menu-open .site-header::before,
     text-shadow:
       0 1px 2px rgba(20, 16, 12, 0.55),
       0 0 10px rgba(20, 16, 12, 0.28);
-  }
-
-  .site-header .site-nav a:hover::after,
-  .site-header .site-nav a:focus-visible::after {
-    opacity: 1;
-    transform: scaleX(1);
   }
 }
 
@@ -654,7 +640,6 @@ body.is-menu-open .site-header .logo__img--nav {
   .site-header::before,
   .site-header .logo,
   .site-header .site-nav a,
-  .site-header .site-nav a::after,
   .menu__btn span,
   .site-nav,
   .menu::after,
@@ -773,8 +758,8 @@ body.is-menu-open .site-header .logo__img--nav {
   --p-eyebrow: var(--type-eyebrow);
   --p-title: var(--type-h2);
   --p-body: var(--type-body);
-  --p-label: var(--type-h3);
-  --p-icon: 80px;
+  --p-label: calc(0.78rem + 0.05rem * var(--fluid));
+  --p-icon: 70px;
   --p-head-gap: clamp(2.9rem, 5.5vw, 4.2rem);
   --p-eyebrow-gap: 0.85rem;
   --p-icon-gap: clamp(1rem, 1.5vw, 1.35rem);
@@ -842,8 +827,8 @@ body.is-menu-open .site-header .logo__img--nav {
 
 .icon {
   flex: 0 0 auto;
-  width: var(--p-icon, 80px);
-  height: var(--p-icon, 80px);
+  width: var(--p-icon, 70px);
+  height: var(--p-icon, 70px);
   margin: 0 auto var(--p-icon-gap, 1.35rem);
   color: var(--burgundy);
 }
@@ -991,7 +976,7 @@ body.is-menu-open .site-header .logo__img--nav {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  width: calc(100vw - var(--gutter) * 2 - 7.25rem);
+  width: var(--wrap-width);
   max-width: none;
   height: auto;
   max-height: none;
@@ -1023,7 +1008,7 @@ body.is-menu-open .site-header .logo__img--nav {
 
 .works__viewport {
   position: relative;
-  width: calc(100vw - var(--gutter) * 2 - 7.25rem);
+  width: var(--wrap-width);
   height: 100%;
   min-height: 0;
   margin-inline: auto;
@@ -1091,11 +1076,11 @@ body.is-menu-open .site-header .logo__img--nav {
 }
 
 .works__arrow--prev {
-  left: max(0.15rem, calc(var(--gutter) - 0.15rem));
+  left: max(0.15rem, calc(var(--wrap-inset) - 2.6rem));
 }
 
 .works__arrow--next {
-  right: max(0.15rem, calc(var(--gutter) - 0.15rem));
+  right: max(0.15rem, calc(var(--wrap-inset) - 2.6rem));
 }
 
 .works__arrow:hover,
@@ -1362,8 +1347,8 @@ body.is-menu-open .site-header .logo__img--nav {
 }
 
 .palette__copy {
-  flex: 0 0 calc(100vw * 2 / 3);
-  width: calc(100vw * 2 / 3);
+  flex: 0 0 calc(100vw * 0.63);
+  width: calc(100vw * 0.63);
   justify-content: center;
   align-items: flex-start;
   padding: calc(var(--header) + 2.2rem) clamp(2rem, 4vw, 3.5rem) 3rem var(--wrap-inset);
@@ -1409,13 +1394,12 @@ body.is-menu-open .site-header .logo__img--nav {
 .swatch {
   position: relative;
   isolation: isolate;
-  flex: 0 0 calc(100vw / 3);
-  width: calc(100vw / 3);
+  flex: 0 0 calc(100vw * 0.37);
+  width: calc(100vw * 0.37);
   min-width: 0;
   /* Picit nagyobb tipográfia csak a swatch kártyákon */
-  --type-card-title: calc(1.48rem + 0.6rem * var(--fluid));
-  --type-card-meta: calc(0.82rem + 0.16rem * var(--fluid));
-  --type-body: calc(0.98rem + 0.14rem * var(--fluid));
+  --type-card-title: calc(1.42rem + 0.28rem * var(--fluid));
+  --type-card-meta: calc(0.8rem + 0.06rem * var(--fluid));
   /* Azonos start minden kártyán, a középtől picit feljebb */
   justify-content: flex-start;
   align-items: center;
@@ -1452,7 +1436,7 @@ body.is-menu-open .site-header .logo__img--nav {
 
 .swatch .eyebrow {
   position: relative;
-  max-width: 18em;
+  max-width: none;
   margin: 0.4rem 0 0;
   padding-bottom: 16px;
   overflow: visible;
@@ -1462,6 +1446,12 @@ body.is-menu-open .site-header .logo__img--nav {
   font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+@media (min-width: 1101px) {
+  .swatch .eyebrow {
+    white-space: nowrap;
+  }
 }
 
 .swatch .eyebrow::after {
@@ -1627,7 +1617,7 @@ body.is-menu-open .site-header .logo__img--nav {
 .gallery .section-head .lead {
   margin-top: clamp(0.85rem, 1.6svh, 1.25rem);
   color: var(--muted);
-  font-size: calc(0.82rem + 0.08rem * var(--fluid));
+  font-size: calc(0.88rem + 0.04rem * var(--fluid));
   line-height: 1.4;
 }
 
@@ -2754,12 +2744,12 @@ html.is-faq-pinning body {
 /* Lábléc ----------------------------------------------------------------- */
 
 .site-footer {
-  padding: clamp(3rem, 7svh, 4.75rem) var(--pad) 0;
+  padding: clamp(3rem, 7svh, 4.75rem) 0 0;
   background: var(--paper);
 }
 
 .footer__inner {
-  width: min(1120px, 100%);
+  width: var(--wrap-width);
   margin-inline: auto;
 }
 
@@ -2772,7 +2762,18 @@ html.is-faq-pinning body {
     minmax(8rem, 0.85fr);
   gap: clamp(1.75rem, 4vw, 3.25rem);
   align-items: start;
+  justify-content: space-between;
   padding-bottom: clamp(2.2rem, 4.5vw, 3.25rem);
+}
+
+.footer__grid > :last-child {
+  justify-self: end;
+  justify-items: end;
+  text-align: right;
+}
+
+.footer__grid > :last-child .footer__social {
+  justify-content: flex-end;
 }
 
 .footer__brand {
@@ -2875,7 +2876,6 @@ html.is-faq-pinning body {
 }
 
 .footer__list a {
-  position: relative;
   justify-self: start;
   width: fit-content;
   max-width: 100%;
@@ -2883,28 +2883,8 @@ html.is-faq-pinning body {
   text-decoration: none;
 }
 
-.footer__list a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.12em;
-  height: 1px;
-  background: var(--gold);
-  opacity: 0;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: opacity 0.6s var(--ease), transform 0.65s var(--ease);
-  pointer-events: none;
-}
-
 .footer__list a:hover {
   color: var(--gold-ink);
-}
-
-.footer__list a:hover::after {
-  opacity: 1;
-  transform: scaleX(1);
 }
 
 .footer__nav {
@@ -3127,12 +3107,9 @@ html.is-faq-pinning body {
     min-height: clamp(16rem, 32svh, 24rem);
   }
 
-  .works__wrap {
-    width: calc(100vw - var(--gutter) * 2 - clamp(4.5rem, 6vw, 5.5rem));
-  }
-
+  .works__wrap,
   .works__viewport {
-    width: calc(100vw - var(--gutter) * 2 - clamp(5.75rem, 7.5vw, 7.25rem));
+    width: var(--wrap-width);
   }
 }
 
@@ -3178,38 +3155,22 @@ html.is-faq-pinning body {
 /* Szűkebb desktop / kicsinyítés: nav ne csússzon a logóra */
 @media (max-width: 1400px) and (min-width: 1101px) {
   .site-header {
-    --nav-logo-clearance: max(5.75rem, 9vw);
+    --nav-logo-clearance: max(5.5rem, 8.5vw);
   }
 
-  .nav__group {
-    gap: clamp(0.5rem, 1.1vw, 1.35rem);
+  .site-header .menu .site-nav .nav__group {
+    gap: clamp(0.45rem, 1vw, 1.15rem);
   }
 
-  .site-nav a {
-    font-size: clamp(0.72rem, 0.55rem + 0.55vw, var(--type-ui));
-  }
-
-  .menu:not([open]) > .site-nav {
-    left: 0;
-    right: 0;
-    width: auto;
-    max-width: none;
-    padding-inline: var(--gutter);
-    transform: none;
-    justify-content: space-between;
-  }
-
-  .menu:not([open]) > .site-nav::before {
-    flex: 1 1 auto;
-    width: auto;
-    min-width: calc(var(--nav-logo-clearance) * 2);
+  .site-header .menu .site-nav a {
+    font-size: clamp(0.7rem, 0.52rem + 0.5vw, var(--type-ui));
   }
 }
 
 /* Tablet mid: layout only — type stays on fluid --fluid scale */
 @media (max-width: 1100px) {
   .pillars {
-    --p-icon: 80px;
+    --p-icon: 70px;
     --p-head-gap: clamp(1.2rem, 3svh, 2.2rem);
     --p-eyebrow-gap: 0.7rem;
     --p-icon-gap: 0.95rem;
@@ -3468,43 +3429,61 @@ html.is-faq-pinning body {
     display: none;
   }
 
-  .menu:not([open]) > .site-nav {
-    display: flex;
+  /*
+   * 3 oszlopos grid: bal linkek | logo-hely | jobb linkek.
+   * A régi flex + ::before min-width kilökte a jobb oldalt a képernyő szélére.
+   */
+  .site-header .menu .site-nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--nav-logo-clearance) minmax(0, 1fr);
     align-items: center;
+    column-gap: clamp(0.75rem, 1.5vw, 1.5rem);
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 50%;
-    width: max-content;
-    max-width: calc(100vw - var(--gutter) * 2);
+    left: var(--nav-inset);
+    right: var(--nav-inset);
+    width: auto;
+    max-width: none;
     height: 100%;
-    padding-inline: 0;
-    transform: translateX(-50%);
+    margin: 0;
+    padding: 0;
+    transform: none;
+    justify-content: stretch;
+    box-sizing: border-box;
+    overflow: visible;
   }
 
-  .menu:not([open]) > .site-nav::before {
+  .site-header .menu .site-nav::before {
     content: "";
-    display: block;
-    flex: 0 0 calc(var(--nav-logo-clearance) * 2);
-    width: calc(var(--nav-logo-clearance) * 2);
-    order: 0;
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+    pointer-events: none;
   }
 
-  .nav__group--left,
-  .nav__group--right {
+  .site-header .menu .site-nav .nav__group--left,
+  .site-header .menu .site-nav .nav__group--right {
     position: static;
     top: auto;
+    flex: none;
+    min-width: 0;
     transform: none;
   }
 
-  .nav__group--left {
-    order: -1;
-    justify-content: flex-end;
+  .site-header .menu .site-nav .nav__group--left {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    justify-content: flex-start;
   }
 
-  .nav__group--right {
-    order: 1;
-    justify-content: flex-start;
+  .site-header .menu .site-nav .nav__group--right {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+    justify-content: flex-end;
   }
 }
 
@@ -3941,6 +3920,10 @@ html.is-faq-pinning body {
     height: auto;
   }
 
+  .contact__media img {
+    object-position: 28% top;
+  }
+
   .contact__copy {
     align-self: stretch;
     height: auto;
@@ -4011,6 +3994,16 @@ html.is-faq-pinning body {
     grid-column: 1 / -1;
     max-width: none;
   }
+
+  .footer__grid > :last-child {
+    justify-self: start;
+    justify-items: start;
+    text-align: left;
+  }
+
+  .footer__grid > :last-child .footer__social {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 560px) {
@@ -4044,7 +4037,7 @@ html.is-faq-pinning body {
   }
 
   .pillars {
-    --p-icon: 80px;
+    --p-icon: 70px;
     --p-head-gap: clamp(1.6rem, 4vw, 2.6rem);
     --p-eyebrow-gap: 0.75rem;
     --p-icon-gap: 1.1rem;
