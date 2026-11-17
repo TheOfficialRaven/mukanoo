@@ -977,6 +977,11 @@ body.is-menu-open .site-header .logo__img--nav {
   background: var(--paper);
 }
 
+/* ideiglenes elrejtés: .works { display: flex } felülírná a natív [hidden]-t */
+.works[hidden] {
+  display: none !important;
+}
+
 .works__wrap {
   display: flex;
   flex: 1 1 auto;
