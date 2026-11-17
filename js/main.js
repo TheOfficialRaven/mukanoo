@@ -610,18 +610,46 @@
       fileInput.files = transfer.files;
     }
 
-    function buildFormSubmitBody(formEl) {
-      syncPhotoInput();
-
-      var formData = new FormData(formEl);
-      formData.delete("privacy");
-      formData.delete("Fotok");
-      formData.delete("photos");
-      selectedPhotos.forEach(function (file) {
-        if (file && file.size > 0) formData.append("Fotok", file, file.name);
+    function fileToBase64(file) {
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function () {
+          resolve(String(reader.result || ""));
+        };
+        reader.onerror = function () {
+          reject(reader.error || new Error("Fájl olvasási hiba"));
+        };
+        reader.readAsDataURL(file);
       });
+    }
 
-      return formData;
+    function buildContactPayload(formEl) {
+      syncPhotoInput();
+      var honeypot = formEl.querySelector("[name='_honey']");
+      var privacy = formEl.querySelector("[name='privacy']");
+
+      return Promise.all(
+        selectedPhotos.slice(0, 5).map(function (file) {
+          return fileToBase64(file).then(function (dataUrl) {
+            return {
+              name: file.name,
+              type: file.type || "application/octet-stream",
+              data: dataUrl
+            };
+          });
+        })
+      ).then(function (photos) {
+        return {
+          Vezeteknev: (formEl.querySelector("[name='Vezeteknev']") || {}).value || "",
+          Keresztnev: (formEl.querySelector("[name='Keresztnev']") || {}).value || "",
+          email: (formEl.querySelector("[name='email']") || {}).value || "",
+          Telefonszam: (formEl.querySelector("[name='Telefonszam']") || {}).value || "",
+          Uzenet: (formEl.querySelector("[name='Uzenet']") || {}).value || "",
+          privacy: !!(privacy && privacy.checked),
+          honey: honeypot ? honeypot.value : "",
+          photos: photos
+        };
+      });
     }
 
     form.addEventListener("submit", function (event) {
@@ -662,11 +690,17 @@
       status.classList.remove("is-error");
       status.textContent = "Küldés folyamatban…";
 
-      fetch("https://formsubmit.co/ajax/sath_@outlook.hu", {
-        method: "POST",
-        body: buildFormSubmitBody(form),
-        headers: { Accept: "application/json" }
-      })
+      buildContactPayload(form)
+        .then(function (payload) {
+          return fetch("/api/contact", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+        })
         .then(function (response) {
           return response.json().catch(function () {
             return {};
@@ -675,19 +709,8 @@
           });
         })
         .then(function (result) {
-          var data = result.data;
-          var success = data.success === true || data.success === "true";
-          var message = String(data.message || data.error || "");
-          var needsActivation = /activation/i.test(message) || /activate form/i.test(message);
-
-          if (needsActivation) {
-            status.classList.add("is-error");
-            status.textContent = "A FormSubmit űrlap még nincs aktiválva. Nézd meg a sath_@outlook.hu fiókot (Beérkezett, Spam és a Quarantine/Junk mappát) a FormSubmit „Activate Form” leveléért, kattints a linkre, majd küldd újra az űrlapot.";
-            return;
-          }
-
-          if (!result.response.ok || !success) {
-            throw new Error(message || ("FormSubmit hiba: " + result.response.status));
+          if (!result.response.ok || !result.data.ok) {
+            throw new Error(result.data.error || ("Küldési hiba: " + result.response.status));
           }
 
           status.classList.remove("is-error");

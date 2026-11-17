@@ -46,7 +46,7 @@
     Képek: a szürke .media keretbe tedd az <img>-et, és töltsd ki az alt-ot.
     Példa: <img src="images/munka-01.jpg" alt="A munka rövid leírása">
     Színek: css/styles.css, a fájl tetején a :root változók.
-    Kapcsolat űrlap: FormSubmit (table sablon) → sath_@outlook.hu
+    Kapcsolat űrlap: Resend → Netlify Function /api/contact
   -->
 </head>
 <body>
@@ -703,13 +703,10 @@
             id="kapcsolat-form"
             name="kapcsolat"
             method="POST"
-            action="https://formsubmit.co/sath_@outlook.hu"
+            action="/api/contact"
             enctype="multipart/form-data"
             novalidate
           >
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_subject" value="Mukanoo — új megkeresés">
-            <input type="hidden" name="_captcha" value="false">
             <div class="hp" aria-hidden="true">
               <label>Ne töltse ki <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label>
             </div>
