@@ -4030,12 +4030,12 @@ html.is-faq-pinning body {
 
   .footer__grid > :last-child {
     justify-self: start;
-    justify-items: center;
-    text-align: center;
+    justify-items: start;
+    text-align: left;
   }
 
   .footer__grid > :last-child .footer__social {
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 
