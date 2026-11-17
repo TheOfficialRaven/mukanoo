@@ -1911,8 +1911,153 @@ body.is-menu-open .site-header .logo__img--nav {
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
 }
 
-body.lightbox-open {
+body.lightbox-open,
+body.notice-open {
   overflow: hidden;
+}
+
+/* Kapcsolat — sikeres küldés */
+.notice {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 2.5rem);
+}
+
+.notice[hidden] {
+  display: none;
+}
+
+.notice__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(160deg, rgba(44, 40, 37, 0.42), rgba(44, 40, 37, 0.58)),
+    color-mix(in srgb, var(--paper-warm) 18%, transparent);
+  cursor: pointer;
+  backdrop-filter: blur(3px);
+}
+
+.notice__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 26.5rem);
+  padding: clamp(1.85rem, 4.5vw, 2.55rem) clamp(1.45rem, 4vw, 2.2rem) clamp(1.6rem, 4vw, 2.1rem);
+  text-align: center;
+  background:
+    linear-gradient(180deg, #fff 0%, var(--paper) 48%, var(--paper-warm) 100%);
+  border: 1px solid color-mix(in srgb, var(--gold) 28%, #e4dfd8);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 70%, transparent) inset,
+    0 22px 54px rgba(44, 40, 37, 0.22);
+  color: var(--ink);
+}
+
+.notice__close {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--gold) 22%, #e4dfd8);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--paper-warm) 70%, #fff);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    color 0.45s var(--ease),
+    background-color 0.45s var(--ease),
+    border-color 0.45s var(--ease);
+}
+
+.notice__close:hover,
+.notice__close:focus-visible {
+  color: var(--burgundy);
+  border-color: color-mix(in srgb, var(--burgundy) 35%, #e4dfd8);
+  background: #fff;
+}
+
+.notice__close svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.notice__brand {
+  margin: 0;
+  font-family: var(--display-sc);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.notice__title {
+  margin: 0.7rem 0 0;
+  font-family: var(--serif);
+  font-size: clamp(1.65rem, 3.8vw, 2.05rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.notice__rule {
+  width: 2.75rem;
+  height: 1px;
+  margin: 0.95rem auto 0;
+  background: var(--burgundy);
+}
+
+.notice__text {
+  margin: 1rem auto 0;
+  max-width: 22rem;
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 2.4vw, 1.18rem);
+  font-style: italic;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--ink) 72%, #8a847c);
+}
+
+.notice__action {
+  margin-top: 1.45rem;
+  min-width: 9.5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .notice.is-open .notice__overlay {
+    animation: notice-fade 0.45s var(--ease) both;
+  }
+
+  .notice.is-open .notice__dialog {
+    animation: notice-rise 0.55s var(--ease) both;
+  }
+}
+
+@keyframes notice-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes notice-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.85rem) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @media (max-width: 800px) {
@@ -2512,6 +2657,17 @@ html.is-faq-pinning body {
   pointer-events: none;
 }
 
+.field--file input[type="file"]:disabled + .field__file-label {
+  opacity: 0.72;
+  cursor: default;
+  color: #8a8a8a;
+  background: color-mix(in srgb, var(--paper) 55%, #fff);
+}
+
+.field--file input[type="file"]:disabled + .field__file-label .field__file-icon {
+  color: color-mix(in srgb, var(--gold) 55%, #9a9a9a);
+}
+
 .field__file-label {
   position: relative;
   z-index: 0;
@@ -2629,14 +2785,14 @@ html.is-faq-pinning body {
     color: color-mix(in srgb, var(--gold) 6%, #9a9a9a);
   }
 
-  .field__file-trigger:not(:focus-within):hover .field__file-label {
+  .field__file-trigger:not(:focus-within):has(input:not(:disabled)):hover .field__file-label {
     border-color: color-mix(in srgb, var(--gold) 94%, var(--gold-ink));
     background-color: color-mix(in srgb, var(--gold) 1.5%, #fff);
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 4%, transparent);
     color: #949494;
   }
 
-  .field__file-trigger:not(:focus-within):hover .field__file-icon {
+  .field__file-trigger:not(:focus-within):has(input:not(:disabled)):hover .field__file-icon {
     color: color-mix(in srgb, var(--gold) 88%, var(--gold-ink));
   }
 

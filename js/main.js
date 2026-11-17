@@ -596,6 +596,36 @@
     var filePreviews = form.querySelector(".field__file-previews");
     var selectedPhotos = [];
     var previewUrls = [];
+    var MAX_PHOTOS = 5;
+    var successNotice = document.getElementById("form-success");
+    var successLastFocus = null;
+
+    function openSuccessNotice() {
+      if (!successNotice) return;
+      successLastFocus = document.activeElement;
+      successNotice.hidden = false;
+      successNotice.classList.add("is-open");
+      document.body.classList.add("notice-open");
+      var action = successNotice.querySelector(".notice__action");
+      if (action) action.focus();
+    }
+
+    function closeSuccessNotice() {
+      if (!successNotice || successNotice.hidden) return;
+      successNotice.hidden = true;
+      successNotice.classList.remove("is-open");
+      document.body.classList.remove("notice-open");
+      if (successLastFocus && successLastFocus.focus) successLastFocus.focus();
+    }
+
+    if (successNotice) {
+      successNotice.addEventListener("click", function (event) {
+        if (event.target.closest("[data-notice-close]")) closeSuccessNotice();
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") closeSuccessNotice();
+      });
+    }
 
     function samePhoto(a, b) {
       return a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
@@ -608,6 +638,21 @@
         transfer.items.add(file);
       });
       fileInput.files = transfer.files;
+    }
+
+    function updatePhotoTriggerLabel() {
+      var count = selectedPhotos.length;
+      if (!fileText) return;
+      if (count === 0) {
+        fileText.textContent = "Fotók csatolása (max. " + MAX_PHOTOS + ")";
+      } else if (count >= MAX_PHOTOS) {
+        fileText.textContent = MAX_PHOTOS + " / " + MAX_PHOTOS + " fotó — elérted a maximumot";
+      } else {
+        fileText.textContent = count + " / " + MAX_PHOTOS + " fotó — további csatolása";
+      }
+      if (fileInput) {
+        fileInput.disabled = count >= MAX_PHOTOS;
+      }
     }
 
     function fileToBase64(file) {
@@ -629,7 +674,7 @@
       var privacy = formEl.querySelector("[name='privacy']");
 
       return Promise.all(
-        selectedPhotos.slice(0, 5).map(function (file) {
+        selectedPhotos.slice(0, MAX_PHOTOS).map(function (file) {
           return fileToBase64(file).then(function (dataUrl) {
             return {
               name: file.name,
@@ -714,12 +759,12 @@
           }
 
           status.classList.remove("is-error");
-          status.textContent = "Köszönjük az üzeneted! Hamarosan felvesszük veled a kapcsolatot.";
+          status.textContent = "";
           form.reset();
           selectedPhotos = [];
           syncPhotoInput();
           renderPhotoPreviews();
-          if (fileText) fileText.textContent = "Fotók csatolása";
+          openSuccessNotice();
         })
         .catch(function () {
           status.classList.add("is-error");
@@ -780,19 +825,20 @@
         filePreviews.appendChild(item);
       });
 
-      var count = selectedPhotos.length;
-      filePreviews.hidden = count === 0;
-      if (fileText) {
-        fileText.textContent = count
-          ? (count === 1 ? "További fotó csatolása" : "További fotók csatolása")
-          : "Fotók csatolása";
-      }
+      filePreviews.hidden = selectedPhotos.length === 0;
+      updatePhotoTriggerLabel();
     }
 
     if (fileInput && filePreviews) {
+      updatePhotoTriggerLabel();
       fileInput.addEventListener("change", function () {
+        var skipped = 0;
         Array.prototype.forEach.call(fileInput.files || [], function (file) {
           if (!file || (file.type && file.type.indexOf("image/") !== 0)) return;
+          if (selectedPhotos.length >= MAX_PHOTOS) {
+            skipped += 1;
+            return;
+          }
           var exists = selectedPhotos.some(function (current) {
             return samePhoto(current, file);
           });
@@ -800,6 +846,10 @@
         });
         syncPhotoInput();
         renderPhotoPreviews();
+        if (skipped > 0 && status) {
+          status.classList.add("is-error");
+          status.textContent = "Maximum " + MAX_PHOTOS + " fotót lehet csatolni. A többlet képeket nem vettük fel.";
+        }
       });
     }
   }

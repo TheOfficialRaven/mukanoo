@@ -37,6 +37,86 @@ function isEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+/** Mukanoo hangulatú, email-kliensbarát HTML */
+function buildEmailHtml(data) {
+  var name = escapeHtml(data.fullName);
+  var email = escapeHtml(data.email);
+  var phone = escapeHtml(data.telefon);
+  var message = escapeHtml(data.uzenet).replace(/\n/g, "<br>");
+  var attachmentNote = data.attachmentCount
+    ? "<tr><td style=\"padding:14px 0 0;border-top:1px solid #e4dfd8;font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:1.5;color:#5e5852\">" +
+      "<span style=\"display:inline-block;font-family:Georgia,serif;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#9c3642\">Csatolmány</span><br>" +
+      data.attachmentCount + " fénykép érkezett az üzenettel." +
+      "</td></tr>"
+    : "";
+
+  return (
+    "<!DOCTYPE html><html lang=\"hu\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width\"></head>" +
+    "<body style=\"margin:0;padding:0;background:#f7f4ef;\">" +
+    "<table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#f7f4ef;padding:32px 16px;\">" +
+    "<tr><td align=\"center\">" +
+    "<table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"max-width:560px;background:#fcfcfc;border:1px solid #e4dfd8;\">" +
+    /* fejléc */
+    "<tr><td style=\"padding:28px 32px 22px;background:#fcfcfc;border-bottom:1px solid #e4dfd8;text-align:center\">" +
+    "<div style=\"font-family:Georgia,'Times New Roman',serif;font-size:13px;letter-spacing:0.22em;text-transform:uppercase;color:#b99758\">Mukanoo</div>" +
+    "<div style=\"margin-top:10px;font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:500;letter-spacing:-0.02em;line-height:1.2;color:#2c2825\">Új megkeresés érkezett</div>" +
+    "<div style=\"margin:12px auto 0;width:48px;height:1px;background:#9c3642\"></div>" +
+    "</td></tr>" +
+    /* bevezető */
+    "<tr><td style=\"padding:24px 32px 8px;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.55;color:#5e5852;font-style:italic\">" +
+    "Egy új üzenet érkezett a kapcsolatfelvételi űrlapon keresztül." +
+    "</td></tr>" +
+    /* mezők */
+    "<tr><td style=\"padding:8px 32px 28px\">" +
+    "<table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">" +
+    row("Név", name) +
+    row("E-mail", "<a href=\"mailto:" + email + "\" style=\"color:#6f5630;text-decoration:underline\">" + email + "</a>") +
+    row("Telefon", "<a href=\"tel:" + phone.replace(/\s/g, "") + "\" style=\"color:#6f5630;text-decoration:underline\">" + phone + "</a>") +
+    "<tr><td style=\"padding:18px 0 0\">" +
+    "<div style=\"font-family:Georgia,'Times New Roman',serif;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#9c3642;margin-bottom:8px\">Üzenet</div>" +
+    "<div style=\"padding:16px 18px;background:#f7f4ef;border-left:2px solid #b99758;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.6;color:#2c2825\">" +
+    message +
+    "</div></td></tr>" +
+    attachmentNote +
+    "</table></td></tr>" +
+    /* lábléc */
+    "<tr><td style=\"padding:18px 32px 24px;background:#efece6;border-top:1px solid #e4dfd8;text-align:center\">" +
+    "<div style=\"font-family:Georgia,'Times New Roman',serif;font-size:13px;line-height:1.5;color:#5e5852;font-style:italic\">„Az egyediség nem méret és kor kérdése.”</div>" +
+    "<div style=\"margin-top:10px;font-family:Georgia,'Times New Roman',serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#b99758\">Mukanoo</div>" +
+    "</td></tr>" +
+    "</table>" +
+    "<div style=\"max-width:560px;margin:14px auto 0;font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.45;color:#8a8a8a;text-align:center\">" +
+    "Ez az üzenet a Mukanoo weboldal kapcsolatfelvételi űrlapjáról érkezett.<br>A válasz a feladó e-mail címére megy (Reply)." +
+    "</div>" +
+    "</td></tr></table></body></html>"
+  );
+}
+
+function row(label, valueHtml) {
+  return (
+    "<tr><td style=\"padding:12px 0;border-bottom:1px solid #e4dfd8\">" +
+    "<div style=\"font-family:Georgia,'Times New Roman',serif;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#9c3642;margin-bottom:4px\">" +
+    escapeHtml(label) +
+    "</div>" +
+    "<div style=\"font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.45;color:#2c2825\">" +
+    valueHtml +
+    "</div></td></tr>"
+  );
+}
+
+function buildEmailText(data) {
+  return (
+    "Mukanoo — új megkeresés\n\n" +
+    "Egy új üzenet érkezett a kapcsolatfelvételi űrlapon keresztül.\n\n" +
+    "Név: " + data.fullName + "\n" +
+    "E-mail: " + data.email + "\n" +
+    "Telefon: " + data.telefon + "\n\n" +
+    "Üzenet:\n" + data.uzenet + "\n" +
+    (data.attachmentCount ? "\nCsatolmány: " + data.attachmentCount + " fénykép\n" : "") +
+    "\n—\n„Az egyediség nem méret és kor kérdése.”\n"
+  );
+}
+
 export async function handler(event) {
   const origin = event.headers.origin || event.headers.Origin || "*";
 
@@ -66,7 +146,6 @@ export async function handler(event) {
     return json(400, { ok: false, error: "Érvénytelen JSON" }, origin);
   }
 
-  // Honeypot
   if (payload.honey || payload._honey) {
     return json(200, { ok: true }, origin);
   }
@@ -94,7 +173,6 @@ export async function handler(event) {
     var contentType = cleanText(photo.type || "application/octet-stream", 100);
     var data = String(photo.data || "");
 
-    // data URL vagy nyers base64
     var base64 = data;
     var match = data.match(/^data:([^;]+);base64,(.+)$/);
     if (match) {
@@ -116,26 +194,17 @@ export async function handler(event) {
   }
 
   var fullName = vezeleknev + " " + keresztnev;
-  var subject = "Mukanoo — új megkeresés (" + fullName + ")";
-  var html =
-    "<div style=\"font-family:Georgia,serif;line-height:1.5;color:#2c2825\">" +
-    "<h2 style=\"margin:0 0 1rem;font-weight:500\">Új kapcsolatfelvétel</h2>" +
-    "<p><strong>Név:</strong> " + escapeHtml(fullName) + "</p>" +
-    "<p><strong>E-mail:</strong> " + escapeHtml(email) + "</p>" +
-    "<p><strong>Telefon:</strong> " + escapeHtml(telefon) + "</p>" +
-    "<p><strong>Üzenet:</strong></p>" +
-    "<p style=\"white-space:pre-wrap\">" + escapeHtml(uzenet) + "</p>" +
-    (attachments.length
-      ? "<p><strong>Csatolmányok:</strong> " + attachments.length + " fájl</p>"
-      : "") +
-    "</div>";
+  var mailData = {
+    fullName: fullName,
+    email: email,
+    telefon: telefon,
+    uzenet: uzenet,
+    attachmentCount: attachments.length
+  };
 
-  var text =
-    "Új kapcsolatfelvétel\n\n" +
-    "Név: " + fullName + "\n" +
-    "E-mail: " + email + "\n" +
-    "Telefon: " + telefon + "\n\n" +
-    "Üzenet:\n" + uzenet + "\n";
+  var subject = "Mukanoo — új megkeresés · " + fullName;
+  var html = buildEmailHtml(mailData);
+  var text = buildEmailText(mailData);
 
   try {
     var resend = new Resend(apiKey);
