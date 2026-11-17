@@ -2,6 +2,11 @@
   publish = "."
   functions = "netlify/functions"
 
+  # CONTACT_FROM / CONTACT_TO publikus elérhetőségek (szerepelnek a HTML-ben is),
+  # ne bukjon el a secrets scan miatt. A RESEND_API_KEY továbbra is védve van.
+  [build.environment]
+    SECRETS_SCAN_OMIT_KEYS = "CONTACT_FROM,CONTACT_TO"
+
 [functions]
   node_bundler = "esbuild"
   directory = "netlify/functions"
