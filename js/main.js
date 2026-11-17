@@ -597,6 +597,11 @@
     var selectedPhotos = [];
     var previewUrls = [];
     var MAX_PHOTOS = 5;
+    // Tömörített képek összesen max 6 MB; a Netlify body limit is ~6 MB
+    var MAX_TOTAL_COMPRESSED_BYTES = 6 * 1024 * 1024;
+    var MAX_PAYLOAD_CHARS = 6 * 1024 * 1024;
+    var PHOTO_MAX_EDGE = 1600;
+    var PHOTO_JPEG_QUALITY = 0.72;
     var successNotice = document.getElementById("form-success");
     var successLastFocus = null;
 
@@ -644,7 +649,7 @@
       var count = selectedPhotos.length;
       if (!fileText) return;
       if (count === 0) {
-        fileText.textContent = "Fotók csatolása (max. " + MAX_PHOTOS + ")";
+        fileText.textContent = "Fotók csatolása (max. " + MAX_PHOTOS + ", összesen 6 MB)";
       } else if (count >= MAX_PHOTOS) {
         fileText.textContent = MAX_PHOTOS + " / " + MAX_PHOTOS + " fotó — elérted a maximumot";
       } else {
@@ -668,32 +673,225 @@
       });
     }
 
+    function jpegName(name) {
+      var base = String(name || "foto").replace(/\.[^.]+$/, "");
+      return (base || "foto") + ".jpg";
+    }
+
+    function dataUrlBytes(dataUrl) {
+      var raw = String(dataUrl || "");
+      var comma = raw.indexOf(",");
+      var base64 = comma >= 0 ? raw.slice(comma + 1) : raw;
+      return Math.floor((base64.length * 3) / 4);
+    }
+
+    function totalPhotoBytes(photos) {
+      return photos.reduce(function (sum, photo) {
+        return sum + dataUrlBytes(photo && photo.data);
+      }, 0);
+    }
+
+    function loadImage(file) {
+      return new Promise(function (resolve, reject) {
+        var url = URL.createObjectURL(file);
+        var img = new Image();
+        img.onload = function () {
+          URL.revokeObjectURL(url);
+          resolve(img);
+        };
+        img.onerror = function () {
+          URL.revokeObjectURL(url);
+          reject(new Error("Kép betöltési hiba"));
+        };
+        img.src = url;
+      });
+    }
+
+    /** Egy kép tömörítése a megadott méretre / minőségre */
+    function compressPhotoWith(file, img, maxEdge, quality) {
+      var w = (img && (img.naturalWidth || img.width)) || 0;
+      var h = (img && (img.naturalHeight || img.height)) || 0;
+      if (!w || !h) {
+        return fileToBase64(file).then(function (dataUrl) {
+          return {
+            name: file.name,
+            type: file.type || "application/octet-stream",
+            data: dataUrl
+          };
+        });
+      }
+
+      var scale = Math.min(1, maxEdge / Math.max(w, h));
+      var cw = Math.max(1, Math.round(w * scale));
+      var ch = Math.max(1, Math.round(h * scale));
+      var canvas = document.createElement("canvas");
+      canvas.width = cw;
+      canvas.height = ch;
+      var ctx = canvas.getContext("2d");
+      if (!ctx || typeof canvas.toDataURL !== "function") {
+        return fileToBase64(file).then(function (dataUrl) {
+          return {
+            name: file.name,
+            type: file.type || "application/octet-stream",
+            data: dataUrl
+          };
+        });
+      }
+      ctx.drawImage(img, 0, 0, cw, ch);
+      var dataUrl;
+      try {
+        dataUrl = canvas.toDataURL("image/jpeg", quality);
+      } catch (err) {
+        return fileToBase64(file).then(function (raw) {
+          return {
+            name: file.name,
+            type: file.type || "application/octet-stream",
+            data: raw
+          };
+        });
+      }
+      return Promise.resolve({
+        name: jpegName(file.name),
+        type: "image/jpeg",
+        data: dataUrl
+      });
+    }
+
+    function compressPhotosToLimit(files) {
+      var list = files.slice(0, MAX_PHOTOS);
+      var attempts = [
+        { edge: PHOTO_MAX_EDGE, quality: PHOTO_JPEG_QUALITY },
+        { edge: 1280, quality: 0.62 },
+        { edge: 1024, quality: 0.55 },
+        { edge: 900, quality: 0.45 }
+      ];
+
+      return Promise.all(
+        list.map(function (file) {
+          if (!file || (file.type && file.type.indexOf("image/") !== 0)) {
+            return Promise.resolve({ file: file, img: null });
+          }
+          return loadImage(file).then(
+            function (img) {
+              return { file: file, img: img };
+            },
+            function () {
+              return { file: file, img: null };
+            }
+          );
+        })
+      ).then(function (loaded) {
+        function runAttempt(index) {
+          var settings = attempts[index] || attempts[attempts.length - 1];
+          return Promise.all(
+            loaded.map(function (item) {
+              if (!item.img) {
+                return fileToBase64(item.file).then(function (dataUrl) {
+                  return {
+                    name: item.file.name,
+                    type: item.file.type || "application/octet-stream",
+                    data: dataUrl
+                  };
+                });
+              }
+              return compressPhotoWith(item.file, item.img, settings.edge, settings.quality);
+            })
+          ).then(function (photos) {
+            var compressedBytes = totalPhotoBytes(photos);
+            var underCompressed = compressedBytes <= MAX_TOTAL_COMPRESSED_BYTES;
+            if (!underCompressed && index < attempts.length - 1) {
+              return runAttempt(index + 1);
+            }
+            if (!underCompressed) {
+              throw new Error(
+                "A csatolt képek együtt túl nagyok (max. 6 MB tömörítve). Próbálj kevesebb fotót küldeni."
+              );
+            }
+            return photos;
+          });
+        }
+        return runAttempt(0);
+      });
+    }
+
     function buildContactPayload(formEl) {
       syncPhotoInput();
       var honeypot = formEl.querySelector("[name='_honey']");
       var privacy = formEl.querySelector("[name='privacy']");
+      var fields = {
+        Vezeteknev: (formEl.querySelector("[name='Vezeteknev']") || {}).value || "",
+        Keresztnev: (formEl.querySelector("[name='Keresztnev']") || {}).value || "",
+        email: (formEl.querySelector("[name='email']") || {}).value || "",
+        Telefonszam: (formEl.querySelector("[name='Telefonszam']") || {}).value || "",
+        Uzenet: (formEl.querySelector("[name='Uzenet']") || {}).value || "",
+        privacy: !!(privacy && privacy.checked),
+        honey: honeypot ? honeypot.value : ""
+      };
 
-      return Promise.all(
-        selectedPhotos.slice(0, MAX_PHOTOS).map(function (file) {
-          return fileToBase64(file).then(function (dataUrl) {
-            return {
-              name: file.name,
-              type: file.type || "application/octet-stream",
-              data: dataUrl
-            };
-          });
-        })
-      ).then(function (photos) {
-        return {
-          Vezeteknev: (formEl.querySelector("[name='Vezeteknev']") || {}).value || "",
-          Keresztnev: (formEl.querySelector("[name='Keresztnev']") || {}).value || "",
-          email: (formEl.querySelector("[name='email']") || {}).value || "",
-          Telefonszam: (formEl.querySelector("[name='Telefonszam']") || {}).value || "",
-          Uzenet: (formEl.querySelector("[name='Uzenet']") || {}).value || "",
-          privacy: !!(privacy && privacy.checked),
-          honey: honeypot ? honeypot.value : "",
-          photos: photos
-        };
+      return compressPhotosToLimit(selectedPhotos).then(function (photos) {
+        var payload = Object.assign({}, fields, { photos: photos });
+        var body = JSON.stringify(payload);
+        // base64 miatt a body nagyobb a nyers képméretnél — ha kell, erősebb tömörítés
+        if (body.length <= MAX_PAYLOAD_CHARS) {
+          return { payload: payload, body: body };
+        }
+
+        var list = selectedPhotos.slice(0, MAX_PHOTOS);
+        var harder = [
+          { edge: 1024, quality: 0.5 },
+          { edge: 900, quality: 0.4 },
+          { edge: 800, quality: 0.35 }
+        ];
+
+        return Promise.all(
+          list.map(function (file) {
+            if (!file || (file.type && file.type.indexOf("image/") !== 0)) {
+              return Promise.resolve({ file: file, img: null });
+            }
+            return loadImage(file).then(
+              function (img) {
+                return { file: file, img: img };
+              },
+              function () {
+                return { file: file, img: null };
+              }
+            );
+          })
+        ).then(function (loaded) {
+          function tryHarder(index) {
+            var settings = harder[index];
+            if (!settings) {
+              throw new Error(
+                "A csatolt képek együtt túl nagyok (max. 6 MB tömörítve). Próbálj kevesebb fotót küldeni."
+              );
+            }
+            return Promise.all(
+              loaded.map(function (item) {
+                if (!item.img) {
+                  return fileToBase64(item.file).then(function (dataUrl) {
+                    return {
+                      name: item.file.name,
+                      type: item.file.type || "application/octet-stream",
+                      data: dataUrl
+                    };
+                  });
+                }
+                return compressPhotoWith(item.file, item.img, settings.edge, settings.quality);
+              })
+            ).then(function (nextPhotos) {
+              if (totalPhotoBytes(nextPhotos) > MAX_TOTAL_COMPRESSED_BYTES) {
+                return tryHarder(index + 1);
+              }
+              var nextPayload = Object.assign({}, fields, { photos: nextPhotos });
+              var nextBody = JSON.stringify(nextPayload);
+              if (nextBody.length > MAX_PAYLOAD_CHARS) {
+                return tryHarder(index + 1);
+              }
+              return { payload: nextPayload, body: nextBody };
+            });
+          }
+          return tryHarder(0);
+        });
       });
     }
 
@@ -736,14 +934,14 @@
       status.textContent = "Küldés folyamatban…";
 
       buildContactPayload(form)
-        .then(function (payload) {
+        .then(function (built) {
           return fetch("/api/contact", {
             method: "POST",
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(payload)
+            body: built.body
           });
         })
         .then(function (response) {
@@ -755,6 +953,11 @@
         })
         .then(function (result) {
           if (!result.response.ok || !result.data.ok) {
+            if (result.response.status === 413) {
+              throw new Error(
+                "A csatolt képek együtt túl nagyok (max. 6 MB tömörítve). Próbálj kevesebb fotót küldeni."
+              );
+            }
             throw new Error(result.data.error || ("Küldési hiba: " + result.response.status));
           }
 
@@ -766,9 +969,13 @@
           renderPhotoPreviews();
           openSuccessNotice();
         })
-        .catch(function () {
+        .catch(function (err) {
           status.classList.add("is-error");
-          status.textContent = "Az üzenet elküldése nem sikerült. Kérjük, próbáld újra később.";
+          var msg = err && err.message ? String(err.message) : "";
+          status.textContent =
+            msg && msg.indexOf("túl nagy") !== -1
+              ? msg
+              : "Az üzenet elküldése nem sikerült. Kérjük, próbáld újra később.";
         })
         .then(function () {
           if (submitBtn) submitBtn.disabled = false;
@@ -848,7 +1055,8 @@
         renderPhotoPreviews();
         if (skipped > 0 && status) {
           status.classList.add("is-error");
-          status.textContent = "Maximum " + MAX_PHOTOS + " fotót lehet csatolni. A többlet képeket nem vettük fel.";
+          status.textContent =
+            "Maximum " + MAX_PHOTOS + " fotót lehet csatolni (összesen max. 6 MB). A többlet képeket nem vettük fel.";
         }
       });
     }

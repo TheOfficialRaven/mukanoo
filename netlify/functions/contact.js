@@ -1,7 +1,8 @@
 import { Resend } from "resend";
 
 const MAX_PHOTOS = 5;
-const MAX_PHOTO_BYTES = 4.5 * 1024 * 1024; // ~4.5 MB / fájl (base64 előtt)
+// Tömörített képek összesen max 6 MB (egy kép is lehet ennyi, ha egyedül van)
+const MAX_TOTAL_PHOTO_BYTES = 6 * 1024 * 1024;
 
 function corsHeaders(origin) {
   return {
@@ -166,6 +167,7 @@ export async function handler(event) {
 
   var photos = Array.isArray(payload.photos) ? payload.photos.slice(0, MAX_PHOTOS) : [];
   var attachments = [];
+  var totalPhotoBytes = 0;
 
   for (var i = 0; i < photos.length; i++) {
     var photo = photos[i] || {};
@@ -182,8 +184,12 @@ export async function handler(event) {
     if (!base64) continue;
 
     var approxBytes = Math.floor((base64.length * 3) / 4);
-    if (approxBytes > MAX_PHOTO_BYTES) {
-      return json(400, { ok: false, error: "Egy csatolt kép túl nagy (max ~4.5 MB)." }, origin);
+    totalPhotoBytes += approxBytes;
+    if (totalPhotoBytes > MAX_TOTAL_PHOTO_BYTES) {
+      return json(400, {
+        ok: false,
+        error: "A csatolt képek együtt túl nagyok (max. 6 MB tömörítve)."
+      }, origin);
     }
 
     attachments.push({
