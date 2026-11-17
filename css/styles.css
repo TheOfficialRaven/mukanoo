@@ -98,8 +98,9 @@
   --type-btn: 0.8rem;
   --type-meta: calc(0.82rem + 0.03rem * var(--fluid));
   --type-footer-logo: min(100%, 11.5rem);
-  --type-footer-nav: calc(0.96rem + 0.03rem * var(--fluid));
-  --type-footer: calc(0.9rem + 0.03rem * var(--fluid));
+  --type-footer-heading: 1.125rem;
+  --type-footer-nav: var(--type-ui);
+  --type-footer: 0.9rem;
   --type-contact-title: var(--type-h2);
   --type-contact-lead: calc(0.95rem + 0.05rem * var(--fluid));
 }
@@ -2854,21 +2855,23 @@ html.is-faq-pinning body {
   margin: 0;
   color: var(--ink);
   font-family: var(--display-sc);
-  font-size: 1.125rem;
+  font-size: var(--type-footer-heading);
   font-weight: 600;
   letter-spacing: 0.06em;
   line-height: 1.3;
 }
 
 .site-footer a,
-.site-footer li {
+.site-footer li,
+.footer__list span {
   font-family: var(--sans);
+  font-size: var(--type-footer-nav);
   font-weight: 500;
 }
 
 .footer__col .footer__heading + .footer__heading {
   margin-top: 1.15rem;
-  font-size: 1.25rem;
+  font-size: var(--type-footer-heading);
   font-weight: 700;
 }
 
@@ -2880,7 +2883,7 @@ html.is-faq-pinning body {
   display: grid;
   gap: 0.7rem;
   color: #7a7a7a;
-  font-size: 1rem;
+  font-size: var(--type-footer-nav);
   line-height: 1.45;
 }
 
@@ -2926,7 +2929,7 @@ html.is-faq-pinning body {
 .footer__nav a {
   position: relative;
   color: #7a7a7a;
-  font-size: 1rem;
+  font-size: var(--type-footer-nav);
   font-weight: 500;
   text-decoration: none;
 }

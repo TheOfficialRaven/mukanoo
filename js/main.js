@@ -125,7 +125,6 @@
   var lastHeaderPx = "";
   var lockedAppH = 0;
   var lockedAppWidth = 0;
-  var snapChromeLockUntil = 0;
 
   function measureVhUnit(unit) {
     var el = document.createElement("div");
@@ -228,16 +227,6 @@
       updateNav(true);
     }, 300);
   });
-  /* Chrome show/hide: ne méretezzünk — csak soft-snap zárolás */
-  if (window.visualViewport) {
-    var lastVvH = window.visualViewport.height;
-    window.visualViewport.addEventListener("resize", function () {
-      var h = window.visualViewport.height;
-      if (Math.abs(h - lastVvH) < 1) return;
-      lastVvH = h;
-      snapChromeLockUntil = Date.now() + 500;
-    }, { passive: true });
-  }
   if (menu) {
     function setMenuScrollLock(locked) {
       document.body.classList.toggle("is-menu-open", locked);
@@ -257,7 +246,6 @@
     return Math.max(0, Math.round(top));
   }
 
-  var snapLockUntil = 0;
   var spyPausedUntil = 0;
   var spyActiveId = "";
   var spySections = document.querySelectorAll(
@@ -306,7 +294,6 @@
 
   function goToSection(el, behavior) {
     if (!el) return;
-    snapLockUntil = Date.now() + 1000;
     spyPausedUntil = Date.now() + 1100;
     window.scrollTo({
       top: sectionScrollTop(el),
@@ -349,127 +336,6 @@
       updateHashFromScroll();
     });
   }, { passive: true });
-
-  /* Soft-snap: lassú, lágy korrekció — csak kis elcsúszásra */
-  if (!reduced) {
-    var snapSections = document.querySelectorAll(
-      "main > .hero, main > .pillars, main > .about, main > .works, main > .gallery, main > .palette, main > .contact"
-    );
-    var mobileSnapOff = window.matchMedia("(max-width: 1100px), (hover: none), (pointer: coarse)");
-    var snapTimer = 0;
-    var snapping = false;
-    var snapRaf = 0;
-
-    function stopSnapAnim() {
-      if (snapRaf) {
-        window.cancelAnimationFrame(snapRaf);
-        snapRaf = 0;
-      }
-      snapping = false;
-    }
-
-    function easeOutQuint(t) {
-      return 1 - Math.pow(1 - t, 5);
-    }
-
-    function gentleScrollTo(to) {
-      stopSnapAnim();
-      var from = window.scrollY || window.pageYOffset || 0;
-      var delta = to - from;
-      if (Math.abs(delta) < 2) return;
-
-      // Távtól függő idő: min ~700ms, max ~1200ms — lassú, nem ugró
-      var duration = Math.min(1200, Math.max(700, Math.abs(delta) * 22));
-      snapping = true;
-      snapLockUntil = Date.now() + duration + 200;
-      var start = performance.now();
-
-      function frame(now) {
-        if (!snapping) return;
-        var t = Math.min(1, (now - start) / duration);
-        window.scrollTo(0, from + delta * easeOutQuint(t));
-        if (t < 1) {
-          snapRaf = window.requestAnimationFrame(frame);
-        } else {
-          snapRaf = 0;
-          snapping = false;
-        }
-      }
-
-      snapRaf = window.requestAnimationFrame(frame);
-    }
-
-    function softSnap() {
-      if (
-        mobileSnapOff.matches ||
-        snapping ||
-        faqPinActive ||
-        Date.now() < snapLockUntil ||
-        Date.now() < snapChromeLockUntil
-      ) {
-        return;
-      }
-
-      var offset = headerOffset();
-      var y = window.scrollY || window.pageYOffset || 0;
-      if (y < 80) return;
-
-      var threshold = 48;
-      var viewH = lockedAppH || window.innerHeight || 0;
-      var maxY = Math.max(0, document.documentElement.scrollHeight - viewH);
-      var bestTop = y;
-      var bestDist = Infinity;
-
-      Array.prototype.forEach.call(snapSections, function (section) {
-        if (section.classList.contains("hero")) {
-          var heroDist = Math.abs(y);
-          if (heroDist < bestDist) {
-            bestDist = heroDist;
-            bestTop = 0;
-          }
-          return;
-        }
-        var rect = section.getBoundingClientRect();
-        var topTarget = y + rect.top - offset;
-        var topDist = Math.abs(rect.top - offset);
-        if (topTarget < 0) return;
-        if (topDist < bestDist) {
-          bestDist = topDist;
-          bestTop = topTarget;
-        }
-      });
-
-      if (bestDist < 2 || bestDist > threshold) return;
-      bestTop = Math.min(maxY, Math.max(0, Math.round(bestTop)));
-      if (Math.abs(bestTop - y) < 2) return;
-
-      gentleScrollTo(bestTop);
-    }
-
-    function onScrollSettled() {
-      if (snapping || mobileSnapOff.matches || faqPinActive) return;
-      window.clearTimeout(snapTimer);
-      snapTimer = window.setTimeout(softSnap, 180);
-    }
-
-    function onUserInterrupt() {
-      if (!snapping) return;
-      stopSnapAnim();
-      snapLockUntil = Date.now() + 300;
-    }
-
-    window.addEventListener("wheel", onUserInterrupt, { passive: true });
-    window.addEventListener("touchstart", onUserInterrupt, { passive: true });
-
-    if ("onscrollend" in window) {
-      window.addEventListener("scrollend", function () {
-        if (snapping) return;
-        softSnap();
-      }, { passive: true });
-    } else {
-      window.addEventListener("scroll", onScrollSettled, { passive: true });
-    }
-  }
 
   if (menu) {
     menu.querySelectorAll("a").forEach(function (link) {
