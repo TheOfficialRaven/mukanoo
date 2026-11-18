@@ -2201,6 +2201,11 @@ body.notice-open {
   margin: 0;
   width: 100%;
   min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: auto;
+  touch-action: pan-y;
 }
 
 .quote p {
@@ -2228,6 +2233,18 @@ body.notice-open {
   font-size: 32px;
   font-weight: 400;
   letter-spacing: 0.01em;
+}
+
+.quote__role {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: var(--type-quote-name);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
 }
 
 .quotes__nav {
@@ -2583,6 +2600,8 @@ html.is-faq-pinning body {
   display: flex;
   flex-direction: column;
   gap: 0;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .field--full {
@@ -2596,7 +2615,10 @@ html.is-faq-pinning body {
 
 .field input,
 .field textarea {
+  box-sizing: border-box;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: 0.78rem 0.95rem;
   border: 1px solid #e6dcd2;
   border-radius: 5px;
@@ -4118,20 +4140,58 @@ html.is-faq-pinning body {
     object-position: 28% top;
   }
 
+  .contact__grid {
+    width: min(var(--wrap-width), 100%);
+    max-width: 100%;
+    min-width: 0;
+    gap: clamp(1.75rem, 5vw, 2.75rem);
+  }
+
   .contact__copy {
     align-self: stretch;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     height: auto;
     max-height: none;
     gap: 1.1rem;
+    overflow: visible;
+  }
+
+  .contact__copy .form,
+  .form {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .form {
+    grid-template-columns: 1fr;
     grid-template-rows: none;
+  }
+
+  .field,
+  .field--full,
+  .form .btn,
+  .form__status,
+  .form__consent {
+    grid-column: auto;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .field input,
+  .field textarea,
+  .field__file-label,
+  .form .btn {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .field textarea {
     height: auto;
-    min-height: 7rem;
+    min-height: clamp(11rem, 28svh, 14rem);
   }
 
   .quotes {
@@ -4146,16 +4206,35 @@ html.is-faq-pinning body {
     display: none;
   }
 
+  /* Fix magasság: lapozáskor nem ugrál a GYIK; hosszú szöveg belül görgethető */
+  .quotes__viewport {
+    height: clamp(22rem, 56svh, 30rem);
+    max-height: clamp(22rem, 56svh, 30rem);
+  }
+
+  .quotes__track {
+    align-items: stretch;
+    height: 100%;
+  }
+
   .quotes__track .quote {
     flex: 0 0 100%;
     width: 100%;
     min-width: 100%;
     max-width: 100%;
-    min-height: clamp(18rem, 48svh, 24rem);
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow: hidden;
   }
 
-  .quotes__viewport {
+  .quotes__track .quote blockquote {
+    align-items: center;
+    align-items: safe center;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
+    overscroll-behavior-y: auto;
   }
 
   .about__copy {
@@ -4374,16 +4453,6 @@ html.is-faq-pinning body {
 }
 
 @media (max-width: 640px) {
-  .form {
-    grid-template-columns: 1fr;
-  }
-
-  .field--full,
-  .form .btn,
-  .form__status {
-    grid-column: auto;
-  }
-
   .hero {
     min-height: var(--vh-small);
     padding-bottom: 8svh;

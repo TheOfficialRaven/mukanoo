@@ -49,7 +49,8 @@
     var y0 = null;
     var axis = null;
     var fired = false;
-    var THRESH = 28;
+    var THRESH = 36;
+    var LOCK = 10;
 
     function reset() {
       x0 = null;
@@ -81,9 +82,11 @@
       var y = event.touches[0].clientY;
       var dx = x - x0;
       var dy = y - y0;
-      if (axis == null && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
-        axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+      // Csak egyértelműen vízszintes gesztus lapoz; fel/le az oldal görgetése
+      if (axis == null && (Math.abs(dx) > LOCK || Math.abs(dy) > LOCK)) {
+        axis = Math.abs(dx) > Math.abs(dy) * 1.15 ? "x" : "y";
       }
+      if (axis === "y") return;
       if (axis === "x") maybeSwipe(x);
     }, { passive: true });
 
@@ -420,6 +423,7 @@
         var slide = slides[quotesIndex];
         var offset = slide ? slide.offsetLeft : 0;
         quotesTrack.style.transform = "translate3d(" + (-offset) + "px,0,0)";
+        if (quotesViewport) quotesViewport.style.height = "";
       }
 
       function stopQuotesAuto() {
