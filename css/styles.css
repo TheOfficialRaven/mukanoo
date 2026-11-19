@@ -3949,6 +3949,34 @@ html.is-faq-pinning body {
     --section: clamp(2.75rem, 7svh, 4rem);
   }
 
+  /* Mobilos, kisebb háttérképek — asztali fájlok érintetlenek */
+  .hero {
+    background-image: url("../assets/backgrounds/mobile/hero_bg.webp");
+  }
+
+  .about__copy::before {
+    background-image: url("../assets/backgrounds/mobile/rolam_bg.webp");
+  }
+
+  .swatch--wine::before {
+    background-image: url("../assets/backgrounds/mobile/textil_1.webp");
+  }
+
+  .swatch--ivory::before,
+  .swatch--sand::before {
+    background-image: url("../assets/backgrounds/mobile/textil_2.webp");
+  }
+
+  .swatch--ink::before {
+    background-image: url("../assets/backgrounds/mobile/textil_3.webp");
+  }
+
+  .quotes {
+    background-image:
+      linear-gradient(rgba(251, 249, 246, 0.84), rgba(251, 249, 246, 0.84)),
+      url("../assets/backgrounds/mobile/velemenyek_bg.webp");
+  }
+
   .faq,
   .contact {
     height: auto;

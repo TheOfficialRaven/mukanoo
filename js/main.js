@@ -421,7 +421,13 @@
         if (!slides.length) return;
         if (quotesIndex >= slides.length) quotesIndex = 0;
         var slide = slides[quotesIndex];
-        var offset = slide ? slide.offsetLeft : 0;
+        var offset = 0;
+        // Mobilon egyenletes slide-szélesség: kerüli az offsetLeft kényszerített reflow-t
+        if (mobileQuotes.matches && quotesViewport) {
+          offset = quotesIndex * quotesViewport.clientWidth;
+        } else if (slide) {
+          offset = slide.offsetLeft;
+        }
         quotesTrack.style.transform = "translate3d(" + (-offset) + "px,0,0)";
         if (quotesViewport) quotesViewport.style.height = "";
       }
@@ -1286,7 +1292,8 @@
 
     Array.prototype.forEach.call(galleryThumbs, function (img) {
       lightboxItems.push({
-        src: img.currentSrc || img.src,
+        // Teljes méret a lightboxhoz (a picture mobile source csak a listanézethez kell)
+        src: img.getAttribute("src") || img.currentSrc || img.src,
         alt: img.getAttribute("alt") || ""
       });
       var media = img.closest(".media");
