@@ -648,8 +648,9 @@ body.is-menu-open .site-header .logo__img--nav {
   .menu__btn span,
   .site-nav,
   .menu::after,
-  .footer__nav a::after,
-  .footer__legal a::after,
+  .footer__list a,
+  .footer__nav a,
+  .footer__legal a,
   .form__consent a::after {
     transition: none;
   }
@@ -3097,10 +3098,12 @@ html.is-faq-pinning body {
   max-width: 100%;
   color: inherit;
   text-decoration: none;
+  transition: color 0.35s var(--nav-ease, var(--ease));
 }
 
-.footer__list a:hover {
-  color: var(--gold-ink);
+.footer__list a:hover,
+.footer__list a:focus-visible {
+  color: var(--gold);
 }
 
 .footer__nav {
@@ -3110,35 +3113,16 @@ html.is-faq-pinning body {
 }
 
 .footer__nav a {
-  position: relative;
   color: #7a7a7a;
   font-size: var(--type-footer-nav);
   font-weight: 500;
   text-decoration: none;
+  transition: color 0.35s var(--nav-ease, var(--ease));
 }
 
-.footer__nav a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.18em;
-  height: 1px;
-  background: var(--gold);
-  opacity: 0;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: opacity 0.6s var(--ease), transform 0.65s var(--ease);
-  pointer-events: none;
-}
-
-.footer__nav a:hover {
-  color: var(--gold-ink);
-}
-
-.footer__nav a:hover::after {
-  opacity: 1;
-  transform: scaleX(1);
+.footer__nav a:hover,
+.footer__nav a:focus-visible {
+  color: var(--gold);
 }
 
 .footer__social {
@@ -3207,33 +3191,14 @@ html.is-faq-pinning body {
 }
 
 .footer__legal a {
-  position: relative;
-  color: var(--gold);
+  color: inherit;
   text-decoration: none;
+  transition: color 0.35s var(--nav-ease, var(--ease));
 }
 
-.footer__legal a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.12em;
-  height: 1px;
-  background: var(--gold);
-  opacity: 0;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: opacity 0.6s var(--ease), transform 0.65s var(--ease);
-  pointer-events: none;
-}
-
-.footer__legal a:hover {
-  color: var(--gold-ink);
-}
-
-.footer__legal a:hover::after {
-  opacity: 1;
-  transform: scaleX(1);
+.footer__legal a:hover,
+.footer__legal a:focus-visible {
+  color: var(--gold);
 }
 
 .footer__credit {
@@ -3947,34 +3912,6 @@ html.is-faq-pinning body {
 @media (max-width: 860px) {
   :root {
     --section: clamp(2.75rem, 7svh, 4rem);
-  }
-
-  /* Mobilos, kisebb háttérképek — asztali fájlok érintetlenek */
-  .hero {
-    background-image: url("../assets/backgrounds/mobile/hero_bg.webp");
-  }
-
-  .about__copy::before {
-    background-image: url("../assets/backgrounds/mobile/rolam_bg.webp");
-  }
-
-  .swatch--wine::before {
-    background-image: url("../assets/backgrounds/mobile/textil_1.webp");
-  }
-
-  .swatch--ivory::before,
-  .swatch--sand::before {
-    background-image: url("../assets/backgrounds/mobile/textil_2.webp");
-  }
-
-  .swatch--ink::before {
-    background-image: url("../assets/backgrounds/mobile/textil_3.webp");
-  }
-
-  .quotes {
-    background-image:
-      linear-gradient(rgba(251, 249, 246, 0.84), rgba(251, 249, 246, 0.84)),
-      url("../assets/backgrounds/mobile/velemenyek_bg.webp");
   }
 
   .faq,
