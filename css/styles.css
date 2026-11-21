@@ -1562,11 +1562,12 @@ body.is-menu-open .site-header .logo__img--nav {
 }
 
 .swatch--wine {
+  /* Szilárd háttér a kártyán: a kontraszt-ellenőrzők a ::before képet nem látják */
   color: #fbf6ec;
+  background-color: var(--burgundy);
 }
 
 .swatch--wine::before {
-  background-color: var(--burgundy);
   background-image: url("../assets/backgrounds/textil_1.webp");
   opacity: 0.95;
 }
@@ -1578,10 +1579,10 @@ body.is-menu-open .site-header .logo__img--nav {
 
 .swatch--ivory {
   color: var(--ink);
+  background-color: var(--ivory);
 }
 
 .swatch--ivory::before {
-  background-color: var(--ivory);
   background-image: url("../assets/backgrounds/textil_2.webp");
 }
 
@@ -1591,12 +1592,14 @@ body.is-menu-open .site-header .logo__img--nav {
 
 .swatch--ink {
   color: #f4efe8;
+  /* charcoal ~20%-kal világosabb — egyezik a textil brightness-szel */
+  background-color: color-mix(in srgb, var(--charcoal) 80%, #fff);
 }
 
 .swatch--ink::before {
-  background-color: var(--charcoal);
   background-image: url("../assets/backgrounds/textil_3.webp");
   opacity: 0.95;
+  filter: brightness(1.2);
 }
 
 .swatch--ink .eyebrow {
@@ -1606,10 +1609,10 @@ body.is-menu-open .site-header .logo__img--nav {
 
 .swatch--sand {
   color: var(--ink);
+  background-color: var(--ivory);
 }
 
 .swatch--sand::before {
-  background-color: var(--ivory);
   background-image: url("../assets/backgrounds/textil_2.webp");
 }
 
