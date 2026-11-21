@@ -331,13 +331,15 @@
     spyActiveId = "hero";
   }
 
-  var spyRaf = 0;
+  /* URL hash csak scroll-megállás után — replaceState görgetés közben mobilon akadozik */
+  var spyIdleTimer = 0;
+  var SPY_IDLE_MS = 180;
   window.addEventListener("scroll", function () {
-    if (spyRaf) return;
-    spyRaf = window.requestAnimationFrame(function () {
-      spyRaf = 0;
+    if (spyIdleTimer) window.clearTimeout(spyIdleTimer);
+    spyIdleTimer = window.setTimeout(function () {
+      spyIdleTimer = 0;
       updateHashFromScroll();
-    });
+    }, SPY_IDLE_MS);
   }, { passive: true });
 
   if (menu) {
@@ -1072,6 +1074,15 @@
     var track = palette.querySelector(".palette__track");
     var copy = palette.querySelector(".palette__copy");
     var narrow = window.matchMedia("(max-width: 800px)");
+    var pace = 1.45;
+    var frame = 0;
+    var paletteActive = true;
+    var cachedDistance = 0;
+    var cachedHold = 0;
+    var cachedLead = 0;
+    var cachedSpan = 0;
+    var cachedPinH = 0;
+    var lastPaintOffset = -1;
 
     function clearPanel(panel) {
       panel.style.flexBasis = "";
@@ -1101,36 +1112,21 @@
       }
     }
 
-    var pace = 1.45;
-    var frame = 0;
-
-    function horizontalDistance() {
-      return Math.max(0, track.scrollWidth - pin.clientWidth);
-    }
-
-    function travelLength() {
-      return horizontalDistance() * pace;
-    }
-
-    function holdLength() {
-      return pin.clientHeight * (narrow.matches ? 0.35 : 0.55);
-    }
-
-    function scrollSpan() {
-      return holdLength() + travelLength() + holdLength();
-    }
-
-    function leadHeight() {
-      return narrow.matches && copy ? copy.offsetHeight : 0;
+    function refreshPaletteCache() {
+      cachedPinH = pin ? pin.clientHeight : 0;
+      cachedDistance = Math.max(0, (track ? track.scrollWidth : 0) - (pin ? pin.clientWidth : 0));
+      cachedHold = cachedPinH * (narrow.matches ? 0.35 : 0.55);
+      cachedLead = narrow.matches && copy ? copy.offsetHeight : 0;
+      cachedSpan = cachedHold + cachedDistance * pace + cachedHold;
     }
 
     function goalOffset() {
-      var distance = horizontalDistance();
-      var travel = travelLength();
-      var hold = holdLength();
-      var span = scrollSpan();
+      var distance = cachedDistance;
+      var travel = distance * pace;
+      var hold = cachedHold;
+      var span = cachedSpan;
       var scrolled = Math.min(
-        Math.max(-palette.getBoundingClientRect().top - leadHeight(), 0),
+        Math.max(-palette.getBoundingClientRect().top - cachedLead, 0),
         span
       );
       if (distance === 0 || travel === 0) return 0;
@@ -1140,11 +1136,15 @@
     }
 
     function paint(offset) {
-      track.style.transform = "translate3d(" + (-offset) + "px,0,0)";
+      var rounded = Math.round(offset);
+      if (rounded === lastPaintOffset) return;
+      lastPaintOffset = rounded;
+      track.style.transform = "translate3d(" + (-rounded) + "px,0,0)";
     }
 
     function step() {
       frame = 0;
+      if (!paletteActive) return;
       paint(goalOffset());
     }
 
@@ -1157,31 +1157,48 @@
         Array.prototype.forEach.call(track.children, function (item) {
           sizePanel(item, width);
         });
-        palette.style.height = (leadHeight() + pin.clientHeight + scrollSpan()) + "px";
+        refreshPaletteCache();
+        palette.style.height = (cachedLead + cachedPinH + cachedSpan) + "px";
       } else {
         var swatchWidth = Math.round(width * 0.37);
         var copyWidth = width - swatchWidth;
         Array.prototype.forEach.call(track.children, function (item, index) {
           sizePanel(item, index === 0 ? copyWidth : swatchWidth);
         });
-        palette.style.height = (pin.clientHeight + scrollSpan()) + "px";
+        refreshPaletteCache();
+        palette.style.height = (cachedPinH + cachedSpan) + "px";
       }
+      lastPaintOffset = -1;
       paint(goalOffset());
     }
 
     function syncPaletteRunway() {
       if (!pin || !palette) return;
+      refreshPaletteCache();
       if (narrow.matches) {
-        palette.style.height = (leadHeight() + pin.clientHeight + scrollSpan()) + "px";
+        palette.style.height = (cachedLead + cachedPinH + cachedSpan) + "px";
       } else {
-        palette.style.height = (pin.clientHeight + scrollSpan()) + "px";
+        palette.style.height = (cachedPinH + cachedSpan) + "px";
       }
     }
 
     layoutPalette();
     window.addEventListener("scroll", function () {
-      if (!frame) frame = window.requestAnimationFrame(step);
+      if (!paletteActive || frame) return;
+      frame = window.requestAnimationFrame(step);
     }, { passive: true });
+    if ("IntersectionObserver" in window) {
+      var paletteIo = new IntersectionObserver(
+        function (entries) {
+          paletteActive = entries.some(function (entry) {
+            return entry.isIntersecting;
+          });
+          if (paletteActive && !frame) frame = window.requestAnimationFrame(step);
+        },
+        { rootMargin: "20% 0px" }
+      );
+      paletteIo.observe(palette);
+    }
     onResizeEnd(layoutPalette);
     if (narrow.addEventListener) narrow.addEventListener("change", layoutPalette);
     /* Chrome eltűnésekor a pin (dvh) nő — csak a runway magasságot igazítjuk */

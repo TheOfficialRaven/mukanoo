@@ -121,6 +121,17 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Touch: smooth scroll + optimizeLegibility ujjgörgetésnél akadozást okozhat */
+@media (pointer: coarse) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    text-rendering: auto;
+  }
+}
+
 /* While the window is being resized/zoomed, skip transition work */
 html.is-resizing,
 html.is-resizing * {
