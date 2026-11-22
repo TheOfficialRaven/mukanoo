@@ -1,0 +1,28 @@
+/* Desktop-only háttérképek — media="(min-width: 861px)" a linken, mobilon nem töltődnek */
+
+.hero {
+  background-image: url("../assets/backgrounds/hero_bg.webp");
+}
+
+.about__copy::before {
+  background-image: url("../assets/backgrounds/rolam_bg.webp");
+}
+
+.swatch--wine::before {
+  background-image: url("../assets/backgrounds/textil_1.webp");
+}
+
+.swatch--ivory::before,
+.swatch--sand::before {
+  background-image: url("../assets/backgrounds/textil_2.webp");
+}
+
+.swatch--ink::before {
+  background-image: url("../assets/backgrounds/textil_3.webp");
+}
+
+.quotes {
+  background-image:
+    linear-gradient(rgba(251, 249, 246, 0.84), rgba(251, 249, 246, 0.84)),
+    url("../assets/backgrounds/velemenyek_bg.webp");
+}

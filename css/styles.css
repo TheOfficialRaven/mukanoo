@@ -688,12 +688,6 @@ body.is-menu-open .site-header .logo__img--nav {
   text-align: center;
 }
 
-@media (min-width: 861px) {
-  .hero {
-    background-image: url("../assets/backgrounds/hero_bg.webp");
-  }
-}
-
 .hero::before {
   content: "";
   position: absolute;
@@ -940,12 +934,6 @@ body.is-menu-open .site-header .logo__img--nav {
   background-repeat: no-repeat;
   opacity: 0.25;
   pointer-events: none;
-}
-
-@media (min-width: 861px) {
-  .about__copy::before {
-    background-image: url("../assets/backgrounds/rolam_bg.webp");
-  }
 }
 
 .about__quote {
@@ -1584,12 +1572,6 @@ body.is-menu-open .site-header .logo__img--nav {
   opacity: 0.95;
 }
 
-@media (min-width: 861px) {
-  .swatch--wine::before {
-    background-image: url("../assets/backgrounds/textil_1.webp");
-  }
-}
-
 .swatch--wine .eyebrow {
   color: #ffffff;
   text-shadow: 0 1px 2px rgba(20, 12, 14, 0.35);
@@ -1598,12 +1580,6 @@ body.is-menu-open .site-header .logo__img--nav {
 .swatch--ivory {
   color: var(--ink);
   background-color: var(--ivory);
-}
-
-@media (min-width: 861px) {
-  .swatch--ivory::before {
-    background-image: url("../assets/backgrounds/textil_2.webp");
-  }
 }
 
 .swatch--ivory .eyebrow {
@@ -1621,12 +1597,6 @@ body.is-menu-open .site-header .logo__img--nav {
   filter: brightness(1.2);
 }
 
-@media (min-width: 861px) {
-  .swatch--ink::before {
-    background-image: url("../assets/backgrounds/textil_3.webp");
-  }
-}
-
 .swatch--ink .eyebrow {
   color: #ffffff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -1635,12 +1605,6 @@ body.is-menu-open .site-header .logo__img--nav {
 .swatch--sand {
   color: var(--ink);
   background-color: var(--ivory);
-}
-
-@media (min-width: 861px) {
-  .swatch--sand::before {
-    background-image: url("../assets/backgrounds/textil_2.webp");
-  }
 }
 
 .swatch--sand .eyebrow {
@@ -2154,14 +2118,6 @@ body.notice-open {
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
-}
-
-@media (min-width: 861px) {
-  .quotes {
-    background-image:
-      linear-gradient(rgba(251, 249, 246, 0.84), rgba(251, 249, 246, 0.84)),
-      url("../assets/backgrounds/velemenyek_bg.webp");
-  }
 }
 
 .quotes__head {
@@ -4504,34 +4460,6 @@ html.is-faq-pinning body {
     width: min(20.5rem, 100%);
     min-width: 0;
     max-width: 100%;
-  }
-
-  /* Mobil: kisebb háttérképek — desktop URL-ek érintetlenek */
-  .hero {
-    background-image: url("../assets/backgrounds/mobile/hero_bg.webp");
-  }
-
-  .about__copy::before {
-    background-image: url("../assets/backgrounds/mobile/rolam_bg.webp");
-  }
-
-  .swatch--wine::before {
-    background-image: url("../assets/backgrounds/mobile/textil_1.webp");
-  }
-
-  .swatch--ivory::before,
-  .swatch--sand::before {
-    background-image: url("../assets/backgrounds/mobile/textil_2.webp");
-  }
-
-  .swatch--ink::before {
-    background-image: url("../assets/backgrounds/mobile/textil_3.webp");
-  }
-
-  .quotes {
-    background-image:
-      linear-gradient(rgba(251, 249, 246, 0.84), rgba(251, 249, 246, 0.84)),
-      url("../assets/backgrounds/mobile/velemenyek_bg.webp");
   }
 
 }
