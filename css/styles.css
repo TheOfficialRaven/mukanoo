@@ -3016,6 +3016,11 @@ html.is-faq-pinning body {
   transition: transform 0.45s var(--nav-ease, var(--ease));
 }
 
+.footer__logo picture {
+  display: block;
+  width: 100%;
+}
+
 .footer__logo img {
   display: block;
   width: 100%;
