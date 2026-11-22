@@ -1254,8 +1254,8 @@
     var galleryViewport = gallery.querySelector(".gallery__viewport");
     var galleryPages = galleryTrack ? galleryTrack.children : [];
     var galleryDots = gallery.querySelectorAll(".gallery__dots button");
-    var galleryPrev = gallery.querySelector(".gallery__arrow--prev");
-    var galleryNext = gallery.querySelector(".gallery__arrow--next");
+    var galleryPrev = gallery.querySelectorAll(".gallery__arrow--prev");
+    var galleryNext = gallery.querySelectorAll(".gallery__arrow--next");
     if (galleryTrack && galleryPages.length) {
       var galleryIndex = 0;
 
@@ -1277,8 +1277,12 @@
         paintGallery();
       }
 
-      if (galleryPrev) galleryPrev.addEventListener("click", function () { goGallery(galleryIndex - 1); });
-      if (galleryNext) galleryNext.addEventListener("click", function () { goGallery(galleryIndex + 1); });
+      Array.prototype.forEach.call(galleryPrev, function (btn) {
+        btn.addEventListener("click", function () { goGallery(galleryIndex - 1); });
+      });
+      Array.prototype.forEach.call(galleryNext, function (btn) {
+        btn.addEventListener("click", function () { goGallery(galleryIndex + 1); });
+      });
       Array.prototype.forEach.call(galleryDots, function (dot, n) {
         dot.addEventListener("click", function () { goGallery(n); });
       });

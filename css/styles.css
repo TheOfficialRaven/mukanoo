@@ -681,12 +681,17 @@ body.is-menu-open .site-header .logo__img--nav {
   margin-top: 0;
   padding: var(--header-tall) var(--pad) 6.5svh;
   background-color: var(--hero);
-  background-image: url("../assets/backgrounds/hero_bg.webp");
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
   color: #fff;
   text-align: center;
+}
+
+@media (min-width: 861px) {
+  .hero {
+    background-image: url("../assets/backgrounds/hero_bg.webp");
+  }
 }
 
 .hero::before {
@@ -930,9 +935,17 @@ body.is-menu-open .site-header .logo__img--nav {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: url("../assets/backgrounds/rolam_bg.webp") center / cover no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   opacity: 0.25;
   pointer-events: none;
+}
+
+@media (min-width: 861px) {
+  .about__copy::before {
+    background-image: url("../assets/backgrounds/rolam_bg.webp");
+  }
 }
 
 .about__quote {
@@ -1568,8 +1581,13 @@ body.is-menu-open .site-header .logo__img--nav {
 }
 
 .swatch--wine::before {
-  background-image: url("../assets/backgrounds/textil_1.webp");
   opacity: 0.95;
+}
+
+@media (min-width: 861px) {
+  .swatch--wine::before {
+    background-image: url("../assets/backgrounds/textil_1.webp");
+  }
 }
 
 .swatch--wine .eyebrow {
@@ -1582,8 +1600,10 @@ body.is-menu-open .site-header .logo__img--nav {
   background-color: var(--ivory);
 }
 
-.swatch--ivory::before {
-  background-image: url("../assets/backgrounds/textil_2.webp");
+@media (min-width: 861px) {
+  .swatch--ivory::before {
+    background-image: url("../assets/backgrounds/textil_2.webp");
+  }
 }
 
 .swatch--ivory .eyebrow {
@@ -1597,9 +1617,14 @@ body.is-menu-open .site-header .logo__img--nav {
 }
 
 .swatch--ink::before {
-  background-image: url("../assets/backgrounds/textil_3.webp");
   opacity: 0.95;
   filter: brightness(1.2);
+}
+
+@media (min-width: 861px) {
+  .swatch--ink::before {
+    background-image: url("../assets/backgrounds/textil_3.webp");
+  }
 }
 
 .swatch--ink .eyebrow {
@@ -1612,8 +1637,10 @@ body.is-menu-open .site-header .logo__img--nav {
   background-color: var(--ivory);
 }
 
-.swatch--sand::before {
-  background-image: url("../assets/backgrounds/textil_2.webp");
+@media (min-width: 861px) {
+  .swatch--sand::before {
+    background-image: url("../assets/backgrounds/textil_2.webp");
+  }
 }
 
 .swatch--sand .eyebrow {
@@ -1726,7 +1753,13 @@ body.is-menu-open .site-header .logo__img--nav {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
+  gap: 0;
   margin-top: clamp(1.5rem, 3.2svh, 2.35rem);
+}
+
+/* Asztal: oldalsó nyilak; a nav nyilak csak tableten/mobil */
+.gallery__nav > .gallery__arrow {
+  display: none;
 }
 
 .gallery__arrow {
@@ -2118,12 +2151,17 @@ body.notice-open {
   --quote-pad-bottom: clamp(0.825rem, 1.45vw, 1.225rem);
   padding-block: clamp(3.15rem, 8svh, 5.35rem);
   background-color: #fbf9f6;
-  background-image:
-    linear-gradient(rgba(251, 249, 246, 0.84), rgba(251, 249, 246, 0.84)),
-    url("../assets/backgrounds/velemenyek_bg.webp");
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+@media (min-width: 861px) {
+  .quotes {
+    background-image:
+      linear-gradient(rgba(251, 249, 246, 0.84), rgba(251, 249, 246, 0.84)),
+      url("../assets/backgrounds/velemenyek_bg.webp");
+  }
 }
 
 .quotes__head {
@@ -3327,6 +3365,34 @@ html.is-faq-pinning body {
     display: none !important;
   }
 
+  .gallery__nav {
+    gap: 0.85rem;
+  }
+
+  .gallery__nav > .gallery__arrow {
+    position: static;
+    display: grid;
+    flex: 0 0 auto;
+    width: 2.5rem;
+    height: 2.5rem;
+    transform: none;
+  }
+
+  .gallery__nav > .gallery__arrow svg {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
+
+  .gallery__nav > .gallery__arrow--prev:hover,
+  .gallery__nav > .gallery__arrow--prev:focus-visible {
+    transform: translateX(-0.18rem);
+  }
+
+  .gallery__nav > .gallery__arrow--next:hover,
+  .gallery__nav > .gallery__arrow--next:focus-visible {
+    transform: translateX(0.18rem);
+  }
+
   .works__nav {
     display: flex;
     align-items: center;
@@ -4438,6 +4504,34 @@ html.is-faq-pinning body {
     width: min(20.5rem, 100%);
     min-width: 0;
     max-width: 100%;
+  }
+
+  /* Mobil: kisebb háttérképek — desktop URL-ek érintetlenek */
+  .hero {
+    background-image: url("../assets/backgrounds/mobile/hero_bg.webp");
+  }
+
+  .about__copy::before {
+    background-image: url("../assets/backgrounds/mobile/rolam_bg.webp");
+  }
+
+  .swatch--wine::before {
+    background-image: url("../assets/backgrounds/mobile/textil_1.webp");
+  }
+
+  .swatch--ivory::before,
+  .swatch--sand::before {
+    background-image: url("../assets/backgrounds/mobile/textil_2.webp");
+  }
+
+  .swatch--ink::before {
+    background-image: url("../assets/backgrounds/mobile/textil_3.webp");
+  }
+
+  .quotes {
+    background-image:
+      linear-gradient(rgba(251, 249, 246, 0.84), rgba(251, 249, 246, 0.84)),
+      url("../assets/backgrounds/mobile/velemenyek_bg.webp");
   }
 
 }
