@@ -2591,7 +2591,7 @@ html.is-faq-pinning body {
 
 .contact__copy .lead {
   margin-bottom: 0.15rem;
-  color: #7a7a7a;
+  color: var(--muted);
   font-size: var(--type-body);
   line-height: 1.4;
 }
@@ -3032,7 +3032,7 @@ html.is-faq-pinning body {
 
 .footer__brand p {
   margin: 0;
-  color: #7a7a7a;
+  color: var(--muted);
   font-size: var(--type-body);
   line-height: 1.5;
 }
@@ -3074,7 +3074,7 @@ html.is-faq-pinning body {
   padding: 0;
   display: grid;
   gap: 0.7rem;
-  color: #7a7a7a;
+  color: var(--muted);
   font-size: var(--type-footer-nav);
   line-height: 1.45;
 }
@@ -3121,7 +3121,7 @@ html.is-faq-pinning body {
 }
 
 .footer__nav a {
-  color: #7a7a7a;
+  color: var(--muted);
   font-size: var(--type-footer-nav);
   font-weight: 500;
   text-decoration: none;
