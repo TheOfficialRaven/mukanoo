@@ -1,5 +1,6 @@
 [build]
   publish = "."
+  command = "node scripts/build.mjs"
   functions = "netlify/functions"
 
   # CONTACT_FROM / CONTACT_TO publikus elérhetőségek (szerepelnek a HTML-ben is),
@@ -10,6 +11,17 @@
 [functions]
   node_bundler = "esbuild"
   directory = "netlify/functions"
+
+# A build tartalom-hash-t tesz a ?v= paraméterbe, így ezek nyugodtan cache-elhetők sokáig
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[redirects]]
   from = "/api/contact"

@@ -102,6 +102,17 @@
 
   if (year) year.textContent = String(new Date().getFullYear());
 
+  /* Mobilon a lapozó pontok csak jelzők (nyíl + swipe lapoz); túl kicsik érintési célnak */
+  var dotsIndicatorOnly = window.matchMedia("(max-width: 860px)");
+  function syncDotsInteractivity() {
+    document.querySelectorAll(".gallery__dots, .quotes__dots, .works__dots").forEach(function (dots) {
+      if (dotsIndicatorOnly.matches) dots.setAttribute("inert", "");
+      else dots.removeAttribute("inert");
+    });
+  }
+  syncDotsInteractivity();
+  if (dotsIndicatorOnly.addEventListener) dotsIndicatorOnly.addEventListener("change", syncDotsInteractivity);
+
   var navTick = false;
   var navCompact = false;
   var COMPACT_ON = 88;

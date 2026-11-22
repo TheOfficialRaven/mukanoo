@@ -4,12 +4,13 @@
   "type": "module",
   "scripts": {
     "dev": "netlify dev",
-    "build": "echo Static site — no build step"
+    "build": "node scripts/build.mjs"
   },
   "dependencies": {
     "resend": "^4.0.0"
   },
   "devDependencies": {
+    "esbuild": "^0.25.12",
     "netlify-cli": "^17.0.0"
   }
 }
