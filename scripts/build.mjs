@@ -3,6 +3,7 @@
  * - css/styles.css és js/main.js minifikálása
  * - tartalom-hash a ?v= paraméterben (hosszú cache biztonságosan)
  * - index.html: a CSS beágyazása <style>-ba (nincs renderelést blokkoló CSS-kérés)
+ * - index.html: a mobil hero logó (LCP) data URI-ként, preload nélkül
  *
  * Futtatás: Netlify-on automatikusan; helyben csak másolaton: node scripts/build.mjs <mappa>
  */
@@ -34,6 +35,10 @@ const jsHash = hash(js);
 /* A gyökérben lévő HTML-hez képest: ../assets → assets */
 const inlineCss = css.replace(/url\((["']?)\.\.\//g, "url($1");
 
+/* Mobil LCP (hero logó): a HTML-be ágyazva nincs külön képkérés */
+const heroMobile = "assets/icons/mobile/Mukanoo_Hero.webp";
+const heroMobileUri = `data:image/webp;base64,${fs.readFileSync(path.join(root, heroMobile)).toString("base64")}`;
+
 for (const name of fs.readdirSync(root).filter((file) => file.endsWith(".html"))) {
   const file = path.join(root, name);
   let html = fs.readFileSync(file, "utf8");
@@ -47,6 +52,9 @@ for (const name of fs.readdirSync(root).filter((file) => file.endsWith(".html"))
       /<link rel="stylesheet" href="css\/styles\.css\?v=[^"]*">/,
       () => `<style>${inlineCss}</style>`
     );
+    html = html
+      .replace(/[ \t]*<link rel="preload" as="image" href="assets\/icons\/mobile\/Mukanoo_Hero\.webp"[^>]*>\r?\n/, "")
+      .replace(`src="${heroMobile}"`, () => `src="${heroMobileUri}"`);
   }
 
   fs.writeFileSync(file, html);
